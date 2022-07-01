@@ -33,10 +33,11 @@
             this.tabcMain = new System.Windows.Forms.TabControl();
             this.tabGenerator = new System.Windows.Forms.TabPage();
             this.dtgStepLog = new System.Windows.Forms.DataGridView();
+            this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.strpStatus = new System.Windows.Forms.StatusStrip();
             this.tstrpProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.btnStop = new System.Windows.Forms.Button();
-            this.btnPause = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.btnSelectReverse = new System.Windows.Forms.Button();
             this.btnSelectNone = new System.Windows.Forms.Button();
@@ -83,14 +84,19 @@
             this.txtInsertDataTpl = new System.Windows.Forms.TextBox();
             this.lblInsertDataTpl = new System.Windows.Forms.Label();
             this.tabSetting = new System.Windows.Forms.TabPage();
+            this.btnChangeColor = new System.Windows.Forms.Button();
+            this.txtTagColor = new System.Windows.Forms.TextBox();
+            this.lblTagColor = new System.Windows.Forms.Label();
             this.chkGenerateAuthor = new System.Windows.Forms.CheckBox();
             this.txtAuthor = new System.Windows.Forms.TextBox();
             this.lblAuthor = new System.Windows.Forms.Label();
             this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.dlgFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
-            this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
-            this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblDefaultExt = new System.Windows.Forms.Label();
+            this.txtDefaultExt = new System.Windows.Forms.TextBox();
+            this.txtDefaultSQLExt = new System.Windows.Forms.TextBox();
+            this.lblDefaultSQLExt = new System.Windows.Forms.Label();
             this.tabcMain.SuspendLayout();
             this.tabGenerator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgStepLog)).BeginInit();
@@ -123,7 +129,6 @@
             this.tabGenerator.Controls.Add(this.dtgStepLog);
             this.tabGenerator.Controls.Add(this.strpStatus);
             this.tabGenerator.Controls.Add(this.btnStop);
-            this.tabGenerator.Controls.Add(this.btnPause);
             this.tabGenerator.Controls.Add(this.btnRun);
             this.tabGenerator.Controls.Add(this.btnSelectReverse);
             this.tabGenerator.Controls.Add(this.btnSelectNone);
@@ -176,6 +181,21 @@
             this.dtgStepLog.Size = new System.Drawing.Size(770, 323);
             this.dtgStepLog.TabIndex = 9;
             // 
+            // colIcon
+            // 
+            this.colIcon.HeaderText = "";
+            this.colIcon.MinimumWidth = 16;
+            this.colIcon.Name = "colIcon";
+            this.colIcon.ReadOnly = true;
+            this.colIcon.Width = 16;
+            // 
+            // colText
+            // 
+            this.colText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colText.HeaderText = "Message";
+            this.colText.Name = "colText";
+            this.colText.ReadOnly = true;
+            // 
             // strpStatus
             // 
             this.strpStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -196,31 +216,19 @@
             // 
             this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(663, 155);
+            this.btnStop.Location = new System.Drawing.Point(683, 155);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(97, 23);
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 7;
             this.btnStop.Text = "Stop (&S)";
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // btnPause
-            // 
-            this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(563, 155);
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(97, 23);
-            this.btnPause.TabIndex = 7;
-            this.btnPause.Text = "Pause (&P)";
-            this.btnPause.UseVisualStyleBackColor = true;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
-            // 
             // btnRun
             // 
             this.btnRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRun.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnRun.Location = new System.Drawing.Point(468, 155);
+            this.btnRun.Location = new System.Drawing.Point(602, 155);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(75, 23);
             this.btnRun.TabIndex = 7;
@@ -230,7 +238,7 @@
             // 
             // btnSelectReverse
             // 
-            this.btnSelectReverse.Location = new System.Drawing.Point(425, 76);
+            this.btnSelectReverse.Location = new System.Drawing.Point(445, 77);
             this.btnSelectReverse.Name = "btnSelectReverse";
             this.btnSelectReverse.Size = new System.Drawing.Size(55, 20);
             this.btnSelectReverse.TabIndex = 6;
@@ -240,7 +248,7 @@
             // 
             // btnSelectNone
             // 
-            this.btnSelectNone.Location = new System.Drawing.Point(425, 57);
+            this.btnSelectNone.Location = new System.Drawing.Point(445, 58);
             this.btnSelectNone.Name = "btnSelectNone";
             this.btnSelectNone.Size = new System.Drawing.Size(55, 20);
             this.btnSelectNone.TabIndex = 6;
@@ -250,7 +258,7 @@
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(425, 38);
+            this.btnSelectAll.Location = new System.Drawing.Point(445, 39);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(55, 20);
             this.btnSelectAll.TabIndex = 6;
@@ -262,9 +270,10 @@
             // 
             this.chkStopOnError.AutoSize = true;
             this.chkStopOnError.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.chkStopOnError.Location = new System.Drawing.Point(560, 81);
+            this.chkStopOnError.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.chkStopOnError.Location = new System.Drawing.Point(532, 77);
             this.chkStopOnError.Name = "chkStopOnError";
-            this.chkStopOnError.Size = new System.Drawing.Size(100, 17);
+            this.chkStopOnError.Size = new System.Drawing.Size(113, 17);
             this.chkStopOnError.TabIndex = 5;
             this.chkStopOnError.Text = "Stop On Error";
             this.chkStopOnError.UseVisualStyleBackColor = true;
@@ -275,9 +284,10 @@
             this.chkCreatePath.Checked = true;
             this.chkCreatePath.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkCreatePath.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.chkCreatePath.Location = new System.Drawing.Point(560, 61);
+            this.chkCreatePath.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.chkCreatePath.Location = new System.Drawing.Point(532, 58);
             this.chkCreatePath.Name = "chkCreatePath";
-            this.chkCreatePath.Size = new System.Drawing.Size(177, 17);
+            this.chkCreatePath.Size = new System.Drawing.Size(205, 17);
             this.chkCreatePath.TabIndex = 5;
             this.chkCreatePath.Text = "Create non-exist Directories";
             this.chkCreatePath.UseVisualStyleBackColor = true;
@@ -288,9 +298,10 @@
             this.chkOverwrite.Checked = true;
             this.chkOverwrite.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkOverwrite.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.chkOverwrite.Location = new System.Drawing.Point(560, 38);
+            this.chkOverwrite.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.chkOverwrite.Location = new System.Drawing.Point(532, 39);
             this.chkOverwrite.Name = "chkOverwrite";
-            this.chkOverwrite.Size = new System.Drawing.Size(138, 17);
+            this.chkOverwrite.Size = new System.Drawing.Size(159, 17);
             this.chkOverwrite.TabIndex = 5;
             this.chkOverwrite.Text = "Overwrite Exist Files";
             this.chkOverwrite.UseVisualStyleBackColor = true;
@@ -305,7 +316,7 @@
             "Mappers",
             "Create Table Scripts",
             "Insert Data Scripts"});
-            this.chklTemplate.Location = new System.Drawing.Point(135, 39);
+            this.chklTemplate.Location = new System.Drawing.Point(155, 39);
             this.chklTemplate.MultiColumn = true;
             this.chklTemplate.Name = "chklTemplate";
             this.chklTemplate.Size = new System.Drawing.Size(284, 60);
@@ -316,9 +327,10 @@
             // lblUsedTemplate
             // 
             this.lblUsedTemplate.AutoSize = true;
-            this.lblUsedTemplate.Location = new System.Drawing.Point(41, 39);
+            this.lblUsedTemplate.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblUsedTemplate.Location = new System.Drawing.Point(43, 39);
             this.lblUsedTemplate.Name = "lblUsedTemplate";
-            this.lblUsedTemplate.Size = new System.Drawing.Size(88, 12);
+            this.lblUsedTemplate.Size = new System.Drawing.Size(102, 12);
             this.lblUsedTemplate.TabIndex = 3;
             this.lblUsedTemplate.Text = "Code Templates";
             // 
@@ -362,53 +374,56 @@
             // 
             this.txtScriptSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtScriptSavePath.Location = new System.Drawing.Point(135, 130);
+            this.txtScriptSavePath.Location = new System.Drawing.Point(151, 130);
             this.txtScriptSavePath.Name = "txtScriptSavePath";
-            this.txtScriptSavePath.Size = new System.Drawing.Size(602, 19);
+            this.txtScriptSavePath.Size = new System.Drawing.Size(586, 19);
             this.txtScriptSavePath.TabIndex = 1;
             // 
             // txtSourceCodeRoot
             // 
             this.txtSourceCodeRoot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSourceCodeRoot.Location = new System.Drawing.Point(135, 105);
+            this.txtSourceCodeRoot.Location = new System.Drawing.Point(151, 105);
             this.txtSourceCodeRoot.Name = "txtSourceCodeRoot";
-            this.txtSourceCodeRoot.Size = new System.Drawing.Size(602, 19);
+            this.txtSourceCodeRoot.Size = new System.Drawing.Size(586, 19);
             this.txtSourceCodeRoot.TabIndex = 1;
             // 
             // txtDesignFile
             // 
             this.txtDesignFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDesignFile.Location = new System.Drawing.Point(135, 14);
+            this.txtDesignFile.Location = new System.Drawing.Point(155, 14);
             this.txtDesignFile.Name = "txtDesignFile";
-            this.txtDesignFile.Size = new System.Drawing.Size(602, 19);
+            this.txtDesignFile.Size = new System.Drawing.Size(582, 19);
             this.txtDesignFile.TabIndex = 1;
             // 
             // lblScriptSavePath
             // 
             this.lblScriptSavePath.AutoSize = true;
-            this.lblScriptSavePath.Location = new System.Drawing.Point(26, 133);
+            this.lblScriptSavePath.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblScriptSavePath.Location = new System.Drawing.Point(24, 133);
             this.lblScriptSavePath.Name = "lblScriptSavePath";
-            this.lblScriptSavePath.Size = new System.Drawing.Size(103, 12);
+            this.lblScriptSavePath.Size = new System.Drawing.Size(121, 12);
             this.lblScriptSavePath.TabIndex = 0;
             this.lblScriptSavePath.Text = "Scripts Saved Path";
             // 
             // lblSourceRoot
             // 
             this.lblSourceRoot.AutoSize = true;
+            this.lblSourceRoot.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblSourceRoot.Location = new System.Drawing.Point(31, 108);
             this.lblSourceRoot.Name = "lblSourceRoot";
-            this.lblSourceRoot.Size = new System.Drawing.Size(98, 12);
+            this.lblSourceRoot.Size = new System.Drawing.Size(114, 12);
             this.lblSourceRoot.TabIndex = 0;
             this.lblSourceRoot.Text = "Source Code Root";
             // 
             // lblDesignFile
             // 
             this.lblDesignFile.AutoSize = true;
-            this.lblDesignFile.Location = new System.Drawing.Point(19, 17);
+            this.lblDesignFile.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblDesignFile.Location = new System.Drawing.Point(15, 17);
             this.lblDesignFile.Name = "lblDesignFile";
-            this.lblDesignFile.Size = new System.Drawing.Size(110, 12);
+            this.lblDesignFile.Size = new System.Drawing.Size(130, 12);
             this.lblDesignFile.TabIndex = 0;
             this.lblDesignFile.Text = "Design File Location";
             // 
@@ -459,6 +474,7 @@
             this.rtbEntityTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbEntityTpl.Location = new System.Drawing.Point(0, 32);
             this.rtbEntityTpl.Name = "rtbEntityTpl";
+            this.rtbEntityTpl.ReadOnly = true;
             this.rtbEntityTpl.Size = new System.Drawing.Size(762, 471);
             this.rtbEntityTpl.TabIndex = 4;
             this.rtbEntityTpl.Text = "";
@@ -477,18 +493,19 @@
             // 
             // txtEntityTpl
             // 
-            this.txtEntityTpl.Location = new System.Drawing.Point(87, 4);
+            this.txtEntityTpl.Location = new System.Drawing.Point(102, 4);
             this.txtEntityTpl.Name = "txtEntityTpl";
-            this.txtEntityTpl.Size = new System.Drawing.Size(644, 19);
+            this.txtEntityTpl.Size = new System.Drawing.Size(629, 19);
             this.txtEntityTpl.TabIndex = 1;
             this.txtEntityTpl.TextChanged += new System.EventHandler(this.txtEntityTpl_TextChanged);
             // 
             // lblEntityTpl
             // 
             this.lblEntityTpl.AutoSize = true;
+            this.lblEntityTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblEntityTpl.Location = new System.Drawing.Point(8, 7);
             this.lblEntityTpl.Name = "lblEntityTpl";
-            this.lblEntityTpl.Size = new System.Drawing.Size(73, 12);
+            this.lblEntityTpl.Size = new System.Drawing.Size(88, 12);
             this.lblEntityTpl.TabIndex = 0;
             this.lblEntityTpl.Text = "Entity.tpl File";
             // 
@@ -514,6 +531,7 @@
             this.rtbSqlProviderTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbSqlProviderTpl.Location = new System.Drawing.Point(0, 29);
             this.rtbSqlProviderTpl.Name = "rtbSqlProviderTpl";
+            this.rtbSqlProviderTpl.ReadOnly = true;
             this.rtbSqlProviderTpl.Size = new System.Drawing.Size(762, 474);
             this.rtbSqlProviderTpl.TabIndex = 8;
             this.rtbSqlProviderTpl.Text = "";
@@ -532,18 +550,19 @@
             // 
             // txtSqlProviderTpl
             // 
-            this.txtSqlProviderTpl.Location = new System.Drawing.Point(115, 4);
+            this.txtSqlProviderTpl.Location = new System.Drawing.Point(135, 4);
             this.txtSqlProviderTpl.Name = "txtSqlProviderTpl";
-            this.txtSqlProviderTpl.Size = new System.Drawing.Size(616, 19);
+            this.txtSqlProviderTpl.Size = new System.Drawing.Size(596, 19);
             this.txtSqlProviderTpl.TabIndex = 6;
             this.txtSqlProviderTpl.TextChanged += new System.EventHandler(this.txtSqlProviderTpl_TextChanged);
             // 
             // lblSqlProviderTpl
             // 
             this.lblSqlProviderTpl.AutoSize = true;
+            this.lblSqlProviderTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblSqlProviderTpl.Location = new System.Drawing.Point(8, 7);
             this.lblSqlProviderTpl.Name = "lblSqlProviderTpl";
-            this.lblSqlProviderTpl.Size = new System.Drawing.Size(101, 12);
+            this.lblSqlProviderTpl.Size = new System.Drawing.Size(121, 12);
             this.lblSqlProviderTpl.TabIndex = 5;
             this.lblSqlProviderTpl.Text = "SqlProvider.tpl File";
             // 
@@ -569,6 +588,7 @@
             this.rtbMapperTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbMapperTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbMapperTpl.Name = "rtbMapperTpl";
+            this.rtbMapperTpl.ReadOnly = true;
             this.rtbMapperTpl.Size = new System.Drawing.Size(761, 471);
             this.rtbMapperTpl.TabIndex = 8;
             this.rtbMapperTpl.Text = "";
@@ -587,18 +607,19 @@
             // 
             // txtMapperTpl
             // 
-            this.txtMapperTpl.Location = new System.Drawing.Point(94, 4);
+            this.txtMapperTpl.Location = new System.Drawing.Point(109, 4);
             this.txtMapperTpl.Name = "txtMapperTpl";
-            this.txtMapperTpl.Size = new System.Drawing.Size(637, 19);
+            this.txtMapperTpl.Size = new System.Drawing.Size(622, 19);
             this.txtMapperTpl.TabIndex = 6;
             this.txtMapperTpl.TextChanged += new System.EventHandler(this.txtMapperTpl_TextChanged);
             // 
             // lblMapperTpl
             // 
             this.lblMapperTpl.AutoSize = true;
+            this.lblMapperTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblMapperTpl.Location = new System.Drawing.Point(8, 7);
             this.lblMapperTpl.Name = "lblMapperTpl";
-            this.lblMapperTpl.Size = new System.Drawing.Size(80, 12);
+            this.lblMapperTpl.Size = new System.Drawing.Size(95, 12);
             this.lblMapperTpl.TabIndex = 5;
             this.lblMapperTpl.Text = "Mapper.tpl File";
             // 
@@ -624,6 +645,7 @@
             this.rtbCreateTableTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbCreateTableTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbCreateTableTpl.Name = "rtbCreateTableTpl";
+            this.rtbCreateTableTpl.ReadOnly = true;
             this.rtbCreateTableTpl.Size = new System.Drawing.Size(761, 471);
             this.rtbCreateTableTpl.TabIndex = 8;
             this.rtbCreateTableTpl.Text = "";
@@ -642,18 +664,19 @@
             // 
             // txtCreateTableTpl
             // 
-            this.txtCreateTableTpl.Location = new System.Drawing.Point(119, 4);
+            this.txtCreateTableTpl.Location = new System.Drawing.Point(139, 4);
             this.txtCreateTableTpl.Name = "txtCreateTableTpl";
-            this.txtCreateTableTpl.Size = new System.Drawing.Size(612, 19);
+            this.txtCreateTableTpl.Size = new System.Drawing.Size(592, 19);
             this.txtCreateTableTpl.TabIndex = 6;
             this.txtCreateTableTpl.TextChanged += new System.EventHandler(this.txtCreateTableTpl_TextChanged);
             // 
             // lblCreateTableTpl
             // 
             this.lblCreateTableTpl.AutoSize = true;
+            this.lblCreateTableTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblCreateTableTpl.Location = new System.Drawing.Point(8, 7);
             this.lblCreateTableTpl.Name = "lblCreateTableTpl";
-            this.lblCreateTableTpl.Size = new System.Drawing.Size(105, 12);
+            this.lblCreateTableTpl.Size = new System.Drawing.Size(125, 12);
             this.lblCreateTableTpl.TabIndex = 5;
             this.lblCreateTableTpl.Text = "CreateTable.tpl File";
             // 
@@ -679,6 +702,7 @@
             this.rtbInsertDataTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbInsertDataTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbInsertDataTpl.Name = "rtbInsertDataTpl";
+            this.rtbInsertDataTpl.ReadOnly = true;
             this.rtbInsertDataTpl.Size = new System.Drawing.Size(761, 471);
             this.rtbInsertDataTpl.TabIndex = 8;
             this.rtbInsertDataTpl.Text = "";
@@ -697,24 +721,32 @@
             // 
             // txtInsertDataTpl
             // 
-            this.txtInsertDataTpl.Location = new System.Drawing.Point(110, 4);
+            this.txtInsertDataTpl.Location = new System.Drawing.Point(129, 4);
             this.txtInsertDataTpl.Name = "txtInsertDataTpl";
-            this.txtInsertDataTpl.Size = new System.Drawing.Size(621, 19);
+            this.txtInsertDataTpl.Size = new System.Drawing.Size(602, 19);
             this.txtInsertDataTpl.TabIndex = 6;
             this.txtInsertDataTpl.TextChanged += new System.EventHandler(this.txtInsertDataTpl_TextChanged);
             // 
             // lblInsertDataTpl
             // 
             this.lblInsertDataTpl.AutoSize = true;
+            this.lblInsertDataTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblInsertDataTpl.Location = new System.Drawing.Point(8, 7);
             this.lblInsertDataTpl.Name = "lblInsertDataTpl";
-            this.lblInsertDataTpl.Size = new System.Drawing.Size(96, 12);
+            this.lblInsertDataTpl.Size = new System.Drawing.Size(115, 12);
             this.lblInsertDataTpl.TabIndex = 5;
             this.lblInsertDataTpl.Text = "InsertData.tpl File";
             // 
             // tabSetting
             // 
+            this.tabSetting.Controls.Add(this.lblDefaultSQLExt);
+            this.tabSetting.Controls.Add(this.lblDefaultExt);
+            this.tabSetting.Controls.Add(this.btnChangeColor);
+            this.tabSetting.Controls.Add(this.txtTagColor);
+            this.tabSetting.Controls.Add(this.lblTagColor);
             this.tabSetting.Controls.Add(this.chkGenerateAuthor);
+            this.tabSetting.Controls.Add(this.txtDefaultSQLExt);
+            this.tabSetting.Controls.Add(this.txtDefaultExt);
             this.tabSetting.Controls.Add(this.txtAuthor);
             this.tabSetting.Controls.Add(this.lblAuthor);
             this.tabSetting.Location = new System.Drawing.Point(4, 22);
@@ -725,12 +757,47 @@
             this.tabSetting.Text = "Settings";
             this.tabSetting.UseVisualStyleBackColor = true;
             // 
+            // btnChangeColor
+            // 
+            this.btnChangeColor.Location = new System.Drawing.Point(230, 36);
+            this.btnChangeColor.Name = "btnChangeColor";
+            this.btnChangeColor.Size = new System.Drawing.Size(97, 23);
+            this.btnChangeColor.TabIndex = 5;
+            this.btnChangeColor.Text = "Change Color";
+            this.btnChangeColor.UseVisualStyleBackColor = true;
+            this.btnChangeColor.Click += new System.EventHandler(this.btnChangeColor_Click);
+            // 
+            // txtTagColor
+            // 
+            this.txtTagColor.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.txtTagColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTagColor.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.txtTagColor.ForeColor = System.Drawing.Color.Maroon;
+            this.txtTagColor.Location = new System.Drawing.Point(78, 38);
+            this.txtTagColor.Name = "txtTagColor";
+            this.txtTagColor.ReadOnly = true;
+            this.txtTagColor.Size = new System.Drawing.Size(146, 19);
+            this.txtTagColor.TabIndex = 4;
+            this.txtTagColor.Text = "$TEMPLATETAGS$";
+            this.txtTagColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // lblTagColor
+            // 
+            this.lblTagColor.AutoSize = true;
+            this.lblTagColor.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblTagColor.Location = new System.Drawing.Point(8, 41);
+            this.lblTagColor.Name = "lblTagColor";
+            this.lblTagColor.Size = new System.Drawing.Size(64, 12);
+            this.lblTagColor.TabIndex = 3;
+            this.lblTagColor.Text = "Tag Color";
+            // 
             // chkGenerateAuthor
             // 
             this.chkGenerateAuthor.AutoSize = true;
+            this.chkGenerateAuthor.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.chkGenerateAuthor.Location = new System.Drawing.Point(11, 12);
             this.chkGenerateAuthor.Name = "chkGenerateAuthor";
-            this.chkGenerateAuthor.Size = new System.Drawing.Size(151, 16);
+            this.chkGenerateAuthor.Size = new System.Drawing.Size(173, 16);
             this.chkGenerateAuthor.TabIndex = 2;
             this.chkGenerateAuthor.Text = "Generate Author Remark";
             this.chkGenerateAuthor.UseVisualStyleBackColor = true;
@@ -741,18 +808,19 @@
             this.txtAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAuthor.Enabled = false;
-            this.txtAuthor.Location = new System.Drawing.Point(241, 10);
+            this.txtAuthor.Location = new System.Drawing.Point(247, 10);
             this.txtAuthor.Name = "txtAuthor";
-            this.txtAuthor.Size = new System.Drawing.Size(527, 19);
+            this.txtAuthor.Size = new System.Drawing.Size(521, 19);
             this.txtAuthor.TabIndex = 1;
             // 
             // lblAuthor
             // 
             this.lblAuthor.AutoSize = true;
             this.lblAuthor.Enabled = false;
+            this.lblAuthor.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblAuthor.Location = new System.Drawing.Point(196, 13);
             this.lblAuthor.Name = "lblAuthor";
-            this.lblAuthor.Size = new System.Drawing.Size(39, 12);
+            this.lblAuthor.Size = new System.Drawing.Size(45, 12);
             this.lblAuthor.TabIndex = 0;
             this.lblAuthor.Text = "Author";
             // 
@@ -770,20 +838,47 @@
             this.imgList.Images.SetKeyName(3, "success.gif");
             this.imgList.Images.SetKeyName(4, "warning.gif");
             // 
-            // colIcon
+            // lblDefaultExt
             // 
-            this.colIcon.HeaderText = "";
-            this.colIcon.MinimumWidth = 16;
-            this.colIcon.Name = "colIcon";
-            this.colIcon.ReadOnly = true;
-            this.colIcon.Width = 16;
+            this.lblDefaultExt.AutoSize = true;
+            this.lblDefaultExt.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblDefaultExt.Location = new System.Drawing.Point(6, 68);
+            this.lblDefaultExt.Name = "lblDefaultExt";
+            this.lblDefaultExt.Size = new System.Drawing.Size(151, 12);
+            this.lblDefaultExt.TabIndex = 6;
+            this.lblDefaultExt.Text = "Default Source File Ext.";
             // 
-            // colText
+            // txtDefaultExt
             // 
-            this.colText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colText.HeaderText = "Message";
-            this.colText.Name = "colText";
-            this.colText.ReadOnly = true;
+            this.txtDefaultExt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDefaultExt.Enabled = false;
+            this.txtDefaultExt.Location = new System.Drawing.Point(163, 65);
+            this.txtDefaultExt.Name = "txtDefaultExt";
+            this.txtDefaultExt.Size = new System.Drawing.Size(605, 19);
+            this.txtDefaultExt.TabIndex = 1;
+            this.txtDefaultExt.Text = ".java";
+            // 
+            // txtDefaultSQLExt
+            // 
+            this.txtDefaultSQLExt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDefaultSQLExt.Enabled = false;
+            this.txtDefaultSQLExt.Location = new System.Drawing.Point(163, 90);
+            this.txtDefaultSQLExt.Name = "txtDefaultSQLExt";
+            this.txtDefaultSQLExt.Size = new System.Drawing.Size(605, 19);
+            this.txtDefaultSQLExt.TabIndex = 1;
+            this.txtDefaultSQLExt.Text = ".sql";
+            // 
+            // lblDefaultSQLExt
+            // 
+            this.lblDefaultSQLExt.AutoSize = true;
+            this.lblDefaultSQLExt.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblDefaultSQLExt.Location = new System.Drawing.Point(23, 93);
+            this.lblDefaultSQLExt.Name = "lblDefaultSQLExt";
+            this.lblDefaultSQLExt.Size = new System.Drawing.Size(134, 12);
+            this.lblDefaultSQLExt.TabIndex = 6;
+            this.lblDefaultSQLExt.Text = "Default SQL File Ext.";
             // 
             // frmMain
             // 
@@ -858,7 +953,6 @@
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.DataGridView dtgStepLog;
         private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnEntityTpl;
         private System.Windows.Forms.TextBox txtEntityTpl;
         private System.Windows.Forms.Label lblEntityTpl;
@@ -886,6 +980,13 @@
         private System.Windows.Forms.ImageList imgList;
         private System.Windows.Forms.DataGridViewImageColumn colIcon;
         private System.Windows.Forms.DataGridViewTextBoxColumn colText;
+        private System.Windows.Forms.Button btnChangeColor;
+        private System.Windows.Forms.TextBox txtTagColor;
+        private System.Windows.Forms.Label lblTagColor;
+        private System.Windows.Forms.Label lblDefaultExt;
+        private System.Windows.Forms.TextBox txtDefaultExt;
+        private System.Windows.Forms.Label lblDefaultSQLExt;
+        private System.Windows.Forms.TextBox txtDefaultSQLExt;
     }
 }
 

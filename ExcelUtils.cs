@@ -11,6 +11,10 @@ namespace MyBatisCodeGenerator
 {
     public class ExcelUtils
     {
+        public static string transferDateValue(string strNumber)
+        {
+            return DateTime.FromOADate(Double.Parse(strNumber)).ToString("yyyy-MM-dd HH:mm:ss");
+        }
 
         public static Dictionary<string, DataTable> GetExcelTableByOleDB(string strExcelPath)
         {

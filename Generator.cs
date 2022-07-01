@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -11,10 +12,11 @@ namespace MyBatisCodeGenerator
     {
         enum RunStatus
         {
-            Running, Pause, Stopped
+            Running, Stopped
         }
 
         Dictionary<String, String> settings = new Dictionary<string, string>();
+        RunStatus runStatus = RunStatus.Stopped;
 
         public frmMain()
         {
@@ -138,7 +140,6 @@ namespace MyBatisCodeGenerator
 
         private void refreshRunButtonStatus()
         {
-            btnPause.Enabled = false;
             btnStop.Enabled = false;
 
             if (String.IsNullOrEmpty(txtDesignFile.Text))
@@ -219,11 +220,14 @@ namespace MyBatisCodeGenerator
 
         private void btnRun_Click(object sender, EventArgs e)
         {
+            runStatus = RunStatus.Running;
+
             disableAllOnRunning();
 
             tstrpProgress.Visible = true;
-            btnPause.Enabled = true;
             btnStop.Enabled = true;
+
+            Application.DoEvents();
 
             try
             {
@@ -234,7 +238,7 @@ namespace MyBatisCodeGenerator
                 MessageBox.Show(ex.Message);
             }
 
-            tstrpProgress.Visible = false;
+            stopGenerate(true);
         }
 
         List<String> preparedDefineTables = new List<string>();
@@ -246,17 +250,32 @@ namespace MyBatisCodeGenerator
             int finishedCount = 0;
             tstrpProgress.Value = 0;
 
+            if (runStatus.Equals(RunStatus.Stopped))
+            {
+                return;
+            }
+
             //Load Design File
             stepCount++;
             Dictionary<string, DataTable> excelTables = ExcelUtils.GetExcelTableByOleDB(txtDesignFile.Text);
             finishedCount++;
 
+            if (runStatus.Equals(RunStatus.Stopped))
+            {
+                return;
+            }
+
             //Check Design File
             stepCount++;
             getPreparedTables(excelTables);
-            stepCount += preparedDefineTables.Count;
-            stepCount += preparedDataTables.Count;
+            stepCount += preparedDefineTables.Count * 3;
+            stepCount += preparedDataTables.Count * 2;
             finishedCount++;
+
+            if (runStatus.Equals(RunStatus.Stopped))
+            {
+                return;
+            }
 
             tstrpProgress.Value = 100 * finishedCount / stepCount;
 
@@ -265,11 +284,21 @@ namespace MyBatisCodeGenerator
             checkTemplates();
             finishedCount++;
 
+            if (runStatus.Equals(RunStatus.Stopped))
+            {
+                return;
+            }
+
             tstrpProgress.Value = 100 * finishedCount / stepCount;
 
             //Execute Task List
             foreach (KeyValuePair<string, DataTable> kv in excelTables)
             {
+                if (runStatus.Equals(RunStatus.Stopped))
+                {
+                    return;
+                }
+
                 int rowNoAdded = dtgStepLog.Rows.Add("Dealing:" + kv.Key);
                 dtgStepLog.Rows[rowNoAdded].Cells[1].Value = "Dealing: " + kv.Key;
                 ((DataGridViewImageCell)dtgStepLog.Rows[rowNoAdded].Cells[0]).Value = imgList.Images["running.gif"];
@@ -277,21 +306,40 @@ namespace MyBatisCodeGenerator
 
                 if (preparedDefineTables.Contains(kv.Key))
                 {
-                    //Entity
-                    if (chklTemplate.GetItemChecked(0)) {
-                        doGenerate(kv.Value, rtbEntityTpl.Text, "Entity");
+                    if (runStatus.Equals(RunStatus.Stopped))
+                    {
+                        return;
                     }
 
+                    //Entity
+                    if (chklTemplate.GetItemChecked(0)) {
+                        doGenerate(kv.Value, rtbEntityTpl.Text, TemplateType.Entity);
+                    }
+
+                    finishedCount++;
+                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+
+                    if (runStatus.Equals(RunStatus.Stopped))
+                    {
+                        return;
+                    }
                     //SqlProvider
                     if (chklTemplate.GetItemChecked(1))
                     {
-                        doGenerate(kv.Value, rtbSqlProviderTpl.Text, "SqlProvider");
+                        doGenerate(kv.Value, rtbSqlProviderTpl.Text, TemplateType.SqlProvider);
                     }
 
+                    finishedCount++;
+                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+
+                    if (runStatus.Equals(RunStatus.Stopped))
+                    {
+                        return;
+                    }
                     //Mapper
                     if (chklTemplate.GetItemChecked(2))
                     {
-                        doGenerate(kv.Value, rtbMapperTpl.Text, "Mapper");
+                        doGenerate(kv.Value, rtbMapperTpl.Text, TemplateType.Mapper);
                     }
 
                     finishedCount++;
@@ -300,16 +348,27 @@ namespace MyBatisCodeGenerator
 
                 if (preparedDataTables.Contains(kv.Key))
                 {
+                    if (runStatus.Equals(RunStatus.Stopped))
+                    {
+                        return;
+                    }
                     //Create Table
                     if (chklTemplate.GetItemChecked(3))
                     {
-                        doGenerate(kv.Value, rtbEntityTpl.Text, "Create Table");
+                        doGenerate(kv.Value, rtbCreateTableTpl.Text, TemplateType.CreateTable);
                     }
 
+                    finishedCount++;
+                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+
+                    if (runStatus.Equals(RunStatus.Stopped))
+                    {
+                        return;
+                    }
                     //Insert Data
                     if (chklTemplate.GetItemChecked(4))
                     {
-                        doGenerate(kv.Value, rtbEntityTpl.Text, "Insert Data");
+                        doGenerate(kv.Value, rtbInsertDataTpl.Text, TemplateType.InsertData);
                     }
 
                     finishedCount++;
@@ -322,42 +381,90 @@ namespace MyBatisCodeGenerator
             }
         }
 
-        private void doGenerate(DataTable table, string templateText, string tag)
+        private void stopGenerate(bool isAuto)
         {
-            int newTaskRowNo = dtgStepLog.Rows.Add("Generating: [" + tag + "]");
-            dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "Generating: [" + tag + "]";
+            if (!isAuto)
+            {
+                int rowNoAdded = dtgStepLog.Rows.Add("User interrupted.");
+                dtgStepLog.Rows[rowNoAdded].Cells[1].Value = "User interrupted.";
+                ((DataGridViewImageCell)dtgStepLog.Rows[rowNoAdded].Cells[0]).Value = imgList.Images["stop.gif"];
+                dtgStepLog.Refresh();
+            }
+
+            runStatus = RunStatus.Stopped;
+            btnRun.Enabled = true;
+            tstrpProgress.Visible = false;
+            enableAllOnStop();
+        }
+
+        private void doGenerate(DataTable table, string templateText, TemplateType tmpType)
+        {
+            int newTaskRowNo = dtgStepLog.Rows.Add("Generating: [" + tmpType.ToString() + "]");
+            dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "Generating: [" + tmpType.ToString() + "]";
 
             ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["running.gif"];
             dtgStepLog.Refresh();
             try
             {
-                string warningMessage = translateTemplate(table, templateText);
+                string savedFileName = translateTemplate(table, templateText, tmpType);
 
-                if (string.IsNullOrEmpty(warningMessage))
+                if (string.IsNullOrEmpty(savedFileName))
                 {
-                    dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "[" + tag + "] Generated.";
-                    ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["success.gif"];
+                    dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "No file Generated?";
+                    ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["warning.gif"];
                     dtgStepLog.Refresh();
                 }
                 else
                 {
-                    dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "Warning:" + warningMessage;
-                    ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["warning.gif"];
+                    dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "File [" + savedFileName + "] generated." ;
+                    ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["success.gif"];
                     dtgStepLog.Refresh();
                 }
             }
             catch (Exception ex)
             {
-                dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "Error:" + ex.Message;
-                ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["error.gif"];
+                if (chkStopOnError.Checked)
+                {
+                    dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "Error:" + ex.Message;
+                    ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["error.gif"];
+                    stopGenerate(true);
+                }
+                else
+                {
+                    dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "warning:" + ex.Message;
+                    ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["warning.gif"];
+                }
+
                 dtgStepLog.Refresh();
             }
         }
 
-        private string translateTemplate(DataTable table, string templateText)
+        private string translateTemplate(DataTable table, string templateText, TemplateType templateType)
         {
-            Thread.Sleep(3000);
-            return string.Empty;
+            string contentText = string.Empty;
+            Application.DoEvents();
+            contentText = TemplateUtils.templateApply(table, templateText,
+                //Author
+                chkGenerateAuthor.Checked ? txtAuthor.Text : "");
+            string savedPath;
+            string ext;
+
+            if (templateType.Equals(TemplateType.Entity) || templateType.Equals(TemplateType.SqlProvider) || templateType.Equals(TemplateType.Mapper))
+            {
+                ext = txtDefaultExt.Text;
+                savedPath = TemplateUtils.getSavedPath(table, txtSourceCodeRoot.Text, templateType);
+            }
+            else
+            {
+                ext = txtDefaultSQLExt.Text;
+                savedPath = TemplateUtils.getSavedPath(table, txtScriptSavePath.Text, templateType);
+            }
+
+
+            string savedFilename = TemplateUtils.getSavedFileName(table, templateType, ext);
+            CommonUtils.writeTextFile(savedFilename, savedPath, contentText,chkCreatePath.Checked, chkOverwrite.Checked, true);
+            Application.DoEvents();
+            return savedFilename;
         }
 
         private void checkTemplates()
@@ -405,13 +512,13 @@ namespace MyBatisCodeGenerator
                             continue;
                         }
 
-                        if (row[0].ToString().ToUpper().Contains("$MYBATIS META DATA START$"))
+                        if (row[0].ToString().ToUpper().Contains("$MYBATIS DATA START$"))
                         {
                             bDataBegin = true;
                             continue;
                         }
 
-                        if (row[0].ToString().ToUpper().Contains("$MYBATIS META DATA END$"))
+                        if (row[0].ToString().ToUpper().Contains("$MYBATIS DATA END$"))
                         {
                             bDataEnd = true;
                             continue;
@@ -433,20 +540,12 @@ namespace MyBatisCodeGenerator
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            btnRun.Enabled = true;
-            btnPause.Enabled = false;
-            tstrpProgress.Visible = false;
-            enableAllOnStop();
+            stopGenerate(false);
         }
 
         private void chklTemplate_SelectedValueChanged(object sender, EventArgs e)
         {
             refreshRunButtonStatus();
-        }
-
-        private void btnPause_Click(object sender, EventArgs e)
-        {
-            btnPause.Text = "Continue (&C)";
         }
 
         private void chklTemplate_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -573,7 +672,7 @@ namespace MyBatisCodeGenerator
         {
             if (File.Exists(Application.StartupPath + @"\setting.dat"))
             {
-                Object settingObj = CommonUtils.readSerialzationDataFromFile(Application.StartupPath + @"\setting.dat");
+                Object settingObj = CommonUtils.readSerializationDataFromFile(Application.StartupPath + @"\setting.dat");
                 if (settingObj != null)
                 {
                     settings = (Dictionary<String, String>)settingObj;
@@ -587,31 +686,46 @@ namespace MyBatisCodeGenerator
         private void txtInsertDataTpl_TextChanged(object sender, EventArgs e)
         {
             rtbInsertDataTpl.Text = CommonUtils.readTextFile(txtInsertDataTpl.Text);
-            CommonUtils.setRichTextBoxTextColor(rtbInsertDataTpl);
+            CommonUtils.setRichTextBoxTextColor(rtbInsertDataTpl, txtTagColor.ForeColor);
         }
 
         private void txtCreateTableTpl_TextChanged(object sender, EventArgs e)
         {
             rtbCreateTableTpl.Text = CommonUtils.readTextFile(txtCreateTableTpl.Text);
-            CommonUtils.setRichTextBoxTextColor(rtbCreateTableTpl);
+            CommonUtils.setRichTextBoxTextColor(rtbCreateTableTpl, txtTagColor.ForeColor);
         }
 
         private void txtMapperTpl_TextChanged(object sender, EventArgs e)
         {
             rtbMapperTpl.Text = CommonUtils.readTextFile(txtMapperTpl.Text);
-            CommonUtils.setRichTextBoxTextColor(rtbMapperTpl);
+            CommonUtils.setRichTextBoxTextColor(rtbMapperTpl, txtTagColor.ForeColor);
         }
 
         private void txtSqlProviderTpl_TextChanged(object sender, EventArgs e)
         {
             rtbSqlProviderTpl.Text = CommonUtils.readTextFile(txtSqlProviderTpl.Text);
-            CommonUtils.setRichTextBoxTextColor(rtbSqlProviderTpl);
+            CommonUtils.setRichTextBoxTextColor(rtbSqlProviderTpl, txtTagColor.ForeColor);
         }
 
         private void txtEntityTpl_TextChanged(object sender, EventArgs e)
         {
             rtbEntityTpl.Text = CommonUtils.readTextFile(txtEntityTpl.Text);
-            CommonUtils.setRichTextBoxTextColor(rtbEntityTpl);
+            CommonUtils.setRichTextBoxTextColor(rtbEntityTpl, txtTagColor.ForeColor);
+        }
+
+        private void btnChangeColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg= new ColorDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Color colorChoosed = dlg.Color;
+                txtTagColor.ForeColor = colorChoosed;
+                CommonUtils.setRichTextBoxTextColor(rtbInsertDataTpl, txtTagColor.ForeColor);
+                CommonUtils.setRichTextBoxTextColor(rtbCreateTableTpl, txtTagColor.ForeColor);
+                CommonUtils.setRichTextBoxTextColor(rtbMapperTpl, txtTagColor.ForeColor);
+                CommonUtils.setRichTextBoxTextColor(rtbSqlProviderTpl, txtTagColor.ForeColor);
+                CommonUtils.setRichTextBoxTextColor(rtbEntityTpl, txtTagColor.ForeColor);
+            }
         }
     }
 }
