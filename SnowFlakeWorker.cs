@@ -26,8 +26,8 @@ namespace MyBatisCodeGenerator
         /// <param name="workerId"></param>
         public SnowFlakeWorker(long workerId)
         {
-            if (workerId > maxWorkerId || workerId < 0)
-                throw new Exception(string.Format("worker Id can't be greater than {0} or less than 0 ", workerId));
+           // if (workerId > maxWorkerId || workerId < 0)
+            //    throw new Exception(string.Format("worker Id can't be greater than {0} or less than 0 ", workerId));
             SnowFlakeWorker.workerId = workerId;
         }
 
