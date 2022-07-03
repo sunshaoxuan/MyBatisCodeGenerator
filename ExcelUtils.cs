@@ -13,7 +13,19 @@ namespace MyBatisCodeGenerator
     {
         public static string transferDateValue(string strNumber)
         {
-            return DateTime.FromOADate(Double.Parse(strNumber)).ToString("yyyy-MM-dd HH:mm:ss");
+            string rtn;
+
+            Double number;
+            if (Double.TryParse(strNumber, out number))
+            {
+                rtn = DateTime.FromOADate(number).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                rtn = strNumber;
+            }
+
+            return rtn;
         }
 
         public static Dictionary<string, DataTable> GetExcelTableByOleDB(string strExcelPath)

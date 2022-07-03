@@ -423,6 +423,8 @@ namespace MyBatisCodeGenerator
             }
             catch (Exception ex)
             {
+                CommonUtils.log(ex.StackTrace);
+
                 if (chkStopOnError.Checked)
                 {
                     dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "Error:" + ex.Message;
@@ -462,7 +464,7 @@ namespace MyBatisCodeGenerator
 
 
             string savedFilename = TemplateUtils.getSavedFileName(table, templateType, ext);
-            CommonUtils.writeTextFile(savedFilename, savedPath, contentText,chkCreatePath.Checked, chkOverwrite.Checked, true);
+            CommonUtils.writeTextFile(savedFilename, savedPath, contentText, chkCreatePath.Checked, chkOverwrite.Checked, false, true);
             Application.DoEvents();
             return savedFilename;
         }

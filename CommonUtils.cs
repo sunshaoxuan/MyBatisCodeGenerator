@@ -36,8 +36,9 @@ namespace MyBatisCodeGenerator
         /// <param name="contentStr">Content of text file</param>
         /// <param name="createNonExistsDir">If create all Non-Exists directories.</param>
         /// <param name="isOverwrite">If over write the file when it exists</param>
+        /// <param name="isAppend">if append the content to exists file</param>
         /// <param name="isSkip">If skip saving when not over write the file,  if not skip, throws a exception</param>
-        public static void writeTextFile(string fileName, string fullPath, string contentStr, bool createNonExistsDir, bool isOverwrite, bool isSkip)
+        public static void writeTextFile(string fileName, string fullPath, string contentStr, bool createNonExistsDir, bool isOverwrite, bool isAppend, bool isSkip)
         {
             if(!fullPath.EndsWith("\\"))
             {
@@ -121,6 +122,15 @@ namespace MyBatisCodeGenerator
                     startPos = closePos + 1;
                 }
             }
+        }
+
+        public static void log(string content)
+        {
+            string fileFullPath = Application.StartupPath + @"\log_" + DateTime.Today.ToString("yyyy_MM_dd") + ".log";
+            writeTextFile(@"\log_" + DateTime.Today.ToString("yyyy_MM_dd") + ".log", 
+                Application.StartupPath, 
+                DateTime.Today.ToString("yyyy-MM-dd HH:mm:ss") + "\t" + content + "\r\n", 
+                true, false, true, true);
         }
     }
 }
