@@ -186,6 +186,10 @@ namespace MyBatisCodeGenerator
             lblScriptSavePath.Enabled = false;
             txtScriptSavePath.Enabled = false;
             btnScriptSavePath.Enabled = false;
+
+            chkOverwrite.Enabled = false;
+            chkCreatePath.Enabled = false;
+            chkStopOnError.Enabled = false;
         }
 
         private void enableAllOnStop()
@@ -211,6 +215,10 @@ namespace MyBatisCodeGenerator
             lblScriptSavePath.Enabled = true;
             txtScriptSavePath.Enabled = true;
             btnScriptSavePath.Enabled = true;
+
+            chkOverwrite.Enabled = true;
+            chkCreatePath.Enabled=true;
+            chkStopOnError.Enabled=true;
         }
 
         private void frmMain_Load(object sender, EventArgs e)

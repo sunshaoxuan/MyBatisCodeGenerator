@@ -120,7 +120,7 @@ namespace MyBatisCodeGenerator
             {
                 return value;
             }
-            else if (fieldTypes[key].ToUpper().Equals("VARCHAR"))
+            else if (fieldTypes[key].ToUpper().Equals("VARCHAR") || fieldTypes[key].ToUpper().Equals("JSON"))
             {
                 return "'" + value + "'";
             }
@@ -274,7 +274,7 @@ namespace MyBatisCodeGenerator
             {
                 return "Byte";
             }
-            else if (dataType.ToUpper().Equals("VARCHAR"))
+            else if (dataType.ToUpper().Equals("VARCHAR") || dataType.ToUpper().Equals("JSON"))
             {
                 return "String";
             }
@@ -352,6 +352,10 @@ namespace MyBatisCodeGenerator
             {
                 return "datetime";
             }
+            else if (dataType.ToUpper().Equals("JSON"))
+            {
+                return "json";
+            }
             else { return ""; }
         }
 
@@ -365,7 +369,7 @@ namespace MyBatisCodeGenerator
             {
                 return "JdbcType.TINYINT";
             }
-            else if (dataType.ToUpper().Equals("VARCHAR"))
+            else if (dataType.ToUpper().Equals("VARCHAR") || dataType.ToUpper().Equals("JSON"))
             {
                 return "JdbcType.VARCHAR";
             }
