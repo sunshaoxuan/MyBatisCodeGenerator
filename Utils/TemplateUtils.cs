@@ -782,7 +782,7 @@ namespace MyBatisCodeGenerator.Utils
             replaceTag(table, sb, "$TABLENAME$", "TABLENAME", "", "", defRefs);
 
             //$PARENT$
-            replaceTag(table, sb, "$PARENT$", "PARENTCLASS", " extends ", "", defRefs);
+            replaceTag(table, sb, "$PARENTCLASS$", "PARENTCLASS", " extends ", "", defRefs);
 
             //$INTERFACES$
             replaceTag(table, sb, "$INTERFACES$", "INTERFACES", " implements ", "", defRefs);

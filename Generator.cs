@@ -576,6 +576,7 @@ namespace MyBatisCodeGenerator
                 defRefs.Add("ENTITYNAMESPACE", txtEntityNS.Text);
                 defRefs.Add("MAPPERNAMESPACE", txtMapperNS.Text);
                 defRefs.Add("SQLPROVIDERNAMESPACE", txtProviderNS.Text);
+                defRefs.Add("MULTILANGBASECLASS", txtMultiLangEntityClass.Text);
                 defRefs.Add("VONAMESPACE", txtVONS.Text);
 
                 generator.author = chkGenerateAuthor.Checked ? txtAuthor.Text : "";

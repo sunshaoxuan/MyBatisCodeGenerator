@@ -17,7 +17,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class $ENTITYNAME$Entity $PARENT$ $INTERFACES$ {$FOREACH PROPERTY BEGIN$
+public class $ENTITYNAME$Entity $PARENTCLASS$ $INTERFACES$ {$FOREACH PROPERTY BEGIN$
   /** $PROPERTYDESC$ */
   private $PROPERTYJAVATYPE$ $PROPERTYNAME$;
 $FOREACH PROPERTY END$

@@ -125,6 +125,8 @@
             this.txtVO = new System.Windows.Forms.TextBox();
             this.lblVO = new System.Windows.Forms.Label();
             this.tabSetting = new System.Windows.Forms.TabPage();
+            this.lblMultiLangEntityClass = new System.Windows.Forms.Label();
+            this.txtMultiLangEntityClass = new System.Windows.Forms.TextBox();
             this.btnChangeColor = new System.Windows.Forms.Button();
             this.txtTagColor = new System.Windows.Forms.TextBox();
             this.lblVONS = new System.Windows.Forms.Label();
@@ -1276,6 +1278,8 @@
             // 
             // tabSetting
             // 
+            this.tabSetting.Controls.Add(this.lblMultiLangEntityClass);
+            this.tabSetting.Controls.Add(this.txtMultiLangEntityClass);
             this.tabSetting.Controls.Add(this.btnChangeColor);
             this.tabSetting.Controls.Add(this.txtTagColor);
             this.tabSetting.Controls.Add(this.lblVONS);
@@ -1297,6 +1301,25 @@
             this.tabSetting.TabIndex = 2;
             this.tabSetting.Text = "Settings";
             this.tabSetting.UseVisualStyleBackColor = true;
+            // 
+            // lblMultiLangEntityClass
+            // 
+            this.lblMultiLangEntityClass.AutoSize = true;
+            this.lblMultiLangEntityClass.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMultiLangEntityClass.Location = new System.Drawing.Point(9, 205);
+            this.lblMultiLangEntityClass.Name = "lblMultiLangEntityClass";
+            this.lblMultiLangEntityClass.Size = new System.Drawing.Size(176, 12);
+            this.lblMultiLangEntityClass.TabIndex = 7;
+            this.lblMultiLangEntityClass.Text = "Multi Language Entity Class";
+            // 
+            // txtMultiLangEntityClass
+            // 
+            this.txtMultiLangEntityClass.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMultiLangEntityClass.Location = new System.Drawing.Point(202, 202);
+            this.txtMultiLangEntityClass.Name = "txtMultiLangEntityClass";
+            this.txtMultiLangEntityClass.Size = new System.Drawing.Size(566, 19);
+            this.txtMultiLangEntityClass.TabIndex = 6;
             // 
             // btnChangeColor
             // 
@@ -1623,6 +1646,8 @@
         private System.Windows.Forms.Button btnVO;
         private System.Windows.Forms.TextBox txtVO;
         private System.Windows.Forms.Label lblVO;
+        private System.Windows.Forms.Label lblMultiLangEntityClass;
+        private System.Windows.Forms.TextBox txtMultiLangEntityClass;
     }
 }
 
