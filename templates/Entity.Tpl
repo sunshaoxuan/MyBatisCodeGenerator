@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * $ENTITYDESC$
  *
- * @author: $AUTHOR$
- * @since: $DATE$
+ * @author $AUTHOR$
+ * @since $DATE$
  */
 @Data
 @Builder

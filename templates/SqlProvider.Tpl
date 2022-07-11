@@ -1,13 +1,14 @@
-package $MAPPERNAMESPACE$;
+package $SQLPROVIDERNAMESPACE$;
 
+import $SQLPROVIDERNAMESPACE$.$ENTITYNAME$EntitySqlProvider;
 import $ENTITYNAMESPACE$.$ENTITYNAME$Entity;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
  * $ENTITYDESC$ Sql Provider
  *
- * @author: $AUTHOR$
- * @since: $DATE$
+ * @author $AUTHOR$
+ * @since $DATE$
  */
 public class $ENTITYNAME$EntitySqlProvider {
 
@@ -15,6 +16,7 @@ public class $ENTITYNAME$EntitySqlProvider {
         SQL sql = new SQL();
         sql.INSERT_INTO("$TABLENAME$");
 $FOREACH FIELD BEGIN$
+        /** $PROPERTYDESC$ */
         if (record.$PROPERTYGETMETHOD$() != null) {
             sql.VALUES("$FIELDNAME$", "#{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$}");
         }
@@ -27,6 +29,7 @@ $FOREACH FIELD END$
         SQL sql = new SQL();
         sql.UPDATE("$TABLENAME$");
 $FOREACH FIELD EXCEPT PK BEGIN$
+        /** $PROPERTYDESC$ */
         if (record.$PROPERTYGETMETHOD$() != null) {
             sql.SET("$FIELDNAME$ = #{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$}");
         }

@@ -37,6 +37,7 @@
             this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.strpStatus = new System.Windows.Forms.StatusStrip();
             this.tstrpProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.tstrsStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.btnSelectReverse = new System.Windows.Forms.Button();
@@ -73,6 +74,11 @@
             this.btnMapperTpl = new System.Windows.Forms.Button();
             this.txtMapperTpl = new System.Windows.Forms.TextBox();
             this.lblMapperTpl = new System.Windows.Forms.Label();
+            this.tabMapperExtend = new System.Windows.Forms.TabPage();
+            this.rtbMapperExtendTpl = new System.Windows.Forms.RichTextBox();
+            this.btnMapperExtendTpl = new System.Windows.Forms.Button();
+            this.txtMapperExtendTpl = new System.Windows.Forms.TextBox();
+            this.lblMapperExtendTpl = new System.Windows.Forms.Label();
             this.tabCreateTableScripts = new System.Windows.Forms.TabPage();
             this.rtbCreateTableTpl = new System.Windows.Forms.RichTextBox();
             this.btnCreateTableTpl = new System.Windows.Forms.Button();
@@ -83,20 +89,59 @@
             this.btnInsertDataTpl = new System.Windows.Forms.Button();
             this.txtInsertDataTpl = new System.Windows.Forms.TextBox();
             this.lblInsertDataTpl = new System.Windows.Forms.Label();
+            this.tabMultiLangEntity = new System.Windows.Forms.TabPage();
+            this.rtbMultiLangEntity = new System.Windows.Forms.RichTextBox();
+            this.btnMultiLangEntity = new System.Windows.Forms.Button();
+            this.txtMultiLangEntity = new System.Windows.Forms.TextBox();
+            this.lblMultiLangEntity = new System.Windows.Forms.Label();
+            this.tabMultiLangSqlProvider = new System.Windows.Forms.TabPage();
+            this.rtbMultiLangSqlProvider = new System.Windows.Forms.RichTextBox();
+            this.btnMultiLangSqlProvider = new System.Windows.Forms.Button();
+            this.txtMultiLangSqlProvider = new System.Windows.Forms.TextBox();
+            this.lblMultiLangSqlProvider = new System.Windows.Forms.Label();
+            this.tabMultiLangMapper = new System.Windows.Forms.TabPage();
+            this.rtbMultiLangMapper = new System.Windows.Forms.RichTextBox();
+            this.btnMultiLangMapper = new System.Windows.Forms.Button();
+            this.txtMultiLangMapper = new System.Windows.Forms.TextBox();
+            this.lblMultiLangMapper = new System.Windows.Forms.Label();
+            this.tabMultiLangMapperExtend = new System.Windows.Forms.TabPage();
+            this.rtbMultiLangMapperExtend = new System.Windows.Forms.RichTextBox();
+            this.btnMultiLangMapperExtend = new System.Windows.Forms.Button();
+            this.txtMultiLangMapperExtend = new System.Windows.Forms.TextBox();
+            this.lblMultiLangMapperExtend = new System.Windows.Forms.Label();
+            this.tabMultiLangCreateTable = new System.Windows.Forms.TabPage();
+            this.rtbMultiLangCreateTable = new System.Windows.Forms.RichTextBox();
+            this.btnMultiLangCreateTable = new System.Windows.Forms.Button();
+            this.txtMultiLangCreateTable = new System.Windows.Forms.TextBox();
+            this.lblMultLangCreateTable = new System.Windows.Forms.Label();
+            this.tabMultiLangInsertData = new System.Windows.Forms.TabPage();
+            this.rtbMultiLangInsertData = new System.Windows.Forms.RichTextBox();
+            this.btnMultiLangInsertData = new System.Windows.Forms.Button();
+            this.txtMultiLangInsertData = new System.Windows.Forms.TextBox();
+            this.lblMultiLangInsertData = new System.Windows.Forms.Label();
+            this.tabVO = new System.Windows.Forms.TabPage();
+            this.rtbVOTpl = new System.Windows.Forms.RichTextBox();
+            this.btnVO = new System.Windows.Forms.Button();
+            this.txtVO = new System.Windows.Forms.TextBox();
+            this.lblVO = new System.Windows.Forms.Label();
             this.tabSetting = new System.Windows.Forms.TabPage();
             this.btnChangeColor = new System.Windows.Forms.Button();
             this.txtTagColor = new System.Windows.Forms.TextBox();
+            this.lblVONS = new System.Windows.Forms.Label();
+            this.lblProviderNS = new System.Windows.Forms.Label();
+            this.lblMapperNS = new System.Windows.Forms.Label();
+            this.lblEntityNS = new System.Windows.Forms.Label();
             this.lblTagColor = new System.Windows.Forms.Label();
             this.chkGenerateAuthor = new System.Windows.Forms.CheckBox();
+            this.txtVONS = new System.Windows.Forms.TextBox();
+            this.txtProviderNS = new System.Windows.Forms.TextBox();
+            this.txtMapperNS = new System.Windows.Forms.TextBox();
+            this.txtEntityNS = new System.Windows.Forms.TextBox();
             this.txtAuthor = new System.Windows.Forms.TextBox();
             this.lblAuthor = new System.Windows.Forms.Label();
             this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.dlgFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
-            this.lblDefaultExt = new System.Windows.Forms.Label();
-            this.txtDefaultExt = new System.Windows.Forms.TextBox();
-            this.txtDefaultSQLExt = new System.Windows.Forms.TextBox();
-            this.lblDefaultSQLExt = new System.Windows.Forms.Label();
             this.tabcMain.SuspendLayout();
             this.tabGenerator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgStepLog)).BeginInit();
@@ -106,8 +151,16 @@
             this.tabEntities.SuspendLayout();
             this.tabEntityExtends.SuspendLayout();
             this.tabMappers.SuspendLayout();
+            this.tabMapperExtend.SuspendLayout();
             this.tabCreateTableScripts.SuspendLayout();
             this.tabInsertDataScripts.SuspendLayout();
+            this.tabMultiLangEntity.SuspendLayout();
+            this.tabMultiLangSqlProvider.SuspendLayout();
+            this.tabMultiLangMapper.SuspendLayout();
+            this.tabMultiLangMapperExtend.SuspendLayout();
+            this.tabMultiLangCreateTable.SuspendLayout();
+            this.tabMultiLangInsertData.SuspendLayout();
+            this.tabVO.SuspendLayout();
             this.tabSetting.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -180,6 +233,7 @@
             this.dtgStepLog.ShowRowErrors = false;
             this.dtgStepLog.Size = new System.Drawing.Size(770, 323);
             this.dtgStepLog.TabIndex = 9;
+            this.dtgStepLog.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgStepLog_CellValueChanged);
             // 
             // colIcon
             // 
@@ -199,7 +253,8 @@
             // strpStatus
             // 
             this.strpStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tstrpProgress});
+            this.tstrpProgress,
+            this.tstrsStatus});
             this.strpStatus.Location = new System.Drawing.Point(3, 510);
             this.strpStatus.Name = "strpStatus";
             this.strpStatus.Size = new System.Drawing.Size(770, 22);
@@ -211,6 +266,13 @@
             this.tstrpProgress.Name = "tstrpProgress";
             this.tstrpProgress.Size = new System.Drawing.Size(200, 16);
             this.tstrpProgress.Visible = false;
+            // 
+            // tstrsStatus
+            // 
+            this.tstrsStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tstrsStatus.Name = "tstrsStatus";
+            this.tstrsStatus.Size = new System.Drawing.Size(0, 17);
+            this.tstrsStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnStop
             // 
@@ -314,8 +376,11 @@
             "Entities",
             "SqlProvider",
             "Mappers",
+            "MapperExtends",
             "Create Table Scripts",
-            "Insert Data Scripts"});
+            "Insert Data Scripts",
+            "MultiLanguage",
+            "VO"});
             this.chklTemplate.Location = new System.Drawing.Point(155, 39);
             this.chklTemplate.MultiColumn = true;
             this.chklTemplate.Name = "chklTemplate";
@@ -328,6 +393,7 @@
             // 
             this.lblUsedTemplate.AutoSize = true;
             this.lblUsedTemplate.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblUsedTemplate.ForeColor = System.Drawing.Color.Red;
             this.lblUsedTemplate.Location = new System.Drawing.Point(43, 39);
             this.lblUsedTemplate.Name = "lblUsedTemplate";
             this.lblUsedTemplate.Size = new System.Drawing.Size(102, 12);
@@ -378,6 +444,7 @@
             this.txtScriptSavePath.Name = "txtScriptSavePath";
             this.txtScriptSavePath.Size = new System.Drawing.Size(586, 19);
             this.txtScriptSavePath.TabIndex = 1;
+            this.txtScriptSavePath.TextChanged += new System.EventHandler(this.txtScriptSavePath_TextChanged);
             // 
             // txtSourceCodeRoot
             // 
@@ -387,6 +454,7 @@
             this.txtSourceCodeRoot.Name = "txtSourceCodeRoot";
             this.txtSourceCodeRoot.Size = new System.Drawing.Size(586, 19);
             this.txtSourceCodeRoot.TabIndex = 1;
+            this.txtSourceCodeRoot.TextChanged += new System.EventHandler(this.txtSourceCodeRoot_TextChanged);
             // 
             // txtDesignFile
             // 
@@ -396,11 +464,13 @@
             this.txtDesignFile.Name = "txtDesignFile";
             this.txtDesignFile.Size = new System.Drawing.Size(582, 19);
             this.txtDesignFile.TabIndex = 1;
+            this.txtDesignFile.TextChanged += new System.EventHandler(this.txtDesignFile_TextChanged);
             // 
             // lblScriptSavePath
             // 
             this.lblScriptSavePath.AutoSize = true;
             this.lblScriptSavePath.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblScriptSavePath.ForeColor = System.Drawing.Color.Red;
             this.lblScriptSavePath.Location = new System.Drawing.Point(24, 133);
             this.lblScriptSavePath.Name = "lblScriptSavePath";
             this.lblScriptSavePath.Size = new System.Drawing.Size(121, 12);
@@ -411,6 +481,7 @@
             // 
             this.lblSourceRoot.AutoSize = true;
             this.lblSourceRoot.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblSourceRoot.ForeColor = System.Drawing.Color.Red;
             this.lblSourceRoot.Location = new System.Drawing.Point(31, 108);
             this.lblSourceRoot.Name = "lblSourceRoot";
             this.lblSourceRoot.Size = new System.Drawing.Size(114, 12);
@@ -421,6 +492,7 @@
             // 
             this.lblDesignFile.AutoSize = true;
             this.lblDesignFile.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblDesignFile.ForeColor = System.Drawing.Color.Red;
             this.lblDesignFile.Location = new System.Drawing.Point(15, 17);
             this.lblDesignFile.Name = "lblDesignFile";
             this.lblDesignFile.Size = new System.Drawing.Size(130, 12);
@@ -443,8 +515,16 @@
             this.tabcTemplates.Controls.Add(this.tabEntities);
             this.tabcTemplates.Controls.Add(this.tabEntityExtends);
             this.tabcTemplates.Controls.Add(this.tabMappers);
+            this.tabcTemplates.Controls.Add(this.tabMapperExtend);
             this.tabcTemplates.Controls.Add(this.tabCreateTableScripts);
             this.tabcTemplates.Controls.Add(this.tabInsertDataScripts);
+            this.tabcTemplates.Controls.Add(this.tabMultiLangEntity);
+            this.tabcTemplates.Controls.Add(this.tabMultiLangSqlProvider);
+            this.tabcTemplates.Controls.Add(this.tabMultiLangMapper);
+            this.tabcTemplates.Controls.Add(this.tabMultiLangMapperExtend);
+            this.tabcTemplates.Controls.Add(this.tabMultiLangCreateTable);
+            this.tabcTemplates.Controls.Add(this.tabMultiLangInsertData);
+            this.tabcTemplates.Controls.Add(this.tabVO);
             this.tabcTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabcTemplates.Location = new System.Drawing.Point(3, 3);
             this.tabcTemplates.Name = "tabcTemplates";
@@ -623,6 +703,64 @@
             this.lblMapperTpl.TabIndex = 5;
             this.lblMapperTpl.Text = "Mapper.tpl File";
             // 
+            // tabMapperExtend
+            // 
+            this.tabMapperExtend.Controls.Add(this.rtbMapperExtendTpl);
+            this.tabMapperExtend.Controls.Add(this.btnMapperExtendTpl);
+            this.tabMapperExtend.Controls.Add(this.txtMapperExtendTpl);
+            this.tabMapperExtend.Controls.Add(this.lblMapperExtendTpl);
+            this.tabMapperExtend.Location = new System.Drawing.Point(4, 22);
+            this.tabMapperExtend.Name = "tabMapperExtend";
+            this.tabMapperExtend.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMapperExtend.Size = new System.Drawing.Size(762, 503);
+            this.tabMapperExtend.TabIndex = 6;
+            this.tabMapperExtend.Text = "MapperExtend";
+            this.tabMapperExtend.UseVisualStyleBackColor = true;
+            // 
+            // rtbMapperExtendTpl
+            // 
+            this.rtbMapperExtendTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMapperExtendTpl.BackColor = System.Drawing.SystemColors.Control;
+            this.rtbMapperExtendTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbMapperExtendTpl.Location = new System.Drawing.Point(0, 30);
+            this.rtbMapperExtendTpl.Name = "rtbMapperExtendTpl";
+            this.rtbMapperExtendTpl.ReadOnly = true;
+            this.rtbMapperExtendTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbMapperExtendTpl.TabIndex = 8;
+            this.rtbMapperExtendTpl.Text = "";
+            // 
+            // btnMapperExtendTpl
+            // 
+            this.btnMapperExtendTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMapperExtendTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMapperExtendTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnMapperExtendTpl.Name = "btnMapperExtendTpl";
+            this.btnMapperExtendTpl.Size = new System.Drawing.Size(20, 20);
+            this.btnMapperExtendTpl.TabIndex = 7;
+            this.btnMapperExtendTpl.Text = "...";
+            this.btnMapperExtendTpl.UseVisualStyleBackColor = true;
+            this.btnMapperExtendTpl.Click += new System.EventHandler(this.btnMapperExtendTpl_Click);
+            // 
+            // txtMapperExtendTpl
+            // 
+            this.txtMapperExtendTpl.Location = new System.Drawing.Point(150, 4);
+            this.txtMapperExtendTpl.Name = "txtMapperExtendTpl";
+            this.txtMapperExtendTpl.Size = new System.Drawing.Size(581, 19);
+            this.txtMapperExtendTpl.TabIndex = 6;
+            this.txtMapperExtendTpl.TextChanged += new System.EventHandler(this.txtMapperExtendTpl_TextChanged);
+            // 
+            // lblMapperExtendTpl
+            // 
+            this.lblMapperExtendTpl.AutoSize = true;
+            this.lblMapperExtendTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMapperExtendTpl.Location = new System.Drawing.Point(8, 7);
+            this.lblMapperExtendTpl.Name = "lblMapperExtendTpl";
+            this.lblMapperExtendTpl.Size = new System.Drawing.Size(136, 12);
+            this.lblMapperExtendTpl.TabIndex = 5;
+            this.lblMapperExtendTpl.Text = "MapperExtend.tpl File";
+            // 
             // tabCreateTableScripts
             // 
             this.tabCreateTableScripts.Controls.Add(this.rtbCreateTableTpl);
@@ -737,16 +875,419 @@
             this.lblInsertDataTpl.TabIndex = 5;
             this.lblInsertDataTpl.Text = "InsertData.tpl File";
             // 
+            // tabMultiLangEntity
+            // 
+            this.tabMultiLangEntity.Controls.Add(this.rtbMultiLangEntity);
+            this.tabMultiLangEntity.Controls.Add(this.btnMultiLangEntity);
+            this.tabMultiLangEntity.Controls.Add(this.txtMultiLangEntity);
+            this.tabMultiLangEntity.Controls.Add(this.lblMultiLangEntity);
+            this.tabMultiLangEntity.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangEntity.Name = "tabMultiLangEntity";
+            this.tabMultiLangEntity.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMultiLangEntity.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangEntity.TabIndex = 7;
+            this.tabMultiLangEntity.Text = "MultiLangEntity";
+            this.tabMultiLangEntity.UseVisualStyleBackColor = true;
+            // 
+            // rtbMultiLangEntity
+            // 
+            this.rtbMultiLangEntity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMultiLangEntity.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbMultiLangEntity.Location = new System.Drawing.Point(1, 29);
+            this.rtbMultiLangEntity.Name = "rtbMultiLangEntity";
+            this.rtbMultiLangEntity.ReadOnly = true;
+            this.rtbMultiLangEntity.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangEntity.TabIndex = 8;
+            this.rtbMultiLangEntity.Text = "";
+            // 
+            // btnMultiLangEntity
+            // 
+            this.btnMultiLangEntity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMultiLangEntity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMultiLangEntity.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangEntity.Name = "btnMultiLangEntity";
+            this.btnMultiLangEntity.Size = new System.Drawing.Size(20, 20);
+            this.btnMultiLangEntity.TabIndex = 7;
+            this.btnMultiLangEntity.Text = "...";
+            this.btnMultiLangEntity.UseVisualStyleBackColor = true;
+            this.btnMultiLangEntity.Click += new System.EventHandler(this.btnMultiLang_Click);
+            // 
+            // txtMultiLangEntity
+            // 
+            this.txtMultiLangEntity.Location = new System.Drawing.Point(160, 4);
+            this.txtMultiLangEntity.Name = "txtMultiLangEntity";
+            this.txtMultiLangEntity.Size = new System.Drawing.Size(571, 19);
+            this.txtMultiLangEntity.TabIndex = 6;
+            this.txtMultiLangEntity.TextChanged += new System.EventHandler(this.txtMultiLang_TextChanged);
+            // 
+            // lblMultiLangEntity
+            // 
+            this.lblMultiLangEntity.AutoSize = true;
+            this.lblMultiLangEntity.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMultiLangEntity.Location = new System.Drawing.Point(8, 7);
+            this.lblMultiLangEntity.Name = "lblMultiLangEntity";
+            this.lblMultiLangEntity.Size = new System.Drawing.Size(146, 12);
+            this.lblMultiLangEntity.TabIndex = 5;
+            this.lblMultiLangEntity.Text = "MultiLangEntity.tpl File";
+            // 
+            // tabMultiLangSqlProvider
+            // 
+            this.tabMultiLangSqlProvider.Controls.Add(this.rtbMultiLangSqlProvider);
+            this.tabMultiLangSqlProvider.Controls.Add(this.btnMultiLangSqlProvider);
+            this.tabMultiLangSqlProvider.Controls.Add(this.txtMultiLangSqlProvider);
+            this.tabMultiLangSqlProvider.Controls.Add(this.lblMultiLangSqlProvider);
+            this.tabMultiLangSqlProvider.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangSqlProvider.Name = "tabMultiLangSqlProvider";
+            this.tabMultiLangSqlProvider.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMultiLangSqlProvider.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangSqlProvider.TabIndex = 8;
+            this.tabMultiLangSqlProvider.Text = "MultiLangSqlProvider";
+            this.tabMultiLangSqlProvider.UseVisualStyleBackColor = true;
+            // 
+            // rtbMultiLangSqlProvider
+            // 
+            this.rtbMultiLangSqlProvider.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMultiLangSqlProvider.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbMultiLangSqlProvider.Location = new System.Drawing.Point(1, 29);
+            this.rtbMultiLangSqlProvider.Name = "rtbMultiLangSqlProvider";
+            this.rtbMultiLangSqlProvider.ReadOnly = true;
+            this.rtbMultiLangSqlProvider.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangSqlProvider.TabIndex = 12;
+            this.rtbMultiLangSqlProvider.Text = "";
+            // 
+            // btnMultiLangSqlProvider
+            // 
+            this.btnMultiLangSqlProvider.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMultiLangSqlProvider.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMultiLangSqlProvider.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangSqlProvider.Name = "btnMultiLangSqlProvider";
+            this.btnMultiLangSqlProvider.Size = new System.Drawing.Size(20, 20);
+            this.btnMultiLangSqlProvider.TabIndex = 11;
+            this.btnMultiLangSqlProvider.Text = "...";
+            this.btnMultiLangSqlProvider.UseVisualStyleBackColor = true;
+            this.btnMultiLangSqlProvider.Click += new System.EventHandler(this.btnMultiLangSqlProvider_Click);
+            // 
+            // txtMultiLangSqlProvider
+            // 
+            this.txtMultiLangSqlProvider.Location = new System.Drawing.Point(193, 4);
+            this.txtMultiLangSqlProvider.Name = "txtMultiLangSqlProvider";
+            this.txtMultiLangSqlProvider.Size = new System.Drawing.Size(538, 19);
+            this.txtMultiLangSqlProvider.TabIndex = 10;
+            this.txtMultiLangSqlProvider.TextChanged += new System.EventHandler(this.txtMultiLangSqlProvider_TextChanged);
+            // 
+            // lblMultiLangSqlProvider
+            // 
+            this.lblMultiLangSqlProvider.AutoSize = true;
+            this.lblMultiLangSqlProvider.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMultiLangSqlProvider.Location = new System.Drawing.Point(8, 7);
+            this.lblMultiLangSqlProvider.Name = "lblMultiLangSqlProvider";
+            this.lblMultiLangSqlProvider.Size = new System.Drawing.Size(179, 12);
+            this.lblMultiLangSqlProvider.TabIndex = 9;
+            this.lblMultiLangSqlProvider.Text = "MultiLangSqlProvider.tpl File";
+            // 
+            // tabMultiLangMapper
+            // 
+            this.tabMultiLangMapper.Controls.Add(this.rtbMultiLangMapper);
+            this.tabMultiLangMapper.Controls.Add(this.btnMultiLangMapper);
+            this.tabMultiLangMapper.Controls.Add(this.txtMultiLangMapper);
+            this.tabMultiLangMapper.Controls.Add(this.lblMultiLangMapper);
+            this.tabMultiLangMapper.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangMapper.Name = "tabMultiLangMapper";
+            this.tabMultiLangMapper.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMultiLangMapper.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangMapper.TabIndex = 9;
+            this.tabMultiLangMapper.Text = "MultiLangMapper";
+            this.tabMultiLangMapper.UseVisualStyleBackColor = true;
+            // 
+            // rtbMultiLangMapper
+            // 
+            this.rtbMultiLangMapper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMultiLangMapper.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbMultiLangMapper.Location = new System.Drawing.Point(1, 29);
+            this.rtbMultiLangMapper.Name = "rtbMultiLangMapper";
+            this.rtbMultiLangMapper.ReadOnly = true;
+            this.rtbMultiLangMapper.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangMapper.TabIndex = 16;
+            this.rtbMultiLangMapper.Text = "";
+            // 
+            // btnMultiLangMapper
+            // 
+            this.btnMultiLangMapper.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMultiLangMapper.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMultiLangMapper.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangMapper.Name = "btnMultiLangMapper";
+            this.btnMultiLangMapper.Size = new System.Drawing.Size(20, 20);
+            this.btnMultiLangMapper.TabIndex = 15;
+            this.btnMultiLangMapper.Text = "...";
+            this.btnMultiLangMapper.UseVisualStyleBackColor = true;
+            this.btnMultiLangMapper.Click += new System.EventHandler(this.btnMultiLangMapper_Click);
+            // 
+            // txtMultiLangMapper
+            // 
+            this.txtMultiLangMapper.Location = new System.Drawing.Point(167, 4);
+            this.txtMultiLangMapper.Name = "txtMultiLangMapper";
+            this.txtMultiLangMapper.Size = new System.Drawing.Size(564, 19);
+            this.txtMultiLangMapper.TabIndex = 14;
+            this.txtMultiLangMapper.TextChanged += new System.EventHandler(this.txtMultiLangMapper_TextChanged);
+            // 
+            // lblMultiLangMapper
+            // 
+            this.lblMultiLangMapper.AutoSize = true;
+            this.lblMultiLangMapper.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMultiLangMapper.Location = new System.Drawing.Point(8, 7);
+            this.lblMultiLangMapper.Name = "lblMultiLangMapper";
+            this.lblMultiLangMapper.Size = new System.Drawing.Size(153, 12);
+            this.lblMultiLangMapper.TabIndex = 13;
+            this.lblMultiLangMapper.Text = "MultiLangMapper.tpl File";
+            // 
+            // tabMultiLangMapperExtend
+            // 
+            this.tabMultiLangMapperExtend.Controls.Add(this.rtbMultiLangMapperExtend);
+            this.tabMultiLangMapperExtend.Controls.Add(this.btnMultiLangMapperExtend);
+            this.tabMultiLangMapperExtend.Controls.Add(this.txtMultiLangMapperExtend);
+            this.tabMultiLangMapperExtend.Controls.Add(this.lblMultiLangMapperExtend);
+            this.tabMultiLangMapperExtend.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangMapperExtend.Name = "tabMultiLangMapperExtend";
+            this.tabMultiLangMapperExtend.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMultiLangMapperExtend.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangMapperExtend.TabIndex = 10;
+            this.tabMultiLangMapperExtend.Text = "MultiLangMapperExtend";
+            this.tabMultiLangMapperExtend.UseVisualStyleBackColor = true;
+            // 
+            // rtbMultiLangMapperExtend
+            // 
+            this.rtbMultiLangMapperExtend.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMultiLangMapperExtend.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbMultiLangMapperExtend.Location = new System.Drawing.Point(1, 29);
+            this.rtbMultiLangMapperExtend.Name = "rtbMultiLangMapperExtend";
+            this.rtbMultiLangMapperExtend.ReadOnly = true;
+            this.rtbMultiLangMapperExtend.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangMapperExtend.TabIndex = 20;
+            this.rtbMultiLangMapperExtend.Text = "";
+            // 
+            // btnMultiLangMapperExtend
+            // 
+            this.btnMultiLangMapperExtend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMultiLangMapperExtend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMultiLangMapperExtend.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangMapperExtend.Name = "btnMultiLangMapperExtend";
+            this.btnMultiLangMapperExtend.Size = new System.Drawing.Size(20, 20);
+            this.btnMultiLangMapperExtend.TabIndex = 19;
+            this.btnMultiLangMapperExtend.Text = "...";
+            this.btnMultiLangMapperExtend.UseVisualStyleBackColor = true;
+            this.btnMultiLangMapperExtend.Click += new System.EventHandler(this.btnMultiLangMapperExtend_Click);
+            // 
+            // txtMultiLangMapperExtend
+            // 
+            this.txtMultiLangMapperExtend.Location = new System.Drawing.Point(208, 4);
+            this.txtMultiLangMapperExtend.Name = "txtMultiLangMapperExtend";
+            this.txtMultiLangMapperExtend.Size = new System.Drawing.Size(523, 19);
+            this.txtMultiLangMapperExtend.TabIndex = 18;
+            this.txtMultiLangMapperExtend.TextChanged += new System.EventHandler(this.txtMultiLangMapperExtend_TextChanged);
+            // 
+            // lblMultiLangMapperExtend
+            // 
+            this.lblMultiLangMapperExtend.AutoSize = true;
+            this.lblMultiLangMapperExtend.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMultiLangMapperExtend.Location = new System.Drawing.Point(8, 7);
+            this.lblMultiLangMapperExtend.Name = "lblMultiLangMapperExtend";
+            this.lblMultiLangMapperExtend.Size = new System.Drawing.Size(194, 12);
+            this.lblMultiLangMapperExtend.TabIndex = 17;
+            this.lblMultiLangMapperExtend.Text = "MultiLangMapperExtend.tpl File";
+            // 
+            // tabMultiLangCreateTable
+            // 
+            this.tabMultiLangCreateTable.Controls.Add(this.rtbMultiLangCreateTable);
+            this.tabMultiLangCreateTable.Controls.Add(this.btnMultiLangCreateTable);
+            this.tabMultiLangCreateTable.Controls.Add(this.txtMultiLangCreateTable);
+            this.tabMultiLangCreateTable.Controls.Add(this.lblMultLangCreateTable);
+            this.tabMultiLangCreateTable.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangCreateTable.Name = "tabMultiLangCreateTable";
+            this.tabMultiLangCreateTable.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMultiLangCreateTable.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangCreateTable.TabIndex = 11;
+            this.tabMultiLangCreateTable.Text = "MultiLangCreateTable";
+            this.tabMultiLangCreateTable.UseVisualStyleBackColor = true;
+            // 
+            // rtbMultiLangCreateTable
+            // 
+            this.rtbMultiLangCreateTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMultiLangCreateTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbMultiLangCreateTable.Location = new System.Drawing.Point(1, 29);
+            this.rtbMultiLangCreateTable.Name = "rtbMultiLangCreateTable";
+            this.rtbMultiLangCreateTable.ReadOnly = true;
+            this.rtbMultiLangCreateTable.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangCreateTable.TabIndex = 24;
+            this.rtbMultiLangCreateTable.Text = "";
+            // 
+            // btnMultiLangCreateTable
+            // 
+            this.btnMultiLangCreateTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMultiLangCreateTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMultiLangCreateTable.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangCreateTable.Name = "btnMultiLangCreateTable";
+            this.btnMultiLangCreateTable.Size = new System.Drawing.Size(20, 20);
+            this.btnMultiLangCreateTable.TabIndex = 23;
+            this.btnMultiLangCreateTable.Text = "...";
+            this.btnMultiLangCreateTable.UseVisualStyleBackColor = true;
+            this.btnMultiLangCreateTable.Click += new System.EventHandler(this.btnMultiLangCreateTable_Click);
+            // 
+            // txtMultiLangCreateTable
+            // 
+            this.txtMultiLangCreateTable.Location = new System.Drawing.Point(197, 4);
+            this.txtMultiLangCreateTable.Name = "txtMultiLangCreateTable";
+            this.txtMultiLangCreateTable.Size = new System.Drawing.Size(534, 19);
+            this.txtMultiLangCreateTable.TabIndex = 22;
+            this.txtMultiLangCreateTable.TextChanged += new System.EventHandler(this.txtMultiLangCreateTable_TextChanged);
+            // 
+            // lblMultLangCreateTable
+            // 
+            this.lblMultLangCreateTable.AutoSize = true;
+            this.lblMultLangCreateTable.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMultLangCreateTable.Location = new System.Drawing.Point(8, 7);
+            this.lblMultLangCreateTable.Name = "lblMultLangCreateTable";
+            this.lblMultLangCreateTable.Size = new System.Drawing.Size(183, 12);
+            this.lblMultLangCreateTable.TabIndex = 21;
+            this.lblMultLangCreateTable.Text = "MultiLangCreateTable.tpl File";
+            // 
+            // tabMultiLangInsertData
+            // 
+            this.tabMultiLangInsertData.Controls.Add(this.rtbMultiLangInsertData);
+            this.tabMultiLangInsertData.Controls.Add(this.btnMultiLangInsertData);
+            this.tabMultiLangInsertData.Controls.Add(this.txtMultiLangInsertData);
+            this.tabMultiLangInsertData.Controls.Add(this.lblMultiLangInsertData);
+            this.tabMultiLangInsertData.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangInsertData.Name = "tabMultiLangInsertData";
+            this.tabMultiLangInsertData.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMultiLangInsertData.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangInsertData.TabIndex = 12;
+            this.tabMultiLangInsertData.Text = "MultiLangInsertData";
+            this.tabMultiLangInsertData.UseVisualStyleBackColor = true;
+            // 
+            // rtbMultiLangInsertData
+            // 
+            this.rtbMultiLangInsertData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMultiLangInsertData.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbMultiLangInsertData.Location = new System.Drawing.Point(1, 29);
+            this.rtbMultiLangInsertData.Name = "rtbMultiLangInsertData";
+            this.rtbMultiLangInsertData.ReadOnly = true;
+            this.rtbMultiLangInsertData.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangInsertData.TabIndex = 24;
+            this.rtbMultiLangInsertData.Text = "";
+            // 
+            // btnMultiLangInsertData
+            // 
+            this.btnMultiLangInsertData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMultiLangInsertData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMultiLangInsertData.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangInsertData.Name = "btnMultiLangInsertData";
+            this.btnMultiLangInsertData.Size = new System.Drawing.Size(20, 20);
+            this.btnMultiLangInsertData.TabIndex = 23;
+            this.btnMultiLangInsertData.Text = "...";
+            this.btnMultiLangInsertData.UseVisualStyleBackColor = true;
+            this.btnMultiLangInsertData.Click += new System.EventHandler(this.btnMultiLangInsertData_Click);
+            // 
+            // txtMultiLangInsertData
+            // 
+            this.txtMultiLangInsertData.Location = new System.Drawing.Point(187, 4);
+            this.txtMultiLangInsertData.Name = "txtMultiLangInsertData";
+            this.txtMultiLangInsertData.Size = new System.Drawing.Size(544, 19);
+            this.txtMultiLangInsertData.TabIndex = 22;
+            this.txtMultiLangInsertData.TextChanged += new System.EventHandler(this.txtMultiLangInsertData_TextChanged);
+            // 
+            // lblMultiLangInsertData
+            // 
+            this.lblMultiLangInsertData.AutoSize = true;
+            this.lblMultiLangInsertData.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMultiLangInsertData.Location = new System.Drawing.Point(8, 7);
+            this.lblMultiLangInsertData.Name = "lblMultiLangInsertData";
+            this.lblMultiLangInsertData.Size = new System.Drawing.Size(173, 12);
+            this.lblMultiLangInsertData.TabIndex = 21;
+            this.lblMultiLangInsertData.Text = "MultiLangInsertData.tpl File";
+            // 
+            // tabVO
+            // 
+            this.tabVO.Controls.Add(this.rtbVOTpl);
+            this.tabVO.Controls.Add(this.btnVO);
+            this.tabVO.Controls.Add(this.txtVO);
+            this.tabVO.Controls.Add(this.lblVO);
+            this.tabVO.Location = new System.Drawing.Point(4, 22);
+            this.tabVO.Name = "tabVO";
+            this.tabVO.Padding = new System.Windows.Forms.Padding(3);
+            this.tabVO.Size = new System.Drawing.Size(762, 503);
+            this.tabVO.TabIndex = 13;
+            this.tabVO.Text = "VO";
+            this.tabVO.UseVisualStyleBackColor = true;
+            // 
+            // rtbVOTpl
+            // 
+            this.rtbVOTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbVOTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbVOTpl.Location = new System.Drawing.Point(1, 29);
+            this.rtbVOTpl.Name = "rtbVOTpl";
+            this.rtbVOTpl.ReadOnly = true;
+            this.rtbVOTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbVOTpl.TabIndex = 28;
+            this.rtbVOTpl.Text = "";
+            // 
+            // btnVO
+            // 
+            this.btnVO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnVO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVO.Location = new System.Drawing.Point(732, 3);
+            this.btnVO.Name = "btnVO";
+            this.btnVO.Size = new System.Drawing.Size(20, 20);
+            this.btnVO.TabIndex = 27;
+            this.btnVO.Text = "...";
+            this.btnVO.UseVisualStyleBackColor = true;
+            this.btnVO.Click += new System.EventHandler(this.btnVO_Click);
+            // 
+            // txtVO
+            // 
+            this.txtVO.Location = new System.Drawing.Point(84, 4);
+            this.txtVO.Name = "txtVO";
+            this.txtVO.Size = new System.Drawing.Size(647, 19);
+            this.txtVO.TabIndex = 26;
+            this.txtVO.TextChanged += new System.EventHandler(this.txtVO_TextChanged);
+            // 
+            // lblVO
+            // 
+            this.lblVO.AutoSize = true;
+            this.lblVO.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblVO.Location = new System.Drawing.Point(8, 7);
+            this.lblVO.Name = "lblVO";
+            this.lblVO.Size = new System.Drawing.Size(70, 12);
+            this.lblVO.TabIndex = 25;
+            this.lblVO.Text = "VO.tpl File";
+            // 
             // tabSetting
             // 
-            this.tabSetting.Controls.Add(this.lblDefaultSQLExt);
-            this.tabSetting.Controls.Add(this.lblDefaultExt);
             this.tabSetting.Controls.Add(this.btnChangeColor);
             this.tabSetting.Controls.Add(this.txtTagColor);
+            this.tabSetting.Controls.Add(this.lblVONS);
+            this.tabSetting.Controls.Add(this.lblProviderNS);
+            this.tabSetting.Controls.Add(this.lblMapperNS);
+            this.tabSetting.Controls.Add(this.lblEntityNS);
             this.tabSetting.Controls.Add(this.lblTagColor);
             this.tabSetting.Controls.Add(this.chkGenerateAuthor);
-            this.tabSetting.Controls.Add(this.txtDefaultSQLExt);
-            this.tabSetting.Controls.Add(this.txtDefaultExt);
+            this.tabSetting.Controls.Add(this.txtVONS);
+            this.tabSetting.Controls.Add(this.txtProviderNS);
+            this.tabSetting.Controls.Add(this.txtMapperNS);
+            this.tabSetting.Controls.Add(this.txtEntityNS);
             this.tabSetting.Controls.Add(this.txtAuthor);
             this.tabSetting.Controls.Add(this.lblAuthor);
             this.tabSetting.Location = new System.Drawing.Point(4, 22);
@@ -759,7 +1300,7 @@
             // 
             // btnChangeColor
             // 
-            this.btnChangeColor.Location = new System.Drawing.Point(230, 36);
+            this.btnChangeColor.Location = new System.Drawing.Point(231, 39);
             this.btnChangeColor.Name = "btnChangeColor";
             this.btnChangeColor.Size = new System.Drawing.Size(97, 23);
             this.btnChangeColor.TabIndex = 5;
@@ -773,7 +1314,7 @@
             this.txtTagColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTagColor.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtTagColor.ForeColor = System.Drawing.Color.Maroon;
-            this.txtTagColor.Location = new System.Drawing.Point(78, 38);
+            this.txtTagColor.Location = new System.Drawing.Point(79, 41);
             this.txtTagColor.Name = "txtTagColor";
             this.txtTagColor.ReadOnly = true;
             this.txtTagColor.Size = new System.Drawing.Size(146, 19);
@@ -781,11 +1322,51 @@
             this.txtTagColor.Text = "$TEMPLATETAGS$";
             this.txtTagColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // lblVONS
+            // 
+            this.lblVONS.AutoSize = true;
+            this.lblVONS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblVONS.Location = new System.Drawing.Point(9, 172);
+            this.lblVONS.Name = "lblVONS";
+            this.lblVONS.Size = new System.Drawing.Size(136, 12);
+            this.lblVONS.TabIndex = 3;
+            this.lblVONS.Text = "VO Class NameSpace";
+            // 
+            // lblProviderNS
+            // 
+            this.lblProviderNS.AutoSize = true;
+            this.lblProviderNS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblProviderNS.Location = new System.Drawing.Point(9, 140);
+            this.lblProviderNS.Name = "lblProviderNS";
+            this.lblProviderNS.Size = new System.Drawing.Size(187, 12);
+            this.lblProviderNS.TabIndex = 3;
+            this.lblProviderNS.Text = "SqlProvider Class NameSpace";
+            // 
+            // lblMapperNS
+            // 
+            this.lblMapperNS.AutoSize = true;
+            this.lblMapperNS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblMapperNS.Location = new System.Drawing.Point(9, 108);
+            this.lblMapperNS.Name = "lblMapperNS";
+            this.lblMapperNS.Size = new System.Drawing.Size(161, 12);
+            this.lblMapperNS.TabIndex = 3;
+            this.lblMapperNS.Text = "Mapper Class NameSpace";
+            // 
+            // lblEntityNS
+            // 
+            this.lblEntityNS.AutoSize = true;
+            this.lblEntityNS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblEntityNS.Location = new System.Drawing.Point(9, 76);
+            this.lblEntityNS.Name = "lblEntityNS";
+            this.lblEntityNS.Size = new System.Drawing.Size(154, 12);
+            this.lblEntityNS.TabIndex = 3;
+            this.lblEntityNS.Text = "Entity Class NameSpace";
+            // 
             // lblTagColor
             // 
             this.lblTagColor.AutoSize = true;
             this.lblTagColor.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblTagColor.Location = new System.Drawing.Point(8, 41);
+            this.lblTagColor.Location = new System.Drawing.Point(9, 44);
             this.lblTagColor.Name = "lblTagColor";
             this.lblTagColor.Size = new System.Drawing.Size(64, 12);
             this.lblTagColor.TabIndex = 3;
@@ -802,6 +1383,42 @@
             this.chkGenerateAuthor.Text = "Generate Author Remark";
             this.chkGenerateAuthor.UseVisualStyleBackColor = true;
             this.chkGenerateAuthor.CheckedChanged += new System.EventHandler(this.chkGenerateAuthor_CheckedChanged);
+            // 
+            // txtVONS
+            // 
+            this.txtVONS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtVONS.Location = new System.Drawing.Point(202, 169);
+            this.txtVONS.Name = "txtVONS";
+            this.txtVONS.Size = new System.Drawing.Size(566, 19);
+            this.txtVONS.TabIndex = 1;
+            // 
+            // txtProviderNS
+            // 
+            this.txtProviderNS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtProviderNS.Location = new System.Drawing.Point(202, 137);
+            this.txtProviderNS.Name = "txtProviderNS";
+            this.txtProviderNS.Size = new System.Drawing.Size(566, 19);
+            this.txtProviderNS.TabIndex = 1;
+            // 
+            // txtMapperNS
+            // 
+            this.txtMapperNS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMapperNS.Location = new System.Drawing.Point(202, 105);
+            this.txtMapperNS.Name = "txtMapperNS";
+            this.txtMapperNS.Size = new System.Drawing.Size(566, 19);
+            this.txtMapperNS.TabIndex = 1;
+            // 
+            // txtEntityNS
+            // 
+            this.txtEntityNS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEntityNS.Location = new System.Drawing.Point(202, 73);
+            this.txtEntityNS.Name = "txtEntityNS";
+            this.txtEntityNS.Size = new System.Drawing.Size(566, 19);
+            this.txtEntityNS.TabIndex = 1;
             // 
             // txtAuthor
             // 
@@ -838,48 +1455,6 @@
             this.imgList.Images.SetKeyName(3, "success.gif");
             this.imgList.Images.SetKeyName(4, "warning.gif");
             // 
-            // lblDefaultExt
-            // 
-            this.lblDefaultExt.AutoSize = true;
-            this.lblDefaultExt.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblDefaultExt.Location = new System.Drawing.Point(6, 68);
-            this.lblDefaultExt.Name = "lblDefaultExt";
-            this.lblDefaultExt.Size = new System.Drawing.Size(151, 12);
-            this.lblDefaultExt.TabIndex = 6;
-            this.lblDefaultExt.Text = "Default Source File Ext.";
-            // 
-            // txtDefaultExt
-            // 
-            this.txtDefaultExt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDefaultExt.Enabled = false;
-            this.txtDefaultExt.Location = new System.Drawing.Point(163, 65);
-            this.txtDefaultExt.Name = "txtDefaultExt";
-            this.txtDefaultExt.Size = new System.Drawing.Size(605, 19);
-            this.txtDefaultExt.TabIndex = 1;
-            this.txtDefaultExt.Text = ".java";
-            // 
-            // txtDefaultSQLExt
-            // 
-            this.txtDefaultSQLExt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDefaultSQLExt.Enabled = false;
-            this.txtDefaultSQLExt.Location = new System.Drawing.Point(163, 90);
-            this.txtDefaultSQLExt.Name = "txtDefaultSQLExt";
-            this.txtDefaultSQLExt.Size = new System.Drawing.Size(605, 19);
-            this.txtDefaultSQLExt.TabIndex = 1;
-            this.txtDefaultSQLExt.Text = ".sql";
-            // 
-            // lblDefaultSQLExt
-            // 
-            this.lblDefaultSQLExt.AutoSize = true;
-            this.lblDefaultSQLExt.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblDefaultSQLExt.Location = new System.Drawing.Point(23, 93);
-            this.lblDefaultSQLExt.Name = "lblDefaultSQLExt";
-            this.lblDefaultSQLExt.Size = new System.Drawing.Size(134, 12);
-            this.lblDefaultSQLExt.TabIndex = 6;
-            this.lblDefaultSQLExt.Text = "Default SQL File Ext.";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -908,10 +1483,26 @@
             this.tabEntityExtends.PerformLayout();
             this.tabMappers.ResumeLayout(false);
             this.tabMappers.PerformLayout();
+            this.tabMapperExtend.ResumeLayout(false);
+            this.tabMapperExtend.PerformLayout();
             this.tabCreateTableScripts.ResumeLayout(false);
             this.tabCreateTableScripts.PerformLayout();
             this.tabInsertDataScripts.ResumeLayout(false);
             this.tabInsertDataScripts.PerformLayout();
+            this.tabMultiLangEntity.ResumeLayout(false);
+            this.tabMultiLangEntity.PerformLayout();
+            this.tabMultiLangSqlProvider.ResumeLayout(false);
+            this.tabMultiLangSqlProvider.PerformLayout();
+            this.tabMultiLangMapper.ResumeLayout(false);
+            this.tabMultiLangMapper.PerformLayout();
+            this.tabMultiLangMapperExtend.ResumeLayout(false);
+            this.tabMultiLangMapperExtend.PerformLayout();
+            this.tabMultiLangCreateTable.ResumeLayout(false);
+            this.tabMultiLangCreateTable.PerformLayout();
+            this.tabMultiLangInsertData.ResumeLayout(false);
+            this.tabMultiLangInsertData.PerformLayout();
+            this.tabVO.ResumeLayout(false);
+            this.tabVO.PerformLayout();
             this.tabSetting.ResumeLayout(false);
             this.tabSetting.PerformLayout();
             this.ResumeLayout(false);
@@ -983,10 +1574,55 @@
         private System.Windows.Forms.Button btnChangeColor;
         private System.Windows.Forms.TextBox txtTagColor;
         private System.Windows.Forms.Label lblTagColor;
-        private System.Windows.Forms.Label lblDefaultExt;
-        private System.Windows.Forms.TextBox txtDefaultExt;
-        private System.Windows.Forms.Label lblDefaultSQLExt;
-        private System.Windows.Forms.TextBox txtDefaultSQLExt;
+        private System.Windows.Forms.ToolStripStatusLabel tstrsStatus;
+        private System.Windows.Forms.TabPage tabMapperExtend;
+        private System.Windows.Forms.RichTextBox rtbMapperExtendTpl;
+        private System.Windows.Forms.Button btnMapperExtendTpl;
+        private System.Windows.Forms.TextBox txtMapperExtendTpl;
+        private System.Windows.Forms.Label lblMapperExtendTpl;
+        private System.Windows.Forms.TabPage tabMultiLangEntity;
+        private System.Windows.Forms.RichTextBox rtbMultiLangEntity;
+        private System.Windows.Forms.Button btnMultiLangEntity;
+        private System.Windows.Forms.TextBox txtMultiLangEntity;
+        private System.Windows.Forms.Label lblMultiLangEntity;
+        private System.Windows.Forms.TabPage tabMultiLangSqlProvider;
+        private System.Windows.Forms.RichTextBox rtbMultiLangSqlProvider;
+        private System.Windows.Forms.Button btnMultiLangSqlProvider;
+        private System.Windows.Forms.TextBox txtMultiLangSqlProvider;
+        private System.Windows.Forms.Label lblMultiLangSqlProvider;
+        private System.Windows.Forms.TabPage tabMultiLangMapper;
+        private System.Windows.Forms.RichTextBox rtbMultiLangMapper;
+        private System.Windows.Forms.Button btnMultiLangMapper;
+        private System.Windows.Forms.TextBox txtMultiLangMapper;
+        private System.Windows.Forms.Label lblMultiLangMapper;
+        private System.Windows.Forms.TabPage tabMultiLangMapperExtend;
+        private System.Windows.Forms.RichTextBox rtbMultiLangMapperExtend;
+        private System.Windows.Forms.Button btnMultiLangMapperExtend;
+        private System.Windows.Forms.TextBox txtMultiLangMapperExtend;
+        private System.Windows.Forms.Label lblMultiLangMapperExtend;
+        private System.Windows.Forms.TabPage tabMultiLangCreateTable;
+        private System.Windows.Forms.TabPage tabMultiLangInsertData;
+        private System.Windows.Forms.RichTextBox rtbMultiLangCreateTable;
+        private System.Windows.Forms.Button btnMultiLangCreateTable;
+        private System.Windows.Forms.TextBox txtMultiLangCreateTable;
+        private System.Windows.Forms.Label lblMultLangCreateTable;
+        private System.Windows.Forms.RichTextBox rtbMultiLangInsertData;
+        private System.Windows.Forms.Button btnMultiLangInsertData;
+        private System.Windows.Forms.TextBox txtMultiLangInsertData;
+        private System.Windows.Forms.Label lblMultiLangInsertData;
+        private System.Windows.Forms.Label lblProviderNS;
+        private System.Windows.Forms.Label lblMapperNS;
+        private System.Windows.Forms.Label lblEntityNS;
+        private System.Windows.Forms.TextBox txtProviderNS;
+        private System.Windows.Forms.TextBox txtMapperNS;
+        private System.Windows.Forms.TextBox txtEntityNS;
+        private System.Windows.Forms.Label lblVONS;
+        private System.Windows.Forms.TextBox txtVONS;
+        private System.Windows.Forms.TabPage tabVO;
+        private System.Windows.Forms.RichTextBox rtbVOTpl;
+        private System.Windows.Forms.Button btnVO;
+        private System.Windows.Forms.TextBox txtVO;
+        private System.Windows.Forms.Label lblVO;
     }
 }
 

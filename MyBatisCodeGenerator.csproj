@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -78,8 +78,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonUtils.cs" />
-    <Compile Include="ExcelUtils.cs" />
+    <Compile Include="Generator\AbstractGenerator.cs" />
+    <Compile Include="Generator\MultiLangInsertDataGenerator.cs" />
+    <Compile Include="Generator\MultiLangCreateTableGenerator.cs" />
+    <Compile Include="Generator\MapperExtendGenerator.cs" />
+    <Compile Include="Generator\CreateTableGenerator.cs" />
+    <Compile Include="Generator\EntityGenerator.cs" />
+    <Compile Include="Generator\GeneratorFactory.cs" />
+    <Compile Include="Generator\InsertDataGenerator.cs" />
+    <Compile Include="Generator\MultiLangMapperExtendGenerator.cs" />
+    <Compile Include="Generator\MultiLangMapperGenerator.cs" />
+    <Compile Include="Generator\MapperGenerator.cs" />
+    <Compile Include="Generator\MultiLangEntityGenerator.cs" />
+    <Compile Include="Generator\MultiLangSqlProviderGenerator.cs" />
+    <Compile Include="Generator\SqlProviderGenerator.cs" />
+    <Compile Include="Generator\VOGenerator.cs" />
+    <Compile Include="Utils\CommonUtils.cs" />
+    <Compile Include="Utils\ExcelUtils.cs" />
     <Compile Include="Generator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,8 +103,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SnowFlakeWorker.cs" />
-    <Compile Include="TemplateUtils.cs" />
+    <Compile Include="Utils\SnowFlakeWorker.cs" />
+    <Compile Include="Utils\TemplateUtils.cs" />
     <EmbeddedResource Include="Generator.resx">
       <DependentUpon>Generator.cs</DependentUpon>
     </EmbeddedResource>
@@ -102,6 +117,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="templates\MapperExtend.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\MultiLangEntity.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="MyBatisCodeGenerator_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -112,19 +133,37 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Content Include="CreateTable.Tpl">
+    <Content Include="templates\CreateTable.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Entity.Tpl">
+    <Content Include="templates\Entity.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InsertData.Tpl">
+    <Content Include="templates\InsertData.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Mapper.Tpl">
+    <Content Include="templates\Mapper.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SqlProvider.Tpl">
+    <Content Include="templates\SqlProvider.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\MultiLangSqlProvider.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\MultiLangMapper.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\MultiLangMapperExtend.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\MultiLangCreateTable.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\MultiLangInsertData.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\VO.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
