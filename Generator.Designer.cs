@@ -144,6 +144,11 @@
             this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.dlgFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
+            this.tabAggVO = new System.Windows.Forms.TabPage();
+            this.rtbAggVO = new System.Windows.Forms.RichTextBox();
+            this.btnAggVO = new System.Windows.Forms.Button();
+            this.txtAggVO = new System.Windows.Forms.TextBox();
+            this.lblAggVO = new System.Windows.Forms.Label();
             this.tabcMain.SuspendLayout();
             this.tabGenerator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgStepLog)).BeginInit();
@@ -164,6 +169,7 @@
             this.tabMultiLangInsertData.SuspendLayout();
             this.tabVO.SuspendLayout();
             this.tabSetting.SuspendLayout();
+            this.tabAggVO.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabcMain
@@ -225,7 +231,7 @@
             this.dtgStepLog.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colIcon,
             this.colText});
-            this.dtgStepLog.Location = new System.Drawing.Point(3, 184);
+            this.dtgStepLog.Location = new System.Drawing.Point(3, 221);
             this.dtgStepLog.Name = "dtgStepLog";
             this.dtgStepLog.ReadOnly = true;
             this.dtgStepLog.RowTemplate.Height = 21;
@@ -233,7 +239,7 @@
             this.dtgStepLog.ShowCellErrors = false;
             this.dtgStepLog.ShowEditingIcon = false;
             this.dtgStepLog.ShowRowErrors = false;
-            this.dtgStepLog.Size = new System.Drawing.Size(770, 323);
+            this.dtgStepLog.Size = new System.Drawing.Size(770, 286);
             this.dtgStepLog.TabIndex = 9;
             this.dtgStepLog.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgStepLog_CellValueChanged);
             // 
@@ -280,7 +286,7 @@
             // 
             this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(683, 155);
+            this.btnStop.Location = new System.Drawing.Point(683, 192);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 7;
@@ -292,7 +298,7 @@
             // 
             this.btnRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRun.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnRun.Location = new System.Drawing.Point(602, 155);
+            this.btnRun.Location = new System.Drawing.Point(602, 192);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(75, 23);
             this.btnRun.TabIndex = 7;
@@ -382,11 +388,12 @@
             "Create Table Scripts",
             "Insert Data Scripts",
             "MultiLanguage",
-            "VO"});
+            "VO",
+            "AggVO"});
             this.chklTemplate.Location = new System.Drawing.Point(155, 39);
             this.chklTemplate.MultiColumn = true;
             this.chklTemplate.Name = "chklTemplate";
-            this.chklTemplate.Size = new System.Drawing.Size(284, 60);
+            this.chklTemplate.Size = new System.Drawing.Size(284, 88);
             this.chklTemplate.TabIndex = 4;
             this.chklTemplate.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklTemplate_ItemCheck);
             this.chklTemplate.SelectedValueChanged += new System.EventHandler(this.chklTemplate_SelectedValueChanged_1);
@@ -406,7 +413,7 @@
             // 
             this.btnScriptSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnScriptSavePath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnScriptSavePath.Location = new System.Drawing.Point(738, 129);
+            this.btnScriptSavePath.Location = new System.Drawing.Point(738, 166);
             this.btnScriptSavePath.Name = "btnScriptSavePath";
             this.btnScriptSavePath.Size = new System.Drawing.Size(20, 20);
             this.btnScriptSavePath.TabIndex = 2;
@@ -418,7 +425,7 @@
             // 
             this.btnSourceCodeRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSourceCodeRoot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSourceCodeRoot.Location = new System.Drawing.Point(738, 104);
+            this.btnSourceCodeRoot.Location = new System.Drawing.Point(738, 141);
             this.btnSourceCodeRoot.Name = "btnSourceCodeRoot";
             this.btnSourceCodeRoot.Size = new System.Drawing.Size(20, 20);
             this.btnSourceCodeRoot.TabIndex = 2;
@@ -442,7 +449,7 @@
             // 
             this.txtScriptSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtScriptSavePath.Location = new System.Drawing.Point(151, 130);
+            this.txtScriptSavePath.Location = new System.Drawing.Point(151, 167);
             this.txtScriptSavePath.Name = "txtScriptSavePath";
             this.txtScriptSavePath.Size = new System.Drawing.Size(586, 19);
             this.txtScriptSavePath.TabIndex = 1;
@@ -452,7 +459,7 @@
             // 
             this.txtSourceCodeRoot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSourceCodeRoot.Location = new System.Drawing.Point(151, 105);
+            this.txtSourceCodeRoot.Location = new System.Drawing.Point(151, 142);
             this.txtSourceCodeRoot.Name = "txtSourceCodeRoot";
             this.txtSourceCodeRoot.Size = new System.Drawing.Size(586, 19);
             this.txtSourceCodeRoot.TabIndex = 1;
@@ -473,7 +480,7 @@
             this.lblScriptSavePath.AutoSize = true;
             this.lblScriptSavePath.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblScriptSavePath.ForeColor = System.Drawing.Color.Red;
-            this.lblScriptSavePath.Location = new System.Drawing.Point(24, 133);
+            this.lblScriptSavePath.Location = new System.Drawing.Point(24, 170);
             this.lblScriptSavePath.Name = "lblScriptSavePath";
             this.lblScriptSavePath.Size = new System.Drawing.Size(121, 12);
             this.lblScriptSavePath.TabIndex = 0;
@@ -484,7 +491,7 @@
             this.lblSourceRoot.AutoSize = true;
             this.lblSourceRoot.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblSourceRoot.ForeColor = System.Drawing.Color.Red;
-            this.lblSourceRoot.Location = new System.Drawing.Point(31, 108);
+            this.lblSourceRoot.Location = new System.Drawing.Point(31, 145);
             this.lblSourceRoot.Name = "lblSourceRoot";
             this.lblSourceRoot.Size = new System.Drawing.Size(114, 12);
             this.lblSourceRoot.TabIndex = 0;
@@ -527,6 +534,7 @@
             this.tabcTemplates.Controls.Add(this.tabMultiLangCreateTable);
             this.tabcTemplates.Controls.Add(this.tabMultiLangInsertData);
             this.tabcTemplates.Controls.Add(this.tabVO);
+            this.tabcTemplates.Controls.Add(this.tabAggVO);
             this.tabcTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabcTemplates.Location = new System.Drawing.Point(3, 3);
             this.tabcTemplates.Name = "tabcTemplates";
@@ -1478,6 +1486,63 @@
             this.imgList.Images.SetKeyName(3, "success.gif");
             this.imgList.Images.SetKeyName(4, "warning.gif");
             // 
+            // tabAggVO
+            // 
+            this.tabAggVO.Controls.Add(this.rtbAggVO);
+            this.tabAggVO.Controls.Add(this.btnAggVO);
+            this.tabAggVO.Controls.Add(this.txtAggVO);
+            this.tabAggVO.Controls.Add(this.lblAggVO);
+            this.tabAggVO.Location = new System.Drawing.Point(4, 22);
+            this.tabAggVO.Name = "tabAggVO";
+            this.tabAggVO.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAggVO.Size = new System.Drawing.Size(762, 503);
+            this.tabAggVO.TabIndex = 14;
+            this.tabAggVO.Text = "AggVO";
+            this.tabAggVO.UseVisualStyleBackColor = true;
+            // 
+            // rtbAggVO
+            // 
+            this.rtbAggVO.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbAggVO.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbAggVO.Location = new System.Drawing.Point(1, 29);
+            this.rtbAggVO.Name = "rtbAggVO";
+            this.rtbAggVO.ReadOnly = true;
+            this.rtbAggVO.Size = new System.Drawing.Size(762, 471);
+            this.rtbAggVO.TabIndex = 32;
+            this.rtbAggVO.Text = "";
+            // 
+            // btnAggVO
+            // 
+            this.btnAggVO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAggVO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAggVO.Location = new System.Drawing.Point(732, 3);
+            this.btnAggVO.Name = "btnAggVO";
+            this.btnAggVO.Size = new System.Drawing.Size(20, 20);
+            this.btnAggVO.TabIndex = 31;
+            this.btnAggVO.Text = "...";
+            this.btnAggVO.UseVisualStyleBackColor = true;
+            this.btnAggVO.Click += new System.EventHandler(this.btnAggVO_Click);
+            // 
+            // txtAggVO
+            // 
+            this.txtAggVO.Location = new System.Drawing.Point(107, 4);
+            this.txtAggVO.Name = "txtAggVO";
+            this.txtAggVO.Size = new System.Drawing.Size(624, 19);
+            this.txtAggVO.TabIndex = 30;
+            this.txtAggVO.TextChanged += new System.EventHandler(this.txtAggVO_TextChanged);
+            // 
+            // lblAggVO
+            // 
+            this.lblAggVO.AutoSize = true;
+            this.lblAggVO.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblAggVO.Location = new System.Drawing.Point(8, 7);
+            this.lblAggVO.Name = "lblAggVO";
+            this.lblAggVO.Size = new System.Drawing.Size(93, 12);
+            this.lblAggVO.TabIndex = 29;
+            this.lblAggVO.Text = "AggVO.tpl File";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1528,6 +1593,8 @@
             this.tabVO.PerformLayout();
             this.tabSetting.ResumeLayout(false);
             this.tabSetting.PerformLayout();
+            this.tabAggVO.ResumeLayout(false);
+            this.tabAggVO.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1648,6 +1715,11 @@
         private System.Windows.Forms.Label lblVO;
         private System.Windows.Forms.Label lblMultiLangEntityClass;
         private System.Windows.Forms.TextBox txtMultiLangEntityClass;
+        private System.Windows.Forms.TabPage tabAggVO;
+        private System.Windows.Forms.RichTextBox rtbAggVO;
+        private System.Windows.Forms.Button btnAggVO;
+        private System.Windows.Forms.TextBox txtAggVO;
+        private System.Windows.Forms.Label lblAggVO;
     }
 }
 

@@ -18,7 +18,7 @@ namespace MyBatisCodeGenerator.Utils
         /// </summary>
         /// <param name="fileName">Full file name with path</param>
         /// <returns>Content of the text file</returns>
-        public static string readTextFile(string fileName)
+        public static string ReadTextFile(string fileName)
         {
             if (!File.Exists(fileName))
             {
@@ -38,7 +38,7 @@ namespace MyBatisCodeGenerator.Utils
         /// <param name="isOverwrite">If over write the file when it exists</param>
         /// <param name="isAppend">if append the content to exists file</param>
         /// <param name="isSkip">If skip saving when not over write the file,  if not skip, throws a exception</param>
-        public static void writeTextFile(string fileName, string fullPath, string contentStr, bool createNonExistsDir, bool isOverwrite, bool isAppend, bool isSkip)
+        public static void WriteTextFile(string fileName, string fullPath, string contentStr, bool createNonExistsDir, bool isOverwrite, bool isAppend, bool isSkip)
         {
             if(!fullPath.EndsWith("\\"))
             {
@@ -76,7 +76,7 @@ namespace MyBatisCodeGenerator.Utils
         /// </summary>
         /// <param name="fileName">Full file name of serialization data</param>
         /// <returns></returns>
-        public static Object readSerializationDataFromFile(string fileName)
+        public static Object ReadSerializationDataFromFile(string fileName)
         {
             if (!File.Exists(fileName))
             {
@@ -92,7 +92,7 @@ namespace MyBatisCodeGenerator.Utils
             return obj;
         }
 
-        public static void writeSerializationDataToFile(string fileName, Object serializationObj)
+        public static void WriteSerializationDataToFile(string fileName, Object serializationObj)
         {
             //Create a file to write
             FileStream fs = new FileStream(fileName, FileMode.Create);
@@ -106,7 +106,7 @@ namespace MyBatisCodeGenerator.Utils
         /// </summary>
         /// <param name="rtbControl"></param>
         /// <param name="customColor"></param>
-        public static void setRichTextBoxTextColor(RichTextBox rtbControl, Color customColor)
+        public static void SetRichTextBoxTextColor(RichTextBox rtbControl, Color customColor)
         {
             int startPos = 0;
             int findPos = 0;
@@ -124,10 +124,10 @@ namespace MyBatisCodeGenerator.Utils
             }
         }
 
-        public static void log(string content)
+        public static void Log(string content)
         {
             string fileFullPath = Application.StartupPath + @"\log_" + DateTime.Today.ToString("yyyy_MM_dd") + ".log";
-            writeTextFile(@"\log_" + DateTime.Today.ToString("yyyy_MM_dd") + ".log", 
+            WriteTextFile(@"\log_" + DateTime.Today.ToString("yyyy_MM_dd") + ".log", 
                 Application.StartupPath, 
                 DateTime.Today.ToString("yyyy-MM-dd HH:mm:ss") + "\t" + content + "\r\n", 
                 true, false, true, true);

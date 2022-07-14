@@ -1,5 +1,6 @@
 package $ENTITYNAMESPACE$;
 
+import jp.co.gutingjun.common.multilang.MultiLangResource;
 import $MULTILANGBASECLASS$;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class $ENTITYNAME$ResEntity extends MultiLangEntity {$FOREACH MULTILANG PROPERTY BEGIN$
   /** $PROPERTYDESC$ */
+  @MultiLangResource(catelog = "meta_$ENTITYNAME_LOWER$", resourceid = "%AUTO4SN%")
   private $PROPERTYJAVATYPE$ $PROPERTYNAME$;
 $FOREACH MULTILANG PROPERTY END$
 }

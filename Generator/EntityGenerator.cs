@@ -1,13 +1,18 @@
-﻿using System;
+﻿using MyBatisCodeGenerator.Utils;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 
 namespace MyBatisCodeGenerator.Generator
 {
     internal class EntityGenerator : AbstractGenerator
     {
-        public override string getSavedFileName(string defaultExt)
+        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.Entity;
+
+        public override string GetSavedFileName(string defaultExt)
         {
-            string fileName = getItemDefine("ENTITYNAME");
+            string fileName = GetItemDefine("ENTITYNAME");
 
             if (string.IsNullOrEmpty(fileName))
             {
@@ -19,20 +24,25 @@ namespace MyBatisCodeGenerator.Generator
             return fileName;
         }
 
-        public override string getClassSpace()
+        public override string GetClassSpace()
         {
-            return getItemDefine("ENTITYNAMESPACE");
+            return GetItemDefine("ENTITYNAMESPACE");
         }
-        public override string getRootPath()
+        public override string GetRootPath()
         {
-            return baseSourcePath;
+            return BaseSourcePath;
+        }
+
+        public override bool IsGeneratable()
+        {
+            return true;
         }
 
         public EntityGenerator()
         {
-            fileExtension = ".java";
-            generateByMeta = true;
-            isMultiLangGenerator = false;
+            FileExtension = ".java";
+            GenerateByMeta = true;
+            IsMultiLangGenerator = false;
         }
     }
 }

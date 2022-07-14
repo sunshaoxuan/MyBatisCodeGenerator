@@ -1,8 +1,10 @@
-﻿using MyBatisCodeGenerator.Utils;
+﻿using MyBatisCodeGenerator.Transformer;
+using MyBatisCodeGenerator.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static MyBatisCodeGenerator.Utils.TemplateUtils;
@@ -14,74 +16,103 @@ namespace MyBatisCodeGenerator.Generator
         /// <summary>
         /// 作者
         /// </summary>
-        public String author { get; set; }
+        public String Author { get; set; }
 
         /// <summary>
         /// 代码保存根文件夹
         /// </summary>
-        public String baseSourcePath { get; set; }
+        public String BaseSourcePath { get; set; }
 
         /// <summary>
         /// 脚本保存根文件夹
         /// </summary>
-        public String baseScriptPath { get; set; }
+        public String BaseScriptPath { get; set; }
 
         /// <summary>
         /// 文件扩展名
         /// </summary>
-        public String fileExtension { get; set; }
+        public String FileExtension { get; set; }
 
         /// <summary>
         /// 是否创建不存在的文件夹，默认：是
         /// </summary>
-        public Boolean isCreatePath { get; set; } = true;
+        public Boolean IsCreatePath { get; set; } = true;
 
         /// <summary>
         /// 是否覆盖已存在的文件，默认：是
         /// </summary>
-        public Boolean isOverwriteExists { get; set; } = true;
+        public Boolean IsOverwriteExists { get; set; } = true;
 
         /// <summary>
         /// 设置数据表
         /// </summary>
-        public DataTable dataTable { get; set; }
+        public DataTable DesignData { get; set; }
 
         /// <summary>
         /// 是否多语生成器
         /// </summary>
-        public Boolean isMultiLangGenerator{ get; set; }
+        public Boolean IsMultiLangGenerator { get; set; }
 
         /// <summary>
         /// 是否元数据生成器
         /// </summary>
-        public Boolean generateByMeta { get; set; }
+        public Boolean GenerateByMeta { get; set; }
+
+        /// <summary>
+        /// 生成器类型
+        /// </summary>
+        public abstract TemplateTypeEnum GeneratorType { get; }
 
         /// <summary>
         /// 自定义参数
         /// </summary>
-        public Dictionary<String,String> defRefs { get; set; }
+        public Dictionary<String,String> DefRefs { get; set; }
 
         /// <summary>
         /// 是否VO
         /// </summary>
-        public Boolean isVO { get; set; }
+        public Boolean IsVO { get; set; }
+
+        /// <summary>
+        /// 默认转换器
+        /// </summary>
+        public SortedList<int, AbstractTransformer> DefaultTransformers { get; set; }
 
         /// <summary>
         /// 按模板及设置生成代码
         /// </summary>
         /// <param name="templateText">模板内容</param>
         /// <returns></returns>
-        public String run(string templateText)
+        public String Run(string templateText)
         {
-            String contentText = TemplateUtils.templateApply(dataTable, templateText, author, generateByMeta, isMultiLangGenerator, defRefs, isVO);
+            if (!IsGeneratable())
+            {
+                return String.Empty;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(templateText);
+
+
+            foreach (KeyValuePair<int, AbstractTransformer> transformer in this.DefaultTransformers)
+            {
+                transformer.Value.DesignData = DesignData;
+                transformer.Value.OriginalContent = sb;
+                transformer.Value.DefRefs = DefRefs;
+                transformer.Value.Transform();
+            }
+
+            TemplateUtils.ApplyMiscDefines(Author, sb);
+
+            String contentText = sb.ToString();
 
             if (string.IsNullOrEmpty(contentText.Trim()))
             {
                 return String.Empty;
             }
 
-            string savedFilename = getSavedFileName(fileExtension);
-            CommonUtils.writeTextFile(savedFilename, getSavedPath(getRootPath()), contentText, isCreatePath, isOverwriteExists, false, true);
+            string savedFilename = GetSavedFileName(FileExtension);
+            CommonUtils.WriteTextFile(savedFilename, GetSavedPath(GetRootPath()), contentText, IsCreatePath, IsOverwriteExists, false, true);
             return savedFilename;
         }
 
@@ -90,9 +121,9 @@ namespace MyBatisCodeGenerator.Generator
         /// </summary>
         /// <param name="basePath">根路径</param>
         /// <returns></returns>
-        public String getSavedPath(string basePath)
+        public String GetSavedPath(string basePath)
         {
-            return TemplateUtils.getSavedPath(basePath, getClassSpace());
+            return TemplateUtils.GetSavedPath(basePath, GetClassSpace());
         }
 
         /// <summary>
@@ -101,23 +132,29 @@ namespace MyBatisCodeGenerator.Generator
         /// <param name="table"></param>
         /// <param name="defaultExt"></param>
         /// <returns></returns>
-        public abstract String getSavedFileName(string defaultExt);
+        public abstract String GetSavedFileName(string defaultExt);
 
         /// <summary>
         /// 取代码类命名空间
         /// </summary>
         /// <returns></returns>
-        public abstract String getClassSpace();
+        public abstract String GetClassSpace();
 
         /// <summary>
         /// 取保存根路径
         /// </summary>
         /// <returns></returns>
-        public abstract String getRootPath();
+        public abstract String GetRootPath();
 
-        internal string getItemDefine(string itemTag)
+        public string GetItemDefine(string itemTag)
         {
-            return TemplateUtils.getItemDefine(dataTable, itemTag, defRefs);
+            return TemplateUtils.GetItemDefine(DesignData, itemTag, DefRefs);
         }
+
+        /// <summary>
+        /// 是否具备生成条件
+        /// </summary>
+        /// <returns></returns>
+        public abstract Boolean IsGeneratable();
     }
 }

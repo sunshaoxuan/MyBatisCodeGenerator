@@ -1,13 +1,17 @@
-﻿using System;
+﻿using MyBatisCodeGenerator.Utils;
+using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace MyBatisCodeGenerator.Generator
 {
     internal class MultiLangMapperExtendGenerator : AbstractGenerator
     {
-        public override string getSavedFileName(string defaultExt)
+        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.MultiLangMapperExtend;
+
+        public override string GetSavedFileName(string defaultExt)
         {
-            String fileName = getItemDefine("ENTITYNAME");
+            String fileName = GetItemDefine("ENTITYNAME");
 
             if (string.IsNullOrEmpty(fileName))
             {
@@ -18,21 +22,26 @@ namespace MyBatisCodeGenerator.Generator
             return fileName;
         }
 
-        public override string getClassSpace()
+        public override string GetClassSpace()
         {
-            return getItemDefine("MAPPERNAMESPACE") + ".extend";
+            return GetItemDefine("MAPPERNAMESPACE") + ".extend";
         }
 
-        public override string getRootPath()
+        public override string GetRootPath()
         {
-            return baseSourcePath;
+            return BaseSourcePath;
+        }
+
+        public override bool IsGeneratable()
+        {
+            return TemplateUtils.MultiLangDefined(DesignData);
         }
 
         public MultiLangMapperExtendGenerator()
         {
-            fileExtension = ".java";
-            generateByMeta = true;
-            isMultiLangGenerator = true;
+            FileExtension = ".java";
+            GenerateByMeta = true;
+            IsMultiLangGenerator = true;
         }
     }
 }

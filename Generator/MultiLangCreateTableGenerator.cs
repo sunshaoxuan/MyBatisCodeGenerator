@@ -1,13 +1,16 @@
-﻿using System;
+﻿using MyBatisCodeGenerator.Utils;
+using System;
 using System.Data;
 
 namespace MyBatisCodeGenerator.Generator
 {
     internal class MultiLangCreateTableGenerator : AbstractGenerator
     {
-        public override string getSavedFileName(string defaultExt)
+        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.MultiLangCreateTable;
+
+        public override string GetSavedFileName(string defaultExt)
         {
-            string fileName = getItemDefine("TABLENAME") + "_res";
+            string fileName = GetItemDefine("TABLENAME") + "_res";
 
             if (string.IsNullOrEmpty(fileName))
             {
@@ -18,21 +21,26 @@ namespace MyBatisCodeGenerator.Generator
             return fileName;
         }
 
-        public override string getClassSpace()
+        public override string GetClassSpace()
         {
             return String.Empty;
         }
 
-        public override string getRootPath()
+        public override string GetRootPath()
         {
-            return baseScriptPath;
+            return BaseScriptPath;
+        }
+
+        public override bool IsGeneratable()
+        {
+            return TemplateUtils.MultiLangDefined(DesignData);
         }
 
         public MultiLangCreateTableGenerator()
         {
-            fileExtension = ".sql";
-            generateByMeta = true;
-            isMultiLangGenerator = true;
+            FileExtension = ".sql";
+            GenerateByMeta = true;
+            IsMultiLangGenerator = true;
         }
     }
 }

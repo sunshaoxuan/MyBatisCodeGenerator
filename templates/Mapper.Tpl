@@ -5,6 +5,8 @@ import $ENTITYNAMESPACE$.$ENTITYNAME$Entity;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
+$HASBIZKEY BEGIN$import java.util.List;$HASBIZKEY END$
+
 /**
  * $ENTITYDESC$ Mapper
  *
@@ -22,12 +24,10 @@ public interface $ENTITYNAME$EntityMapper {
     @Insert({
         "insert into $TABLENAME$ (",$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
-        "$FIELDNAME$ $COMMAEXCEPTLAST$",
-$FOREACH FIELD END$
+        "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
 		") values (",$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
-		"#{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$",
-$FOREACH FIELD END$
+		"#{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$", $FOREACH FIELD END$
 		")"
     })
     int insert($ENTITYNAME$Entity record);
@@ -38,19 +38,29 @@ $FOREACH FIELD END$
     @Select({
         "select",$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
-        "$FIELDNAME$ $COMMAEXCEPTLAST$",
-$FOREACH FIELD END$
+        "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
         "from $TABLENAME$",
         "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$}"
     })
-    @Results({
-$FOREACH FIELD BEGIN$
+    @Results({$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
-        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$
-$FOREACH FIELD END$
+        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
     $ENTITYNAME$Entity selectByPrimaryKey($PKFIELDJAVATYPE$ $PKFIELDNAME$);
-
+$HASBIZKEY BEGIN$
+    @Select({
+        "select",$FOREACH FIELD BEGIN$
+        /** $PROPERTYDESC$ */
+        "$FIELDNAME$ $COMMAEXCEPTLAST$",$FOREACH FIELD END$
+        "from $TABLENAME$",
+        "where $BIZKEYFIELDNAME$ = #{$BIZKEYPROPERTYNAME$,jdbcType=$BIZKEYFIELDDATATYPE$}"
+    })
+    @Results({$FOREACH FIELD BEGIN$
+        /** $PROPERTYDESC$ */
+        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
+    })
+    List<$ENTITYNAME$Entity> selectByBizKey($BIZKEYFIELDJAVATYPE$ $BIZKEYPROPERTYNAME$);
+$HASBIZKEY END$
     @UpdateProvider(type=$ENTITYNAME$EntitySqlProvider.class, method="updateByPrimaryKeySelective")
     int updateByPrimaryKeySelective($ENTITYNAME$Entity record);
 
@@ -58,8 +68,7 @@ $FOREACH FIELD END$
         "update $TABLENAME$",
         "set",$FOREACH FIELD EXCEPT PK BEGIN$
         /** $PROPERTYDESC$ */
-		"$FIELDNAME$ = #{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$",
-$FOREACH FIELD EXCEPT PK END$
+		"$FIELDNAME$ = #{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$", $FOREACH FIELD EXCEPT PK END$
         "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$}"
     })
     int updateByPrimaryKey($ENTITYNAME$Entity record);

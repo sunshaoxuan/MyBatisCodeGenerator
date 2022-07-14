@@ -1,16 +1,15 @@
 ﻿using MyBatisCodeGenerator.Utils;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyBatisCodeGenerator.Generator
 {
-    internal class MultiLangSqlProviderGenerator : AbstractGenerator
+    public class AggVOGenerator : AbstractGenerator
     {
-        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.MultiLangSqlProvider;
+        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.AggVO;
 
         public override string GetSavedFileName(string defaultExt)
         {
@@ -18,19 +17,18 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G61) Do not define EntityNameSpace.");
+                throw new Exception("(ERRNO:G07) Do not define EntityNameSpace.");
             }
 
-            fileName = fileName + "ResEntitySqlProvider" + defaultExt;
+            fileName = fileName + "AggVO" + defaultExt;
 
             return fileName;
         }
 
         public override string GetClassSpace()
         {
-            return GetItemDefine("SQLPROVIDERNAMESPACE");
+            return GetItemDefine("VONAMESPACE");
         }
-
         public override string GetRootPath()
         {
             return BaseSourcePath;
@@ -38,14 +36,22 @@ namespace MyBatisCodeGenerator.Generator
 
         public override bool IsGeneratable()
         {
-            return TemplateUtils.MultiLangDefined(DesignData);
+            List<Dictionary<string, string>> metaDetail = TemplateUtils.GetAllDesignMetaDetail(DesignData);
+            foreach (Dictionary<string, string> meta in metaDetail)
+            {
+                if (TemplateUtils.IsAggVOItem(meta))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public MultiLangSqlProviderGenerator()
+        public AggVOGenerator()
         {
             FileExtension = ".java";
             GenerateByMeta = true;
-            IsMultiLangGenerator = true;
+            IsMultiLangGenerator = false;
         }
     }
 }

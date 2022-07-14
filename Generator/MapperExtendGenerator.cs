@@ -1,23 +1,27 @@
-﻿using System;
+﻿using MyBatisCodeGenerator.Utils;
+using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace MyBatisCodeGenerator.Generator
 {
     internal class MapperExtendGenerator : AbstractGenerator
     {
-        public override string getClassSpace()
+        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.MapperExtend;
+
+        public override string GetClassSpace()
         {
-            return getItemDefine("MAPPERNAMESPACE") + ".extend";
+            return GetItemDefine("MAPPERNAMESPACE") + ".extend";
         }
 
-        public override string getRootPath()
+        public override string GetRootPath()
         {
-            return baseSourcePath;
+            return BaseSourcePath;
         }
 
-        public override string getSavedFileName(string defaultExt)
+        public override string GetSavedFileName(string defaultExt)
         {
-            String fileName = getItemDefine("ENTITYNAME");
+            String fileName = GetItemDefine("ENTITYNAME");
 
             if (string.IsNullOrEmpty(fileName))
             {
@@ -28,11 +32,20 @@ namespace MyBatisCodeGenerator.Generator
             return fileName;
         }
 
+        public override bool IsGeneratable()
+        {
+            String designItem = "GENERATE FIELD";
+            String compareValue = "Y";
+
+            List<Dictionary<string, string>> details = TemplateUtils.GetDesignMetaDetailByValue(DesignData, designItem, compareValue);
+            return details.Count > 0;
+        }
+
         public MapperExtendGenerator()
         {
-            fileExtension = ".java";
-            generateByMeta = true;
-            isMultiLangGenerator = false;
+            FileExtension = ".java";
+            GenerateByMeta = true;
+            IsMultiLangGenerator = false;
         }
     }
 }

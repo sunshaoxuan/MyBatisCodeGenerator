@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,54 +10,42 @@ namespace MyBatisCodeGenerator.Generator
 {
     internal class GeneratorFactory
     {
-        public static AbstractGenerator createGenerator(TemplateUtils.TemplateTypeEnum tmpType)
+        private static List<AbstractGenerator> generators = null;
+
+        public static List<AbstractGenerator> GetAllGenerator()
         {
-            AbstractGenerator abstractGenerator = null;
-            switch (tmpType)
+            if (generators == null)
             {
-                case TemplateUtils.TemplateTypeEnum.Entity:
-                    abstractGenerator = new EntityGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.SqlProvider:
-                    abstractGenerator = new SqlProviderGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.Mapper:
-                    abstractGenerator = new MapperGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.MapperExtend:
-                    abstractGenerator = new MapperExtendGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.CreateTable:
-                    abstractGenerator = new CreateTableGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.InsertData:
-                    abstractGenerator = new InsertDataGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.MultiLangEntity:
-                    abstractGenerator = new MultiLangEntityGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.MultiLangMapper:
-                    abstractGenerator = new MultiLangMapperGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.MultiLangMapperExtend:
-                    abstractGenerator = new MultiLangMapperExtendGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.MultiLangSqlProvider:
-                    abstractGenerator = new MultiLangSqlProviderGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.MultiLangCreateTable:
-                    abstractGenerator = new MultiLangCreateTableGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.MultiLangInsertData:
-                    abstractGenerator = new MultiLangInsertDataGenerator();
-                    break;
-                case TemplateUtils.TemplateTypeEnum.VO:
-                    abstractGenerator = new VOGenerator();
-                    break;
-                default:
-                    break;
+                Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+
+                List<AbstractGenerator> defaultGenerator = new List<AbstractGenerator>();
+                foreach (Type type in types)
+                {
+                    if (type.BaseType.Equals(typeof(AbstractGenerator)))
+                    {
+                        AbstractGenerator generator = (AbstractGenerator)System.Activator.CreateInstance(type);
+                        defaultGenerator.Add(generator);
+                    }
+                }
+
+                generators = defaultGenerator;
             }
 
+            return generators;
+        }
+
+        public static AbstractGenerator CreateGenerator(TemplateUtils.TemplateTypeEnum tmpType)
+        {
+            AbstractGenerator abstractGenerator = null;
+
+            foreach (AbstractGenerator generator in GetAllGenerator())
+            {
+                if (generator.GeneratorType.Equals(tmpType))
+                {
+                    abstractGenerator = generator;
+                }
+            }
+            
             return abstractGenerator;
         }
     }

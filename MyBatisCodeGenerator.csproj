@@ -92,7 +92,25 @@
     <Compile Include="Generator\MultiLangEntityGenerator.cs" />
     <Compile Include="Generator\MultiLangSqlProviderGenerator.cs" />
     <Compile Include="Generator\SqlProviderGenerator.cs" />
+    <Compile Include="Generator\AggVOGenerator.cs" />
     <Compile Include="Generator\VOGenerator.cs" />
+    <Compile Include="Transformer\AbstractTransformer.cs" />
+    <Compile Include="Transformer\AggVOTransformer.cs" />
+    <Compile Include="Transformer\BizKeyPartExistsTransformer.cs" />
+    <Compile Include="Transformer\BizKeyTransformer.cs" />
+    <Compile Include="Transformer\CommonFieldTransformer.cs" />
+    <Compile Include="Transformer\FixItemTransformer.cs" />
+    <Compile Include="Transformer\InsertDataTransformer.cs" />
+    <Compile Include="Transformer\MultiLangFieldTransformer.cs" />
+    <Compile Include="Transformer\MultiLangInsertDataTransformer.cs" />
+    <Compile Include="Transformer\MultiLangPartExistsTransformer.cs" />
+    <Compile Include="Transformer\CommonPropertyTransformer.cs" />
+    <Compile Include="Transformer\MultiLangPropertyTransformer.cs" />
+    <Compile Include="Transformer\MultiLangVOTransformer.cs" />
+    <Compile Include="Transformer\NoPKFieldTransformer.cs" />
+    <Compile Include="Transformer\NoPKPropertyTransformer.cs" />
+    <Compile Include="Transformer\PKItemTransformer.cs" />
+    <Compile Include="Transformer\VOTransformer.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
     <Compile Include="Utils\ExcelUtils.cs" />
     <Compile Include="Generator.cs">
@@ -164,6 +182,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="templates\VO.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\AggVO.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
