@@ -102,10 +102,10 @@ namespace MyBatisCodeGenerator.Transformer
             return TemplateUtils.GetDesignMetaDetailByValue(DesignData, "GENERATE FIELD", "Y");
         }
 
-        internal void ReplaceMetaSetItem(StringBuilder tempSB, int index, Dictionary<string, string> item, int totalCount)
+        internal void ReplaceMetaSetItem(StringBuilder tempSB, int index, Dictionary<string, string> item, int totalCount, int skipedCount)
         {
             tempSB.Replace("$FIELDNAME$", item["FIELD NAME"]);
-            tempSB.Replace("$COMMAEXCEPTLAST$", index == totalCount ? "" : ",");
+            tempSB.Replace("$COMMAEXCEPTLAST$", index - skipedCount == totalCount - skipedCount ? "" : ",");
             tempSB.Replace("$PROPERTYNAME$", item["PROPERTY NAME"]);
             tempSB.Replace("$UPPER_PROPERTYNAME$", TemplateUtils.replaceSeed("", "", item["PROPERTY NAME"], "$UPPER_PROPERTYNAME$"));
             tempSB.Replace("$LOWER_PROPERTYNAME$", TemplateUtils.replaceSeed("", "", item["PROPERTY NAME"], "$LOWER_PROPERTYNAME$"));
@@ -116,7 +116,7 @@ namespace MyBatisCodeGenerator.Transformer
             tempSB.Replace("$PROPERTYVODATATYPE$", item["VO DATA TYPE"]);
             tempSB.Replace("$PROPERTYGETMETHOD$", TemplateUtils.GetPropertyGetMethod(item["PROPERTY NAME"]));
             tempSB.Replace("$PROPERTYSETMETHOD$", TemplateUtils.GetPropertySetMethod(item["PROPERTY NAME"]));
-            tempSB.Replace("$PROPERTYDESC$", item["DESCIPTION"]);
+            tempSB.Replace("$PROPERTYDESC$", item["DESCRIPTION"]);
             tempSB.Replace("$FIELDDATATYPE$", TemplateUtils.GetSQLDataType(item["DATA TYPE"], item["FIELD LENGTH"]));
             tempSB.Replace("$CHARACTERTAG$", TemplateUtils.GetSQLCharacterTag(item["DATA TYPE"]));
             tempSB.Replace("$DEFAULTTAG$", TemplateUtils.GetSQLDefaultTag(item["DEFAULT VALUE"], item["CAN BE NULL"]));
@@ -140,6 +140,11 @@ namespace MyBatisCodeGenerator.Transformer
         /// <param name="item">元定义项目</param>
         /// <returns></returns>
         public abstract bool IsTransformItem(Dictionary<string, string> item);
+
+        /// <summary>
+        /// 多语资源
+        /// </summary>
+        public Dictionary<string, Dictionary<String, string[]>> MultiLangRefInfo { get; set; }
 
         internal void DoCommonTransform()
         {
@@ -183,13 +188,76 @@ namespace MyBatisCodeGenerator.Transformer
                     }
                     else
                     {
-                        ReplaceMetaSetItem(tempSB, i, item, metaDetail.Count - skiped + 1);
+                        ReplaceMetaSetItem(tempSB, i, item, metaDetail.Count, skiped);
                         tempSB.Replace("$IDRESULTTAG$", TemplateUtils.IsPrimaryKeyItem(item) ? ", id = true" : "");
+
+                        string[] resinfo = RegisterMultiLangRefInfo(DesignData, item, i);
+                        tempSB.Replace("$MULTILANGRESCATALOG$", resinfo[1]);
+                        tempSB.Replace("$MULTILANGRESID$", resinfo[2]);
                     }
                     finalSB.Append(tempSB);
                 }
                 OriginalContent.Replace(block, finalSB.ToString());
             }
+        }
+
+        private string[] RegisterMultiLangRefInfo(DataTable designData, Dictionary<string, string> item, int idx)
+        {
+            string entityName = TemplateUtils.GetItemDefine(designData, "ENTITYNAME", null);
+            string itemKey = item["FIELD NAME"];
+            string itemShowName = item["DESCRIPTION"];
+            string itemResCatalog = "meta_" + TemplateUtils.replaceSeed("", "", entityName, "$ENTITYNAME_LOWER$");
+            string itemResID = $"mt{idx.ToString("D4")}";
+
+            Dictionary<string, Dictionary<string, string>> commonMultiLang = GetCommonMultiLangResFromDB();
+
+            string[] resInfo = MatchMultiLangRes(itemShowName, commonMultiLang);
+
+            if (resInfo != null)
+            {
+                return new string[] { "", resInfo[0], resInfo[1] };
+            }
+            else
+            {
+                if (MultiLangRefInfo == null)
+                {
+                    MultiLangRefInfo = new Dictionary<string, Dictionary<string, string[]>>();
+                }
+
+                if (!MultiLangRefInfo.ContainsKey(entityName))
+                {
+                    MultiLangRefInfo.Add(entityName, new Dictionary<string, string[]>());
+                }
+
+                if (!MultiLangRefInfo[entityName].ContainsKey(itemKey))
+                {
+                    MultiLangRefInfo[entityName].Add(itemKey, new string[3]);
+                }
+
+                MultiLangRefInfo[entityName][itemKey] = new string[] { itemShowName, itemResCatalog, itemResID };
+                return MultiLangRefInfo[entityName][itemKey];
+            }
+        }
+
+        private string[] MatchMultiLangRes(string itemShowName, Dictionary<string, Dictionary<string, string>> commonMultiLang)
+        {
+            foreach(KeyValuePair<string, Dictionary<string, string>> catalogDic in commonMultiLang)
+            {
+                foreach(KeyValuePair<string, string> resinfo in catalogDic.Value)
+                {
+                    if (resinfo.Value.Equals(itemShowName))
+                    {
+                        return new string[] { catalogDic.Key, resinfo.Key};
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private Dictionary<string, Dictionary<string, string>> GetCommonMultiLangResFromDB()
+        {
+            return TemplateUtils.GetCommonMultiLangResFromDB();
         }
     }
 }

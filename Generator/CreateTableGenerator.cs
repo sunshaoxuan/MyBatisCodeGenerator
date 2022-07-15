@@ -17,7 +17,7 @@ namespace MyBatisCodeGenerator.Generator
             {
                 throw new Exception("(ERRNO:G04) Do not define TableName.");
             }
-            fileName = "CreateTable_" + fileName + defaultExt;
+            fileName = CreateTablePrefix + fileName + defaultExt;
 
             return fileName;
         }

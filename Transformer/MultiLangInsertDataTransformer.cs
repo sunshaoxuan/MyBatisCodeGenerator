@@ -53,8 +53,6 @@ namespace MyBatisCodeGenerator.Transformer
 
             if (dataDetail.Count > 0)
             {
-                SnowFlakeWorker sf = new SnowFlakeWorker(dataDetail.Count);
-
                 StringBuilder insertSQL = new StringBuilder();
                 int lineNo = 0;
                 foreach (Dictionary<string, string> data in dataDetail)

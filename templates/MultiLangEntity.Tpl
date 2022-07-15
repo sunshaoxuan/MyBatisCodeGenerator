@@ -21,7 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class $ENTITYNAME$ResEntity extends MultiLangEntity {$FOREACH MULTILANG PROPERTY BEGIN$
   /** $PROPERTYDESC$ */
-  @MultiLangResource(catelog = "meta_$ENTITYNAME_LOWER$", resourceid = "%AUTO4SN%")
+  @MultiLangResource(catelog = "$MULTILANGRESCATALOG$", resourceid = "$MULTILANGRESID$")
   private $PROPERTYJAVATYPE$ $PROPERTYNAME$;
 $FOREACH MULTILANG PROPERTY END$
 }

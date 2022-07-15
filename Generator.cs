@@ -1,12 +1,14 @@
 ﻿using MyBatisCodeGenerator.Generator;
 using MyBatisCodeGenerator.Transformer;
 using MyBatisCodeGenerator.Utils;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -21,7 +23,7 @@ namespace MyBatisCodeGenerator
 
         Dictionary<String, String> settings = new Dictionary<string, string>();
         RunStatusEnum runStatus = RunStatusEnum.Stopped;
-        
+
         public frmMain()
         {
             InitializeComponent();
@@ -177,7 +179,7 @@ namespace MyBatisCodeGenerator
             btnRun.Enabled = true;
         }
 
-        private void disableAllOnRunning()
+        private void DisableAllOnRunning()
         {
             btnRun.Enabled = false;
             tabTemplate.Enabled = false;
@@ -206,7 +208,7 @@ namespace MyBatisCodeGenerator
             chkStopOnError.Enabled = false;
         }
 
-        private void enableAllOnStop()
+        private void EnableAllOnStop()
         {
             btnRun.Enabled = true;
             tabTemplate.Enabled = true;
@@ -231,8 +233,8 @@ namespace MyBatisCodeGenerator
             btnScriptSavePath.Enabled = true;
 
             chkOverwrite.Enabled = true;
-            chkCreatePath.Enabled=true;
-            chkStopOnError.Enabled=true;
+            chkCreatePath.Enabled = true;
+            chkStopOnError.Enabled = true;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -245,7 +247,7 @@ namespace MyBatisCodeGenerator
             runStatus = RunStatusEnum.Running;
 
             tstrsStatus.Text = "Generate Processing ...";
-            disableAllOnRunning();
+            DisableAllOnRunning();
             dtgStepLog.Rows.Clear();
 
             tstrpProgress.Visible = true;
@@ -255,7 +257,9 @@ namespace MyBatisCodeGenerator
 
             try
             {
+                TemplateUtils.connectionString = txtDBConnStr.Text;
                 Generate();
+                GenerateExtraMultiLangRes();
             }
             catch (Exception ex)
             {
@@ -271,10 +275,30 @@ namespace MyBatisCodeGenerator
             tstrpProgress.Visible = false;
         }
 
+        private void GenerateExtraMultiLangRes()
+        {
+            if (MultiLangRefInfo != null && MultiLangRefInfo.Count > 0)
+            {
+                StringBuilder textStr = new StringBuilder();
+                foreach (KeyValuePair<string, Dictionary<string, string[]>> info in MultiLangRefInfo)
+                {
+                    foreach (KeyValuePair<string, string[]> item in info.Value)
+                    {
+                        textStr.Append(info.Key + ",");
+                        textStr.Append(item.Key + ",");
+                        textStr.Append(item.Value[0] + ",");
+                        textStr.Append(item.Value[1] + ",");
+                        textStr.Append(item.Value[2] + "\r\n");
+                    }
+                }
+                CommonUtils.WriteTextFile("extra_meta_multilang_res.csv", txtScriptSavePath.Text, textStr.ToString(), true, true, true, false);
+            }
+        }
+
         List<String> preparedDefineTables = new List<string>();
         List<String> preparedDataTables = new List<string>();
 
-        internal SortedList<int, AbstractTransformer>  GetDefinedTransformer()
+        internal SortedList<int, AbstractTransformer> GetDefinedTransformer()
         {
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
 
@@ -299,7 +323,6 @@ namespace MyBatisCodeGenerator
 
         private void Generate()
         {
-            int stepCount = 0;
             int finishedCount = 0;
             tstrpProgress.Value = 0;
 
@@ -308,11 +331,13 @@ namespace MyBatisCodeGenerator
                 return;
             }
 
+
             //Load Design File
             tstrsStatus.Text = "Loading design file ...";
-            stepCount++;
             Dictionary<string, DataTable> excelTables = ExcelUtils.GetExcelTableByOleDB(txtDesignFile.Text);
             finishedCount++;
+
+            //int stepCount = GetStepCount(excelTables);
 
             if (runStatus.Equals(RunStatusEnum.Stopped))
             {
@@ -321,10 +346,7 @@ namespace MyBatisCodeGenerator
 
             //Check Design File
             tstrsStatus.Text = "Checking design file ...";
-            stepCount++;
             getPreparedTables(excelTables);
-            stepCount += preparedDefineTables.Count * 11;
-            stepCount += preparedDataTables.Count * 2;
             finishedCount++;
 
             if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -332,11 +354,10 @@ namespace MyBatisCodeGenerator
                 return;
             }
 
-            tstrpProgress.Value = 100 * finishedCount / stepCount;
+            //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
             //Check Templates
             tstrsStatus.Text = "Checking templates ...";
-            stepCount++;
             checkTemplates();
             finishedCount++;
 
@@ -345,7 +366,7 @@ namespace MyBatisCodeGenerator
                 return;
             }
 
-            tstrpProgress.Value = 100 * finishedCount / stepCount;
+            //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
             //Execute Task List
             foreach (KeyValuePair<string, DataTable> kv in excelTables)
@@ -377,7 +398,7 @@ namespace MyBatisCodeGenerator
                     }
 
                     finishedCount++;
-                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
@@ -390,7 +411,7 @@ namespace MyBatisCodeGenerator
                     }
 
                     finishedCount++;
-                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
@@ -403,7 +424,7 @@ namespace MyBatisCodeGenerator
                     }
 
                     finishedCount++;
-                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
@@ -417,7 +438,7 @@ namespace MyBatisCodeGenerator
                     }
 
                     finishedCount++;
-                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
@@ -431,7 +452,7 @@ namespace MyBatisCodeGenerator
                     }
 
                     finishedCount++;
-                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                     //AggVO
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.AggVO))
@@ -440,7 +461,7 @@ namespace MyBatisCodeGenerator
                     }
 
                     finishedCount++;
-                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                     //MultiLanguage
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.MultiLanguage))
@@ -456,7 +477,7 @@ namespace MyBatisCodeGenerator
                             DoGenerate(kv.Value, rtbMultiLangEntity.Text, TemplateUtils.TemplateTypeEnum.MultiLangEntity);
                         }
                         finishedCount++;
-                        tstrpProgress.Value = 100 * finishedCount / stepCount;
+                        //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
                         {
@@ -469,7 +490,7 @@ namespace MyBatisCodeGenerator
                             DoGenerate(kv.Value, rtbMultiLangMapper.Text, TemplateUtils.TemplateTypeEnum.MultiLangMapper);
                         }
                         finishedCount++;
-                        tstrpProgress.Value = 100 * finishedCount / stepCount;
+                        //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
                         {
@@ -482,7 +503,7 @@ namespace MyBatisCodeGenerator
                             DoGenerate(kv.Value, rtbMultiLangMapperExtend.Text, TemplateUtils.TemplateTypeEnum.MultiLangMapperExtend);
                         }
                         finishedCount++;
-                        tstrpProgress.Value = 100 * finishedCount / stepCount;
+                        //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
                         {
@@ -495,7 +516,7 @@ namespace MyBatisCodeGenerator
                             DoGenerate(kv.Value, rtbMultiLangSqlProvider.Text, TemplateUtils.TemplateTypeEnum.MultiLangSqlProvider);
                         }
                         finishedCount++;
-                        tstrpProgress.Value = 100 * finishedCount / stepCount;
+                        //tstrpProgress.Value = 100 * finishedCount / stepCount;
                     }
                 }
 
@@ -510,7 +531,7 @@ namespace MyBatisCodeGenerator
                     DoGenerate(kv.Value, rtbCreateTableTpl.Text, TemplateUtils.TemplateTypeEnum.CreateTable);
                 }
                 finishedCount++;
-                tstrpProgress.Value = 100 * finishedCount / stepCount;
+                //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                 if (runStatus.Equals(RunStatusEnum.Stopped))
                 {
@@ -526,7 +547,7 @@ namespace MyBatisCodeGenerator
                         DoGenerate(kv.Value, rtbMultiLangCreateTable.Text, TemplateUtils.TemplateTypeEnum.MultiLangCreateTable);
                     }
                     finishedCount++;
-                    tstrpProgress.Value = (100 * finishedCount / stepCount) > 100 ? 100 : (100 * finishedCount / stepCount);
+                    //tstrpProgress.Value = (100 * finishedCount / stepCount) > 100 ? 100 : (100 * finishedCount / stepCount);
                 }
 
                 if (preparedDataTables.Contains(kv.Key))
@@ -542,7 +563,7 @@ namespace MyBatisCodeGenerator
                     }
 
                     finishedCount++;
-                    tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
@@ -557,7 +578,7 @@ namespace MyBatisCodeGenerator
                             DoGenerate(kv.Value, rtbMultiLangInsertData.Text, TemplateUtils.TemplateTypeEnum.MultiLangInsertData);
                         }
                         finishedCount++;
-                        tstrpProgress.Value = (100 * finishedCount / stepCount) > 100 ? 100 : (100 * finishedCount / stepCount);
+                        //tstrpProgress.Value = (100 * finishedCount / stepCount) > 100 ? 100 : (100 * finishedCount / stepCount);
                     }
                 }
 
@@ -567,6 +588,42 @@ namespace MyBatisCodeGenerator
                 Application.DoEvents();
             }
         }
+
+        private int GetStepCount(Dictionary<string, DataTable> excelTables)
+        {
+            int StepCount = 0;
+
+            StepCount += 3;
+
+            //Execute Task List
+            foreach (KeyValuePair<string, DataTable> kv in excelTables)
+            {
+                StepCount += 6;
+                //MultiLanguage
+                if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.MultiLanguage))
+                {
+                    StepCount += 4;
+                }
+
+                StepCount++;
+                //MultiLanguage
+                if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.MultiLanguage))
+                {
+
+                    //Create Table
+                    StepCount++;
+                }
+
+                if (preparedDataTables.Contains(kv.Key))
+                {
+                    StepCount += 2;
+                }
+            }
+
+            return StepCount;
+        }
+
+
 
         private void stopGenerate(bool isAuto)
         {
@@ -585,7 +642,7 @@ namespace MyBatisCodeGenerator
 
             runStatus = RunStatusEnum.Stopped;
             btnRun.Enabled = true;
-            enableAllOnStop();
+            EnableAllOnStop();
         }
 
         private void DoGenerate(DataTable table, string templateText, TemplateUtils.TemplateTypeEnum tmpType)
@@ -638,9 +695,16 @@ namespace MyBatisCodeGenerator
             }
         }
 
+        /// <summary>
+        /// 多语资源
+        /// </summary>
+        public Dictionary<string, Dictionary<string, string[]>> MultiLangRefInfo { get; set; }
+
         private string TranslateTemplate(DataTable table, string templateText, TemplateUtils.TemplateTypeEnum templateType)
         {
             AbstractGenerator generator = GeneratorFactory.CreateGenerator(templateType);
+            generator.CreateTablePrefix = txtCreateTablePrefix.Text;
+            generator.InsertDataPrefix = txtInsertDataPrefix.Text;
 
             if(generator == null)
             {
@@ -667,6 +731,15 @@ namespace MyBatisCodeGenerator
                 generator.DefaultTransformers = GetDefinedTransformer();
                 string savedFilename = generator.Run(templateText);
                 Application.DoEvents();
+                
+                if (generator.MultiLangRefInfo != null && generator.MultiLangRefInfo.Count > 0)
+                {
+                    if(MultiLangRefInfo == null)
+                    {
+                        MultiLangRefInfo = new Dictionary<string, Dictionary<string, string[]>>();
+                    }
+                    TemplateUtils.RegisterMultiLangRefInfo(MultiLangRefInfo, generator.MultiLangRefInfo);
+                }
                 return savedFilename;
             }catch(Exception ex)
             {
@@ -680,6 +753,7 @@ namespace MyBatisCodeGenerator
                 }
             }
         }
+
 
         private void checkTemplates()
         {
@@ -780,11 +854,11 @@ namespace MyBatisCodeGenerator
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            fetchSettingsFromControls(this);
+            FetchSettingsFromControls(this);
             CommonUtils.WriteSerializationDataToFile(Application.StartupPath + @"\setting.dat", settings);
         }
 
-        private void fetchSettingsFromControls(Control control)
+        private void FetchSettingsFromControls(Control control)
         {
             foreach (Control ctl in control.Controls)
             {
@@ -838,11 +912,11 @@ namespace MyBatisCodeGenerator
                     }
                 }
 
-                fetchSettingsFromControls(ctl);
+                FetchSettingsFromControls(ctl);
             }
         }
 
-        private void injectSettingsToControls(Control control)
+        private void InjectSettingsToControls(Control control)
         {
             foreach (Control ctl in control.Controls)
             {
@@ -878,7 +952,7 @@ namespace MyBatisCodeGenerator
                     }
                 }
 
-                injectSettingsToControls(ctl);
+                InjectSettingsToControls(ctl);
             }
         }
 
@@ -892,7 +966,7 @@ namespace MyBatisCodeGenerator
                     if (settingObj != null)
                     {
                         settings = (Dictionary<String, String>)settingObj;
-                        injectSettingsToControls(this);
+                        InjectSettingsToControls(this);
                     }
 
                     refreshControlStatus();
@@ -1151,6 +1225,177 @@ namespace MyBatisCodeGenerator
         {
             rtbAggVO.Text = CommonUtils.ReadTextFile(txtAggVO.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbAggVO, txtTagColor.ForeColor);
+        }
+
+        private List<string> executedScripts = new List<string>();
+
+        private void btnPublish_Click(object sender, EventArgs e)
+        {
+            runStatus = RunStatusEnum.Running;
+
+            tstrsStatus.Text = "Publishing ...";
+            DisableAllOnRunning();
+            dtgStepLog.Rows.Clear();
+            btnRun.Enabled = false;
+            btnStop.Enabled = true;
+
+            Application.DoEvents();
+
+            try
+            {
+                String connetStr = txtDBConnStr.Text;
+
+                if (string.IsNullOrEmpty(connetStr))
+                {
+                    MessageBox.Show("No database connection info defined.");
+                }
+                else
+                {
+                    dtgStepLog.Rows.Clear();
+
+                    MySqlConnection conn = new MySqlConnection(connetStr);
+                    try
+                    {
+                        conn.Open();
+
+                        Dictionary<string, StringBuilder> scriptSB = null;
+
+                        scriptSB = ReadSpecificCreateTableScript(txtCreateTablePrefix.Text, txtBaseExecutive.Text);
+                        RunScripts(scriptSB, conn, "Pre-execute scripts");
+
+                        scriptSB = ReadSpecificCreateTableScript(txtInsertDataPrefix.Text, txtBaseExecutive.Text);
+                        RunScripts(scriptSB, conn, "Pre-insert data scripts");
+
+                        scriptSB = ReadCreateTableScripts();
+                        RunScripts(scriptSB, conn, "Create table scripts");
+
+                        scriptSB = ReadInsertDataScripts();
+                        RunScripts(scriptSB, conn, "Metadata Insert Scripts");
+
+                        if (chkExecuteMultiLang.Checked)
+                        {
+                            scriptSB = ReadMultiLangInsertDataScripts();
+                            RunScripts(scriptSB, conn, "Multi Language Data Insert Scripts");
+                        }
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonUtils.Log(ex.StackTrace);
+                MessageBox.Show(ex.Message);
+            }
+
+            EnableAllOnStop();
+            btnRun.Enabled = true;
+            btnStop.Enabled = false;
+            tstrsStatus.Text = "";
+            tstrpProgress.Visible = false;
+            runStatus = RunStatusEnum.Stopped;
+        }
+
+        private Dictionary<string, StringBuilder> ReadSpecificCreateTableScript(string prefix, string tableNameStr)
+        {
+            char[] splitter= new char[]{',', ' '};
+            Dictionary<string, StringBuilder> rtn = new Dictionary<string, StringBuilder>();
+            String[] tableNames = tableNameStr.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+            foreach(String tablename in tableNames)
+            {
+                string fileName = $"{prefix}{tablename}{".sql"}";
+                Dictionary<string, StringBuilder> scripts = ReadScript(fileName);
+                foreach(string key in scripts.Keys)
+                {
+                    rtn.Add(key, scripts[key]);
+                }
+            }
+            return rtn;
+        }
+
+        private void RunScripts(Dictionary<string, StringBuilder> scriptSB, MySqlConnection conn, string scriptFilename)
+        {
+            int newTaskRowNo = dtgStepLog.Rows.Add("Publishing: [" + scriptFilename + "]");
+            ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["running.gif"];
+            dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = $"  Publishing: [{scriptFilename}]";
+            CommonUtils.Log(dtgStepLog.Rows[newTaskRowNo].Cells[1].Value.ToString().Trim());
+            dtgStepLog.Refresh();
+
+            bool error = false;
+            foreach (KeyValuePair<string, StringBuilder> script in scriptSB)
+            {
+                int newRowNo = dtgStepLog.Rows.Add("Publishing: [" + script.Key + "]");
+                try
+                {
+                    ((DataGridViewImageCell)dtgStepLog.Rows[newRowNo].Cells[0]).Value = imgList.Images["running.gif"];
+                    dtgStepLog.Rows[newRowNo].Cells[1].Value = $"  Publishing: [{script.Key}]";
+                    CommonUtils.Log(dtgStepLog.Rows[newRowNo].Cells[1].Value.ToString().Trim());
+                    dtgStepLog.Refresh();
+
+
+                    MySqlCommand cmd = new MySqlCommand(script.Value.ToString(), conn);
+                    cmd.ExecuteNonQuery();
+
+                    dtgStepLog.Rows[newRowNo].Cells[1].Value = $"  {script.Key} published.";
+                    ((DataGridViewImageCell)dtgStepLog.Rows[newRowNo].Cells[0]).Value = imgList.Images["success.gif"];
+                    dtgStepLog.Refresh();
+                    Application.DoEvents();
+                }
+                catch (Exception ex)
+                {
+                    dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = $"{script.Key} publishing faild: {ex.Message}";
+                    ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["error.gif"];
+                    dtgStepLog.Refresh();
+                    Application.DoEvents();
+
+                    CommonUtils.Log($"{ex.Message}\r\n{script.Value}");
+                    error = true;
+                    continue;
+                }
+            }
+
+            if (!error)
+            {
+                dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = $"{scriptFilename} published.";
+                ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["success.gif"];
+                dtgStepLog.Refresh();
+                Application.DoEvents();
+            }
+        }
+
+        private Dictionary<string, StringBuilder> ReadMultiLangInsertDataScripts()
+        {
+            return ReadScript("InsertData*_res.sql");
+        }
+
+        private Dictionary<string, StringBuilder> ReadScript(string filter)
+        {
+            string[] filenames = Directory.GetFiles(txtScriptSavePath.Text, filter);
+            Dictionary<string, StringBuilder> scripts = new Dictionary<string, StringBuilder>();
+            foreach (string filename in filenames)
+            {
+                if (!executedScripts.Contains(filename))
+                {
+                    StringBuilder script = new StringBuilder();
+                    script.Append(CommonUtils.ReadTextFile(filename));
+                    scripts.Add(filename, script);
+                    executedScripts.Add(filename);
+                }
+            }
+            return scripts;
+        }
+
+        private Dictionary<string, StringBuilder> ReadInsertDataScripts()
+        {
+            return ReadScript("InsertData*.sql");
+        }
+
+        private Dictionary<string, StringBuilder> ReadCreateTableScripts()
+        {
+            return ReadScript("CreateTable*.sql");
         }
     }
 }

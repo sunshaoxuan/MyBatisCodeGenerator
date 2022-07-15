@@ -2,62 +2,89 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyBatisCodeGenerator.Utils
 {
-    public class SnowFlakeWorker
+    /// <summary>
+    /// 动态生产有规律的ID Snowflake算法是Twitter的工程师为实现递增而不重复的ID实现的
+    /// http://blog.csdn.net/w200221626/article/details/52064976     
+    /// C# 实现 Snowflake算法 
+    /// </summary>
+    public class Snowflake
     {
-        //机器ID
-        private static long workerId;
-        private static long twepoch = 687888001020L; //唯一时间，这是一个避免重复的随机量，自行设定不要大于当前时间戳
-        private static long sequence = 0L;
-        private static int workerIdBits = 4; //机器码字节数。4个字节用来保存机器码(定义为Long类型会出现，最大偏移64位，所以左移64位没有意义)
-        public static long maxWorkerId = -1L ^ -1L << workerIdBits; //最大机器ID
-        private static int sequenceBits = 10; //计数器字节数，10个字节用来保存计数码
-        private static int workerIdShift = sequenceBits; //机器码数据左移位数，就是后面计数器占用的位数
-        private static int timestampLeftShift = sequenceBits + workerIdBits; //时间戳左移动位数就是机器码和计数器总字节数
-        public static long sequenceMask = -1L ^ -1L << sequenceBits; //一微秒内可以产生计数，如果达到该值则等到下一微妙在进行生成
-        private long lastTimestamp = -1L;
+        private static long machineId;//机器ID
+        private static long datacenterId = 0L;//数据ID
+        private static long sequence = 0L;//计数从零开始
 
-        /// <summary>
-        /// 机器码
-        /// </summary>
-        /// <param name="workerId"></param>
-        public SnowFlakeWorker(long workerId)
+        private static long twepoch = 687888001020L; //唯一时间随机量
+
+        private static long machineIdBits = 5L; //机器码字节数
+        private static long datacenterIdBits = 5L;//数据字节数
+        public static long maxMachineId = -1L ^ -1L << (int)machineIdBits; //最大机器ID
+        private static long maxDatacenterId = -1L ^ (-1L << (int)datacenterIdBits);//最大数据ID
+
+        private static long sequenceBits = 12L; //计数器字节数，12个字节用来保存计数码        
+        private static long machineIdShift = sequenceBits; //机器码数据左移位数，就是后面计数器占用的位数
+        private static long datacenterIdShift = sequenceBits + machineIdBits;
+        private static long timestampLeftShift = sequenceBits + machineIdBits + datacenterIdBits; //时间戳左移动位数就是机器码+计数器总字节数+数据字节数
+        public static long sequenceMask = -1L ^ -1L << (int)sequenceBits; //一微秒内可以产生计数，如果达到该值则等到下一微妙在进行生成
+        private static long lastTimestamp = -1L;//最后时间戳
+
+        private static object syncRoot = new object();//加锁对象
+        static Snowflake snowflake;
+
+        public static Snowflake Instance()
         {
-           // if (workerId > maxWorkerId || workerId < 0)
-            //    throw new Exception(string.Format("worker Id can't be greater than {0} or less than 0 ", workerId));
-            SnowFlakeWorker.workerId = workerId;
+            if (snowflake == null)
+                snowflake = new Snowflake();
+            return snowflake;
         }
 
-        public long nextId()
+        public Snowflake()
         {
-            lock (this)
+            Snowflakes(0L, -1);
+        }
+
+        public Snowflake(long machineId)
+        {
+            Snowflakes(machineId, -1);
+        }
+
+        public Snowflake(long machineId, long datacenterId)
+        {
+            Snowflakes(machineId, datacenterId);
+        }
+
+        private void Snowflakes(long machineId, long datacenterId)
+        {
+            if (machineId >= 0)
             {
-                long timestamp = timeGen();
-                if (this.lastTimestamp == timestamp)
-                { //同一微秒中生成ID
-                    SnowFlakeWorker.sequence = (SnowFlakeWorker.sequence + 1) & SnowFlakeWorker.sequenceMask; //用&运算计算该微秒内产生的计数是否已经到达上限
-                    if (SnowFlakeWorker.sequence == 0)
-                    {
-                        //一微秒内产生的ID计数已达上限，等待下一微妙
-                        timestamp = tillNextMillis(this.lastTimestamp);
-                    }
+                if (machineId > maxMachineId)
+                {
+                    throw new Exception("机器码ID非法");
                 }
-                else
-                { //不同微秒生成ID
-                    SnowFlakeWorker.sequence = 0; //计数清0
-                }
-                if (timestamp < lastTimestamp)
-                { //如果当前时间戳比上一次生成ID时时间戳还小，抛出异常，因为不能保证现在生成的ID之前没有生成过
-                    throw new Exception(string.Format("Clock moved backwards.  Refusing to generate id for {0} milliseconds",
-                        this.lastTimestamp - timestamp));
-                }
-                this.lastTimestamp = timestamp; //把当前时间戳保存为最后生成ID的时间戳
-                long nextId = (timestamp - twepoch << timestampLeftShift) | SnowFlakeWorker.workerId << SnowFlakeWorker.workerIdShift | SnowFlakeWorker.sequence;
-                return nextId;
+                Snowflake.machineId = machineId;
             }
+            if (datacenterId >= 0)
+            {
+                if (datacenterId > maxDatacenterId)
+                {
+                    throw new Exception("数据中心ID非法");
+                }
+                Snowflake.datacenterId = datacenterId;
+            }
+        }
+
+        /// <summary>
+        /// 生成当前时间戳
+        /// </summary>
+        /// <returns>毫秒</returns>
+        private static long GetTimestamp()
+        {
+            //让他2000年开始
+            return (long)(DateTime.UtcNow - new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
         }
 
         /// <summary>
@@ -65,23 +92,56 @@ namespace MyBatisCodeGenerator.Utils
         /// </summary>
         /// <param name="lastTimestamp"></param>
         /// <returns></returns>
-        private long tillNextMillis(long lastTimestamp)
+        private static long GetNextTimestamp(long lastTimestamp)
         {
-            long timestamp = timeGen();
-            while (timestamp <= lastTimestamp)
+            long timestamp = GetTimestamp();
+            int count = 0;
+            while (timestamp <= lastTimestamp)//这里获取新的时间,可能会有错,这算法与comb一样对机器时间的要求很严格
             {
-                timestamp = timeGen();
+                count++;
+                if (count > 10)
+                    throw new Exception("机器的时间可能不对");
+                Thread.Sleep(1);
+                timestamp = GetTimestamp();
             }
             return timestamp;
         }
 
         /// <summary>
-        /// 生成当前时间戳
+        /// 获取长整形的ID
         /// </summary>
         /// <returns></returns>
-        private long timeGen()
+        public long GetId()
         {
-            return (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            lock (syncRoot)
+            {
+                long timestamp = GetTimestamp();
+                if (Snowflake.lastTimestamp == timestamp)
+                { //同一微妙中生成ID
+                    sequence = (sequence + 1) & sequenceMask; //用&运算计算该微秒内产生的计数是否已经到达上限
+                    if (sequence == 0)
+                    {
+                        //一微妙内产生的ID计数已达上限，等待下一微妙
+                        timestamp = GetNextTimestamp(Snowflake.lastTimestamp);
+                    }
+                }
+                else
+                {
+                    //不同微秒生成ID
+                    sequence = 0L;
+                }
+                if (timestamp < lastTimestamp)
+                {
+                    throw new Exception("时间戳比上一次生成ID时时间戳还小，故异常");
+                }
+                Snowflake.lastTimestamp = timestamp; //把当前时间戳保存为最后生成ID的时间戳
+                long Id = ((timestamp - twepoch) << (int)timestampLeftShift)
+                    | (datacenterId << (int)datacenterIdShift)
+                    | (machineId << (int)machineIdShift)
+                    | sequence;
+                return Id;
+            }
         }
+
     }
 }

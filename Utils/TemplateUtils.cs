@@ -1,4 +1,5 @@
 ﻿using MyBatisCodeGenerator.Transformer;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -298,6 +299,55 @@ namespace MyBatisCodeGenerator.Utils
             return detail;
         }
 
+        private static Dictionary<string, Dictionary<string, string>> commonMultiLangInfo = new Dictionary<string, Dictionary<string, string>>();
+        public static string connectionString = "";
+        internal static Dictionary<string, Dictionary<string, string>> GetCommonMultiLangResFromDB()
+        {
+            if(commonMultiLangInfo.Count > 0)
+            {
+                return commonMultiLangInfo;
+            }
+
+            if (!string.IsNullOrEmpty(connectionString))
+            {
+                try
+                {
+                    MySqlConnection conn = new MySqlConnection(connectionString);
+                    conn.Open();
+
+                    try
+                    {
+                        MySqlCommand cmd = new MySqlCommand("select catalog, resource_id, resource_value from rc_multilang where catalog = 'common' and lang='CH'", conn);
+                        MySqlDataReader reader = cmd.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            string catalog = reader.GetString(0);
+                            string resid = reader.GetString(1);
+                            string resvalue = reader.GetString(2);
+                            if (!commonMultiLangInfo.ContainsKey(catalog))
+                            {
+                                commonMultiLangInfo.Add(catalog, new Dictionary<string, string>());
+                            }
+
+                            if (!commonMultiLangInfo[catalog].ContainsKey(resid))
+                            {
+                                commonMultiLangInfo[catalog].Add(resid, resvalue);
+                            }
+                        }
+                        reader.Close();
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+                finally { }
+            }
+
+            return commonMultiLangInfo;
+        }
+
         public static List<Dictionary<string, string>> GetInsertDataDetail(DataTable designData)
         {
             List<Dictionary<string, string>> detail = new List<Dictionary<string, string>>();
@@ -383,7 +433,7 @@ namespace MyBatisCodeGenerator.Utils
         }
 
 
-        internal static string GetSQLValue(string key, string value, Dictionary<string, string> fieldTypes, SnowFlakeWorker sf)
+        internal static string GetSQLValue(string key, string value, Dictionary<string, string> fieldTypes)
         {
             if (fieldTypes.ContainsKey(key))
             {
@@ -391,16 +441,16 @@ namespace MyBatisCodeGenerator.Utils
                 {
                     if (value.ToUpper().Equals("$AUTOSNOWFLAKE$"))
                     {
-                        return sf.nextId().ToString();
+                        return Snowflake.Instance().GetId().ToString();
                     }
                     else
                     {
-                        return value;
+                        return string.IsNullOrEmpty(value) ? "null" : value;
                     }
                 }
                 else if (fieldTypes[key].ToUpper().StartsWith("INT") || fieldTypes[key].ToUpper().EndsWith("INT") || fieldTypes[key].ToUpper().Equals("DOUBLE") || fieldTypes[key].ToUpper().StartsWith("DECIMAL"))
                 {
-                    return value;
+                    return string.IsNullOrEmpty(value) ? "null" : value;
                 }
                 else if (fieldTypes[key].ToUpper().StartsWith("VARCHAR") || fieldTypes[key].ToUpper().Equals("JSON") || fieldTypes[key].ToUpper().StartsWith("TEXT"))
                 {
@@ -412,12 +462,12 @@ namespace MyBatisCodeGenerator.Utils
                 }
                 else
                 {
-                    return "";
+                    return "null";
                 }
             }
             else
             {
-                return "";
+                return "null";
             }
         }
 
@@ -617,7 +667,31 @@ namespace MyBatisCodeGenerator.Utils
             ReplaceTag(table, sb, "$MULTILANGBASECLASS$", "MULTILANGBASECLASS", "", "", defRefs);
         }
 
-        private static void ReplaceTag(DataTable table, StringBuilder sb, string templateTag, string excelTag, string prefix, string suffix, Dictionary<string, string> defRefs)
+        public static void RegisterMultiLangRefInfo(Dictionary<string, Dictionary<string, string[]>> baseInfo, Dictionary<string, Dictionary<string, string[]>> multiLangRefInfo)
+        {
+            if (multiLangRefInfo != null && multiLangRefInfo.Count > 0)
+            {
+                foreach (KeyValuePair<string, Dictionary<string, string[]>> keyvalue in multiLangRefInfo)
+                {
+                    if (!baseInfo.ContainsKey(keyvalue.Key))
+                    {
+                        baseInfo.Add(keyvalue.Key, new Dictionary<string, string[]>());
+                    }
+
+                    foreach(KeyValuePair<string, string[]> innerkeyvalue in keyvalue.Value)
+                    {
+                        if (!baseInfo[keyvalue.Key].ContainsKey(innerkeyvalue.Key))
+                        {
+                            baseInfo[keyvalue.Key].Add(innerkeyvalue.Key, new string[3]);
+                        }
+
+                        baseInfo[keyvalue.Key][innerkeyvalue.Key] = innerkeyvalue.Value;
+                    }
+                }
+            }
+        }
+
+        public static void ReplaceTag(DataTable table, StringBuilder sb, string templateTag, string excelTag, string prefix, string suffix, Dictionary<string, string> defRefs)
         {
             string tagValue = GetItemDefine(table, excelTag, defRefs);
             string seed = replaceSeed(prefix, suffix, tagValue, templateTag);
@@ -715,7 +789,7 @@ namespace MyBatisCodeGenerator.Utils
         {
             string itemDefine = string.Empty;
 
-            if (defRefs.ContainsKey(itemTag))
+            if (defRefs != null && defRefs.ContainsKey(itemTag))
             {
                 itemDefine = defRefs[itemTag];
             }

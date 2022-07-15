@@ -68,7 +68,7 @@ namespace MyBatisCodeGenerator.Utils
             {
                 Directory.CreateDirectory(fullPath);
             }
-            File.WriteAllText(fullPath+fileName, contentStr, Encoding.UTF8);
+            File.WriteAllText(fullPath+fileName, string.Join("", contentStr.ToArray()), new UTF8Encoding(false));
         }
 
         /// <summary>

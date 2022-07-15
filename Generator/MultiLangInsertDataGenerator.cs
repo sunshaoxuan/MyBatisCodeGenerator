@@ -17,7 +17,7 @@ namespace MyBatisCodeGenerator.Generator
             {
                 throw new Exception("(ERRNO:G65) Do not define TableName.");
             }
-            fileName = "InsertData_" + fileName + defaultExt;
+            fileName = InsertDataPrefix + fileName + defaultExt;
 
             return fileName;
         }

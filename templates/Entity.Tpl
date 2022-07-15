@@ -20,7 +20,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class $ENTITYNAME$Entity $PARENTCLASS$ $INTERFACES$ {$FOREACH PROPERTY BEGIN$
   /** $PROPERTYDESC$ */
-  @MultiLangResource(catelog = "meta_$ENTITYNAME_LOWER$", resourceid = "%AUTO4SN%")
+  @MultiLangResource(catelog = "$MULTILANGRESCATALOG$", resourceid = "$MULTILANGRESID$")
   private $PROPERTYJAVATYPE$ $PROPERTYNAME$;
 $FOREACH PROPERTY END$
 }

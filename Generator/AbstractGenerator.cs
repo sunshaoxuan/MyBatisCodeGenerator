@@ -79,6 +79,11 @@ namespace MyBatisCodeGenerator.Generator
         public SortedList<int, AbstractTransformer> DefaultTransformers { get; set; }
 
         /// <summary>
+        /// 多语资源
+        /// </summary>
+        public Dictionary<string, Dictionary<string, string[]>> MultiLangRefInfo { get; set; }
+
+        /// <summary>
         /// 按模板及设置生成代码
         /// </summary>
         /// <param name="templateText">模板内容</param>
@@ -100,6 +105,12 @@ namespace MyBatisCodeGenerator.Generator
                 transformer.Value.OriginalContent = sb;
                 transformer.Value.DefRefs = DefRefs;
                 transformer.Value.Transform();
+
+                if (MultiLangRefInfo == null)
+                {
+                    MultiLangRefInfo = new Dictionary<string, Dictionary<string, string[]>>();
+                }
+                TemplateUtils.RegisterMultiLangRefInfo(MultiLangRefInfo, transformer.Value.MultiLangRefInfo);
             }
 
             TemplateUtils.ApplyMiscDefines(Author, sb);
@@ -156,5 +167,8 @@ namespace MyBatisCodeGenerator.Generator
         /// </summary>
         /// <returns></returns>
         public abstract Boolean IsGeneratable();
+
+        public string CreateTablePrefix { get; set; }
+        public string InsertDataPrefix { get; set; }
     }
 }
