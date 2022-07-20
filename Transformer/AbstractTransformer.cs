@@ -102,10 +102,10 @@ namespace MyBatisCodeGenerator.Transformer
             return TemplateUtils.GetDesignMetaDetailByValue(DesignData, "GENERATE FIELD", "Y");
         }
 
-        internal void ReplaceMetaSetItem(StringBuilder tempSB, int index, Dictionary<string, string> item, int totalCount, int skipedCount)
+        internal void ReplaceMetaSetItem(StringBuilder tempSB, int index, Dictionary<string, string> item, int totalCount)
         {
             tempSB.Replace("$FIELDNAME$", item["FIELD NAME"]);
-            tempSB.Replace("$COMMAEXCEPTLAST$", index - skipedCount == totalCount - skipedCount ? "" : ",");
+            tempSB.Replace("$COMMAEXCEPTLAST$", index == totalCount ? "" : ",");
             tempSB.Replace("$PROPERTYNAME$", item["PROPERTY NAME"]);
             tempSB.Replace("$UPPER_PROPERTYNAME$", TemplateUtils.replaceSeed("", "", item["PROPERTY NAME"], "$UPPER_PROPERTYNAME$"));
             tempSB.Replace("$LOWER_PROPERTYNAME$", TemplateUtils.replaceSeed("", "", item["PROPERTY NAME"], "$LOWER_PROPERTYNAME$"));
@@ -122,6 +122,18 @@ namespace MyBatisCodeGenerator.Transformer
             tempSB.Replace("$DEFAULTTAG$", TemplateUtils.GetSQLDefaultTag(item["DEFAULT VALUE"], item["CAN BE NULL"]));
             tempSB.Replace("$PROPERTYGETMETHOD$", TemplateUtils.GetGetMethod(item["PROPERTY NAME"]));
             tempSB.Replace("%AUTO4SN%", index.ToString("D4"));
+            if (tempSB.ToString().Contains("$IFFORMATTEDDATE"))
+            {
+                if ("Date".Equals(TemplateUtils.GetJavaType(item["DATA TYPE"])))
+                {
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), "$IFFORMATTEDDATE BEGIN$".Length);
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE END"), "$IFFORMATTEDDATE END".Length + 1);
+                }
+                else
+                {
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), tempSB.ToString().IndexOf("$IFFORMATTEDDATE END") + "$IFFORMATTEDDATE END".Length - tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$") + 1);
+                }
+            }
         }
 
         internal string GetBeginTag()
@@ -165,7 +177,7 @@ namespace MyBatisCodeGenerator.Transformer
                 string seed = OriginalContent.ToString().Substring(seedStartIndex, seedEndIndex - seedStartIndex);
 
                 List<Dictionary<string, string>> metaDetail = GetProcessData();
-                int i = 0;
+                int i = 0, j = 0;
                 int skiped = 0;
                 foreach (Dictionary<string, string> item in metaDetail)
                 {
@@ -184,11 +196,12 @@ namespace MyBatisCodeGenerator.Transformer
 
                     if (!IsTransformItem(item))
                     {
+                        j++;
                         continue;
                     }
                     else
                     {
-                        ReplaceMetaSetItem(tempSB, i, item, metaDetail.Count, skiped);
+                        ReplaceMetaSetItem(tempSB, i - j, item, metaDetail.Count - skiped);
                         tempSB.Replace("$IDRESULTTAG$", TemplateUtils.IsPrimaryKeyItem(item) ? ", id = true" : "");
 
                         string[] resinfo = RegisterMultiLangRefInfo(DesignData, item, i);
@@ -204,6 +217,7 @@ namespace MyBatisCodeGenerator.Transformer
         private string[] RegisterMultiLangRefInfo(DataTable designData, Dictionary<string, string> item, int idx)
         {
             string entityName = TemplateUtils.GetItemDefine(designData, "ENTITYNAME", null);
+            string entityDesc = TemplateUtils.GetItemDefine(designData, "ENTITYDESC", null);
             string itemKey = item["FIELD NAME"];
             string itemShowName = item["DESCRIPTION"];
             string itemResCatalog = "meta_" + TemplateUtils.replaceSeed("", "", entityName, "$ENTITYNAME_LOWER$");
@@ -232,6 +246,15 @@ namespace MyBatisCodeGenerator.Transformer
                 if (!MultiLangRefInfo[entityName].ContainsKey(itemKey))
                 {
                     MultiLangRefInfo[entityName].Add(itemKey, new string[3]);
+                }
+
+                if (itemResCatalog.StartsWith("meta_"))
+                {
+                    if (!MultiLangRefInfo[entityName].ContainsKey(""))
+                    {
+                        MultiLangRefInfo[entityName].Add("", new string[] { entityDesc, itemResCatalog, "mt0000"});
+
+                    }
                 }
 
                 MultiLangRefInfo[entityName][itemKey] = new string[] { itemShowName, itemResCatalog, itemResID };

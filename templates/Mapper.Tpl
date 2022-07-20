@@ -5,6 +5,8 @@ import $ENTITYNAMESPACE$.$ENTITYNAME$Entity;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 $HASBIZKEY BEGIN$import java.util.List;$HASBIZKEY END$
 
 /**
@@ -44,9 +46,22 @@ public interface $ENTITYNAME$EntityMapper {
     })
     @Results({$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
-        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
+        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
     $ENTITYNAME$Entity selectByPrimaryKey($PKFIELDJAVATYPE$ $PKFIELDNAME$);
+
+    @Select({
+        "select",$FOREACH FIELD BEGIN$
+        /** $PROPERTYDESC$ */
+        "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
+        "from $TABLENAME$"
+    })
+    @Results({$FOREACH FIELD BEGIN$
+        /** $PROPERTYDESC$ */
+        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
+    })
+    List<$ENTITYNAME$Entity> selectAll();
+
 $HASBIZKEY BEGIN$
     @Select({
         "select",$FOREACH FIELD BEGIN$
@@ -57,7 +72,7 @@ $HASBIZKEY BEGIN$
     })
     @Results({$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
-        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
+        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
     List<$ENTITYNAME$Entity> selectByBizKey($BIZKEYFIELDJAVATYPE$ $BIZKEYPROPERTYNAME$);
 $HASBIZKEY END$

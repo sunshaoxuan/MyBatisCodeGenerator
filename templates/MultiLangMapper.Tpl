@@ -17,7 +17,7 @@ import java.util.List;
 public interface $ENTITYNAME$ResEntityMapper {
   @Delete({
     "delete from $TABLENAME$_res",
-    "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=JdbcType.BIGINT} and lang =  #{lang,jdbcType=JdbcType.VARCHAR}"
+    "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=BIGINT} and lang =  #{lang,jdbcType=VARCHAR}"
   })
   int deleteByPrimaryKey(Long $PKFIELDNAME$, String lang);
 
@@ -35,12 +35,12 @@ $FOREACH MULTILANG PROPERTY END$
 	/** 主键 */
 	"#{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$} ,",
 	/** 语言 */
-	"#{lang,jdbcType=JdbcType.VARCHAR} ,",$FOREACH MULTILANG PROPERTY BEGIN$
+	"#{lang,jdbcType=VARCHAR} ,",$FOREACH MULTILANG PROPERTY BEGIN$
     /** $PROPERTYDESC$ */
     "#{$FIELDNAME$,jdbcType=$PROPERTYDATATYPE$} ,",
 $FOREACH MULTILANG PROPERTY END$
 	/** 更新时间 */
-    "#{updatedTime,jdbcType=JdbcType.TIMESTAMP}",
+    "#{updatedTime,jdbcType=DATE}",
     ")"
   })
   int insert($ENTITYNAME$ResEntity record);
@@ -60,7 +60,7 @@ $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
     "updated_time",
     "from $TABLENAME$_res",
-    "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=JdbcType.VARCHAR}"
+    "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=VARCHAR}"
   })
   @Results({
     /** 主键 */
@@ -68,10 +68,10 @@ $FOREACH MULTILANG PROPERTY END$
     /** 语言 */
     @Result(column = "lang", property = "lang", jdbcType = JdbcType.VARCHAR, id = true),$FOREACH MULTILANG PROPERTY BEGIN$
     /** $PROPERTYDESC$ */
-    @Result(column = "$FIELDNAME$", property = "$PROPERTYNAME$", jdbcType = $PROPERTYDATATYPE$),
+    @Result(column = "$FIELDNAME$", property = "$PROPERTYNAME$", jdbcType = JdbcType.$PROPERTYDATATYPE$),
 $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
-    @Result(column = "updated_time", property = "updatedTime", jdbcType = JdbcType.TIMESTAMP),
+    @Result(column = "updated_time", property = "updatedTime", jdbcType = JdbcType.DATE),
   })
   $ENTITYNAME$ResEntity selectByPrimaryKey(Long $PKFIELDNAME$, String lang);
 
@@ -87,7 +87,7 @@ $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
     "updated_time",
     "from $TABLENAME$_res",
-    "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=JdbcType.VARCHAR}"
+    "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$} "
   })
   @Results({
     /** 主键 */
@@ -95,10 +95,10 @@ $FOREACH MULTILANG PROPERTY END$
     /** 语言 */
     @Result(column = "lang", property = "lang", jdbcType = JdbcType.VARCHAR, id = true),$FOREACH MULTILANG PROPERTY BEGIN$
     /** $PROPERTYDESC$ */
-    @Result(column = "$FIELDNAME$", property = "$PROPERTYNAME$", jdbcType = $PROPERTYDATATYPE$),
+    @Result(column = "$FIELDNAME$", property = "$PROPERTYNAME$", jdbcType = JdbcType.$PROPERTYDATATYPE$),
 $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
-    @Result(column = "updated_time", property = "updatedTime", jdbcType = JdbcType.TIMESTAMP),
+    @Result(column = "updated_time", property = "updatedTime", jdbcType = JdbcType.DATE),
   })
   List<$ENTITYNAME$ResEntity> selectByEntityID(Long $PKFIELDNAME$);
 
@@ -112,8 +112,8 @@ $FOREACH MULTILANG PROPERTY END$
     "$FIELDNAME$ = #{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} ,",
 $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
-    "updated_time = #{updatedTime,jdbcType=JdbcType.TIMESTAMP} ",
-    "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=JdbcType.VARCHAR}"
+    "updated_time = #{updatedTime,jdbcType=DATE} ",
+    "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=VARCHAR}"
   })
   int updateByPrimaryKey($ENTITYNAME$ResEntity record);
 }

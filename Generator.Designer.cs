@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tabcMain = new System.Windows.Forms.TabControl();
             this.tabGenerator = new System.Windows.Forms.TabPage();
+            this.btnPublish = new System.Windows.Forms.Button();
             this.dtgStepLog = new System.Windows.Forms.DataGridView();
             this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
             this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -130,11 +131,17 @@
             this.txtAggVO = new System.Windows.Forms.TextBox();
             this.lblAggVO = new System.Windows.Forms.Label();
             this.tabSetting = new System.Windows.Forms.TabPage();
-            this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
-            this.dlgFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.imgList = new System.Windows.Forms.ImageList(this.components);
-            this.btnPublish = new System.Windows.Forms.Button();
+            this.grpPublish = new System.Windows.Forms.GroupBox();
+            this.lblBaseExecutive = new System.Windows.Forms.Label();
+            this.txtBaseExecutive = new System.Windows.Forms.TextBox();
+            this.chkExecuteMultiLang = new System.Windows.Forms.CheckBox();
+            this.lblDBConnStr = new System.Windows.Forms.Label();
+            this.txtDBConnStr = new System.Windows.Forms.TextBox();
             this.grpGenerate = new System.Windows.Forms.GroupBox();
+            this.lblInsertTablePrefix = new System.Windows.Forms.Label();
+            this.txtInsertDataPrefix = new System.Windows.Forms.TextBox();
+            this.lblCreateTablePrefix = new System.Windows.Forms.Label();
+            this.txtCreateTablePrefix = new System.Windows.Forms.TextBox();
             this.lblMultiLangEntityClass = new System.Windows.Forms.Label();
             this.txtMultiLangEntityClass = new System.Windows.Forms.TextBox();
             this.btnChangeColor = new System.Windows.Forms.Button();
@@ -151,16 +158,9 @@
             this.txtEntityNS = new System.Windows.Forms.TextBox();
             this.txtAuthor = new System.Windows.Forms.TextBox();
             this.lblAuthor = new System.Windows.Forms.Label();
-            this.grpPublish = new System.Windows.Forms.GroupBox();
-            this.lblDBConnStr = new System.Windows.Forms.Label();
-            this.txtDBConnStr = new System.Windows.Forms.TextBox();
-            this.chkExecuteMultiLang = new System.Windows.Forms.CheckBox();
-            this.lblBaseExecutive = new System.Windows.Forms.Label();
-            this.txtBaseExecutive = new System.Windows.Forms.TextBox();
-            this.lblCreateTablePrefix = new System.Windows.Forms.Label();
-            this.txtCreateTablePrefix = new System.Windows.Forms.TextBox();
-            this.lblInsertTablePrefix = new System.Windows.Forms.Label();
-            this.txtInsertDataPrefix = new System.Windows.Forms.TextBox();
+            this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
+            this.dlgFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            this.imgList = new System.Windows.Forms.ImageList(this.components);
             this.tabcMain.SuspendLayout();
             this.tabGenerator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgStepLog)).BeginInit();
@@ -182,8 +182,8 @@
             this.tabVO.SuspendLayout();
             this.tabAggVO.SuspendLayout();
             this.tabSetting.SuspendLayout();
-            this.grpGenerate.SuspendLayout();
             this.grpPublish.SuspendLayout();
+            this.grpGenerate.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabcMain
@@ -230,6 +230,16 @@
             this.tabGenerator.TabIndex = 0;
             this.tabGenerator.Text = "Generator";
             this.tabGenerator.UseVisualStyleBackColor = true;
+            // 
+            // btnPublish
+            // 
+            this.btnPublish.Location = new System.Drawing.Point(683, 192);
+            this.btnPublish.Name = "btnPublish";
+            this.btnPublish.Size = new System.Drawing.Size(75, 23);
+            this.btnPublish.TabIndex = 10;
+            this.btnPublish.Text = "Publish (&P)";
+            this.btnPublish.UseVisualStyleBackColor = true;
+            this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
             // 
             // dtgStepLog
             // 
@@ -1369,29 +1379,70 @@
             this.tabSetting.Text = "Settings";
             this.tabSetting.UseVisualStyleBackColor = true;
             // 
-            // dlgOpenFile
+            // grpPublish
             // 
-            this.dlgOpenFile.Filter = "Excel | *.xlsx";
+            this.grpPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpPublish.Controls.Add(this.lblBaseExecutive);
+            this.grpPublish.Controls.Add(this.txtBaseExecutive);
+            this.grpPublish.Controls.Add(this.chkExecuteMultiLang);
+            this.grpPublish.Controls.Add(this.lblDBConnStr);
+            this.grpPublish.Controls.Add(this.txtDBConnStr);
+            this.grpPublish.Location = new System.Drawing.Point(8, 331);
+            this.grpPublish.Name = "grpPublish";
+            this.grpPublish.Size = new System.Drawing.Size(762, 196);
+            this.grpPublish.TabIndex = 11;
+            this.grpPublish.TabStop = false;
+            this.grpPublish.Text = "Publish Options";
             // 
-            // imgList
+            // lblBaseExecutive
             // 
-            this.imgList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgList.ImageStream")));
-            this.imgList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgList.Images.SetKeyName(0, "error.gif");
-            this.imgList.Images.SetKeyName(1, "running.gif");
-            this.imgList.Images.SetKeyName(2, "stop.gif");
-            this.imgList.Images.SetKeyName(3, "success.gif");
-            this.imgList.Images.SetKeyName(4, "warning.gif");
+            this.lblBaseExecutive.AutoSize = true;
+            this.lblBaseExecutive.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblBaseExecutive.Location = new System.Drawing.Point(17, 84);
+            this.lblBaseExecutive.Name = "lblBaseExecutive";
+            this.lblBaseExecutive.Size = new System.Drawing.Size(186, 12);
+            this.lblBaseExecutive.TabIndex = 14;
+            this.lblBaseExecutive.Text = "First Batch Executing Scripts";
             // 
-            // btnPublish
+            // txtBaseExecutive
             // 
-            this.btnPublish.Location = new System.Drawing.Point(683, 192);
-            this.btnPublish.Name = "btnPublish";
-            this.btnPublish.Size = new System.Drawing.Size(75, 23);
-            this.btnPublish.TabIndex = 10;
-            this.btnPublish.Text = "Publish (&P)";
-            this.btnPublish.UseVisualStyleBackColor = true;
-            this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
+            this.txtBaseExecutive.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBaseExecutive.Location = new System.Drawing.Point(210, 81);
+            this.txtBaseExecutive.Name = "txtBaseExecutive";
+            this.txtBaseExecutive.Size = new System.Drawing.Size(534, 19);
+            this.txtBaseExecutive.TabIndex = 13;
+            // 
+            // chkExecuteMultiLang
+            // 
+            this.chkExecuteMultiLang.AutoSize = true;
+            this.chkExecuteMultiLang.Location = new System.Drawing.Point(20, 53);
+            this.chkExecuteMultiLang.Name = "chkExecuteMultiLang";
+            this.chkExecuteMultiLang.Size = new System.Drawing.Size(148, 16);
+            this.chkExecuteMultiLang.TabIndex = 12;
+            this.chkExecuteMultiLang.Text = "Publish MultiLang Script";
+            this.chkExecuteMultiLang.UseVisualStyleBackColor = true;
+            // 
+            // lblDBConnStr
+            // 
+            this.lblDBConnStr.AutoSize = true;
+            this.lblDBConnStr.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblDBConnStr.Location = new System.Drawing.Point(18, 27);
+            this.lblDBConnStr.Name = "lblDBConnStr";
+            this.lblDBConnStr.Size = new System.Drawing.Size(176, 12);
+            this.lblDBConnStr.TabIndex = 11;
+            this.lblDBConnStr.Text = "DataBase Connection String";
+            // 
+            // txtDBConnStr
+            // 
+            this.txtDBConnStr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDBConnStr.Location = new System.Drawing.Point(211, 24);
+            this.txtDBConnStr.Name = "txtDBConnStr";
+            this.txtDBConnStr.Size = new System.Drawing.Size(533, 19);
+            this.txtDBConnStr.TabIndex = 10;
             // 
             // grpGenerate
             // 
@@ -1423,6 +1474,44 @@
             this.grpGenerate.TabIndex = 10;
             this.grpGenerate.TabStop = false;
             this.grpGenerate.Text = "Generate Options";
+            // 
+            // lblInsertTablePrefix
+            // 
+            this.lblInsertTablePrefix.AutoSize = true;
+            this.lblInsertTablePrefix.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblInsertTablePrefix.Location = new System.Drawing.Point(17, 293);
+            this.lblInsertTablePrefix.Name = "lblInsertTablePrefix";
+            this.lblInsertTablePrefix.Size = new System.Drawing.Size(173, 12);
+            this.lblInsertTablePrefix.TabIndex = 27;
+            this.lblInsertTablePrefix.Text = "Insert Data Filename Prefix";
+            // 
+            // txtInsertDataPrefix
+            // 
+            this.txtInsertDataPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInsertDataPrefix.Location = new System.Drawing.Point(210, 290);
+            this.txtInsertDataPrefix.Name = "txtInsertDataPrefix";
+            this.txtInsertDataPrefix.Size = new System.Drawing.Size(534, 19);
+            this.txtInsertDataPrefix.TabIndex = 26;
+            // 
+            // lblCreateTablePrefix
+            // 
+            this.lblCreateTablePrefix.AutoSize = true;
+            this.lblCreateTablePrefix.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblCreateTablePrefix.Location = new System.Drawing.Point(17, 258);
+            this.lblCreateTablePrefix.Name = "lblCreateTablePrefix";
+            this.lblCreateTablePrefix.Size = new System.Drawing.Size(183, 12);
+            this.lblCreateTablePrefix.TabIndex = 25;
+            this.lblCreateTablePrefix.Text = "Create Table Filename Prefix";
+            // 
+            // txtCreateTablePrefix
+            // 
+            this.txtCreateTablePrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCreateTablePrefix.Location = new System.Drawing.Point(210, 255);
+            this.txtCreateTablePrefix.Name = "txtCreateTablePrefix";
+            this.txtCreateTablePrefix.Size = new System.Drawing.Size(534, 19);
+            this.txtCreateTablePrefix.TabIndex = 24;
             // 
             // lblMultiLangEntityClass
             // 
@@ -1526,6 +1615,7 @@
             this.chkGenerateAuthor.TabIndex = 14;
             this.chkGenerateAuthor.Text = "Generate Author Remark";
             this.chkGenerateAuthor.UseVisualStyleBackColor = true;
+            this.chkGenerateAuthor.CheckedChanged += new System.EventHandler(this.chkGenerateAuthor_CheckedChanged);
             // 
             // txtVONS
             // 
@@ -1584,108 +1674,19 @@
             this.lblAuthor.TabIndex = 8;
             this.lblAuthor.Text = "Author";
             // 
-            // grpPublish
+            // dlgOpenFile
             // 
-            this.grpPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpPublish.Controls.Add(this.lblBaseExecutive);
-            this.grpPublish.Controls.Add(this.txtBaseExecutive);
-            this.grpPublish.Controls.Add(this.chkExecuteMultiLang);
-            this.grpPublish.Controls.Add(this.lblDBConnStr);
-            this.grpPublish.Controls.Add(this.txtDBConnStr);
-            this.grpPublish.Location = new System.Drawing.Point(8, 331);
-            this.grpPublish.Name = "grpPublish";
-            this.grpPublish.Size = new System.Drawing.Size(762, 196);
-            this.grpPublish.TabIndex = 11;
-            this.grpPublish.TabStop = false;
-            this.grpPublish.Text = "Publish Options";
+            this.dlgOpenFile.Filter = "Excel | *.xlsx";
             // 
-            // lblDBConnStr
+            // imgList
             // 
-            this.lblDBConnStr.AutoSize = true;
-            this.lblDBConnStr.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblDBConnStr.Location = new System.Drawing.Point(18, 27);
-            this.lblDBConnStr.Name = "lblDBConnStr";
-            this.lblDBConnStr.Size = new System.Drawing.Size(176, 12);
-            this.lblDBConnStr.TabIndex = 11;
-            this.lblDBConnStr.Text = "DataBase Connection String";
-            // 
-            // txtDBConnStr
-            // 
-            this.txtDBConnStr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDBConnStr.Location = new System.Drawing.Point(211, 24);
-            this.txtDBConnStr.Name = "txtDBConnStr";
-            this.txtDBConnStr.Size = new System.Drawing.Size(533, 19);
-            this.txtDBConnStr.TabIndex = 10;
-            // 
-            // chkExecuteMultiLang
-            // 
-            this.chkExecuteMultiLang.AutoSize = true;
-            this.chkExecuteMultiLang.Location = new System.Drawing.Point(20, 53);
-            this.chkExecuteMultiLang.Name = "chkExecuteMultiLang";
-            this.chkExecuteMultiLang.Size = new System.Drawing.Size(148, 16);
-            this.chkExecuteMultiLang.TabIndex = 12;
-            this.chkExecuteMultiLang.Text = "Publish MultiLang Script";
-            this.chkExecuteMultiLang.UseVisualStyleBackColor = true;
-            // 
-            // lblBaseExecutive
-            // 
-            this.lblBaseExecutive.AutoSize = true;
-            this.lblBaseExecutive.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblBaseExecutive.Location = new System.Drawing.Point(17, 84);
-            this.lblBaseExecutive.Name = "lblBaseExecutive";
-            this.lblBaseExecutive.Size = new System.Drawing.Size(146, 12);
-            this.lblBaseExecutive.TabIndex = 14;
-            this.lblBaseExecutive.Text = "First Executing Scripts";
-            // 
-            // txtBaseExecutive
-            // 
-            this.txtBaseExecutive.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBaseExecutive.Location = new System.Drawing.Point(210, 81);
-            this.txtBaseExecutive.Name = "txtBaseExecutive";
-            this.txtBaseExecutive.Size = new System.Drawing.Size(534, 19);
-            this.txtBaseExecutive.TabIndex = 13;
-            // 
-            // lblCreateTablePrefix
-            // 
-            this.lblCreateTablePrefix.AutoSize = true;
-            this.lblCreateTablePrefix.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblCreateTablePrefix.Location = new System.Drawing.Point(17, 258);
-            this.lblCreateTablePrefix.Name = "lblCreateTablePrefix";
-            this.lblCreateTablePrefix.Size = new System.Drawing.Size(183, 12);
-            this.lblCreateTablePrefix.TabIndex = 25;
-            this.lblCreateTablePrefix.Text = "Create Table Filename Prefix";
-            // 
-            // txtCreateTablePrefix
-            // 
-            this.txtCreateTablePrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCreateTablePrefix.Location = new System.Drawing.Point(210, 255);
-            this.txtCreateTablePrefix.Name = "txtCreateTablePrefix";
-            this.txtCreateTablePrefix.Size = new System.Drawing.Size(534, 19);
-            this.txtCreateTablePrefix.TabIndex = 24;
-            // 
-            // lblInsertTablePrefix
-            // 
-            this.lblInsertTablePrefix.AutoSize = true;
-            this.lblInsertTablePrefix.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblInsertTablePrefix.Location = new System.Drawing.Point(17, 293);
-            this.lblInsertTablePrefix.Name = "lblInsertTablePrefix";
-            this.lblInsertTablePrefix.Size = new System.Drawing.Size(173, 12);
-            this.lblInsertTablePrefix.TabIndex = 27;
-            this.lblInsertTablePrefix.Text = "Insert Data Filename Prefix";
-            // 
-            // txtInsertDataPrefix
-            // 
-            this.txtInsertDataPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInsertDataPrefix.Location = new System.Drawing.Point(210, 290);
-            this.txtInsertDataPrefix.Name = "txtInsertDataPrefix";
-            this.txtInsertDataPrefix.Size = new System.Drawing.Size(534, 19);
-            this.txtInsertDataPrefix.TabIndex = 26;
+            this.imgList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgList.ImageStream")));
+            this.imgList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgList.Images.SetKeyName(0, "error.gif");
+            this.imgList.Images.SetKeyName(1, "running.gif");
+            this.imgList.Images.SetKeyName(2, "stop.gif");
+            this.imgList.Images.SetKeyName(3, "success.gif");
+            this.imgList.Images.SetKeyName(4, "warning.gif");
             // 
             // frmMain
             // 
@@ -1738,10 +1739,10 @@
             this.tabAggVO.ResumeLayout(false);
             this.tabAggVO.PerformLayout();
             this.tabSetting.ResumeLayout(false);
-            this.grpGenerate.ResumeLayout(false);
-            this.grpGenerate.PerformLayout();
             this.grpPublish.ResumeLayout(false);
             this.grpPublish.PerformLayout();
+            this.grpGenerate.ResumeLayout(false);
+            this.grpGenerate.PerformLayout();
             this.ResumeLayout(false);
 
         }

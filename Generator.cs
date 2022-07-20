@@ -2,6 +2,7 @@
 using MyBatisCodeGenerator.Transformer;
 using MyBatisCodeGenerator.Utils;
 using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using MySqlConnection = MySqlConnector.MySqlConnection;
 
 namespace MyBatisCodeGenerator
 {
@@ -1336,7 +1338,7 @@ namespace MyBatisCodeGenerator
                     dtgStepLog.Refresh();
 
 
-                    MySqlCommand cmd = new MySqlCommand(script.Value.ToString(), conn);
+                    MySqlConnector.MySqlCommand cmd = new MySqlConnector.MySqlCommand(script.Value.ToString(), conn);
                     cmd.ExecuteNonQuery();
 
                     dtgStepLog.Rows[newRowNo].Cells[1].Value = $"  {script.Key} published.";

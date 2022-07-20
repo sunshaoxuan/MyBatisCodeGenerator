@@ -592,31 +592,31 @@ namespace MyBatisCodeGenerator.Utils
         {
             if (dataType.ToUpper().Equals("BIGINT"))
             {
-                return "JdbcType.BIGINT";
+                return "BIGINT";
             }
             else if (dataType.ToUpper().Equals("TINYINT"))
             {
-                return "JdbcType.TINYINT";
+                return "TINYINT";
             }
             else if (dataType.ToUpper().StartsWith("INT"))
             {
-                return "JdbcType.INTEGER";
+                return "INTEGER";
             }
             else if (dataType.ToUpper().StartsWith("VARCHAR") || dataType.ToUpper().Equals("JSON") || dataType.ToUpper().StartsWith("TEXT"))
             {
-                return "JdbcType.VARCHAR";
+                return "VARCHAR";
             }
             else if (dataType.ToUpper().Equals("DATETIME"))
             {
-                return "JdbcType.TIMESTAMP";
+                return "DATE";
             }
             else if (dataType.ToUpper().StartsWith("DOUBLE"))
             {
-                return "JdbcType.DOUBLE";
+                return "DOUBLE";
             }
             else if (dataType.ToUpper().Equals("DECIMAL"))
             {
-                return "JdbcType.DECIMAL";
+                return "DECIMAL";
             }
 
             else { return ""; }
@@ -654,6 +654,9 @@ namespace MyBatisCodeGenerator.Utils
             //$UPPER_ENTITYNAME$
             ReplaceTag(table, sb, "$UPPER_ENTITYNAME$", "ENTITYNAME", "", "", defRefs);
 
+            //$MULTILANGRESCATALOG$
+            ReplaceTag(table, sb, "$MULTILANGRESCATALOG$", "ENTITYNAME", "", "", defRefs);
+            
             //$TABLENAME$
             ReplaceTag(table, sb, "$TABLENAME$", "TABLENAME", "", "", defRefs);
 
@@ -695,7 +698,15 @@ namespace MyBatisCodeGenerator.Utils
         {
             string tagValue = GetItemDefine(table, excelTag, defRefs);
             string seed = replaceSeed(prefix, suffix, tagValue, templateTag);
-            sb.Replace(templateTag, (string.IsNullOrEmpty(tagValue) ? "" : seed));
+            if (templateTag.Contains("$MULTILANGRESCATALOG$"))
+            {
+                string itemResCatalog = "meta_" + TemplateUtils.replaceSeed("", "", tagValue, "$ENTITYNAME_LOWER$");
+                sb.Replace(templateTag, itemResCatalog);
+            }
+            else
+            {
+                sb.Replace(templateTag, (string.IsNullOrEmpty(tagValue) ? "" : seed));
+            }
         }
 
         public static string replaceSeed(string prefix, string suffix, string tagValue, string seed)
