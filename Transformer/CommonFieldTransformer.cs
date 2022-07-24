@@ -31,7 +31,7 @@ namespace MyBatisCodeGenerator.Transformer
 
         public override int GetOrder()
         {
-            return 6;
+            return 14;
         }
     }
 }

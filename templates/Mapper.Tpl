@@ -1,7 +1,7 @@
-package $MAPPERNAMESPACE$;
+package $CLASSROOT$.dao;
 
-import $SQLPROVIDERNAMESPACE$.$ENTITYNAME$EntitySqlProvider;
-import $ENTITYNAMESPACE$.$ENTITYNAME$Entity;
+import $CLASSROOT$.dao.provider.$ENTITYNAME$EntitySqlProvider;
+import $CLASSROOT$.entity.$ENTITYNAME$Entity;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
@@ -68,13 +68,13 @@ $HASBIZKEY BEGIN$
         /** $PROPERTYDESC$ */
         "$FIELDNAME$ $COMMAEXCEPTLAST$",$FOREACH FIELD END$
         "from $TABLENAME$",
-        "where $BIZKEYFIELDNAME$ = #{$BIZKEYPROPERTYNAME$,jdbcType=$BIZKEYFIELDDATATYPE$}"
+        "where (1=2$BIZKEYWHERECONDITION$)"
     })
     @Results({$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
         @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
-    List<$ENTITYNAME$Entity> selectByBizKey($BIZKEYFIELDJAVATYPE$ $BIZKEYPROPERTYNAME$);
+    List<$ENTITYNAME$Entity> selectByBizKey($BIZKEYFIELDJAVATYPE$ bizKeyValue);
 $HASBIZKEY END$
     @UpdateProvider(type=$ENTITYNAME$EntitySqlProvider.class, method="updateByPrimaryKeySelective")
     int updateByPrimaryKeySelective($ENTITYNAME$Entity record);
@@ -82,9 +82,11 @@ $HASBIZKEY END$
     @Update({
         "update $TABLENAME$",
         "set",$FOREACH FIELD EXCEPT PK BEGIN$
-        /** $PROPERTYDESC$ */
-		"$FIELDNAME$ = #{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$", $FOREACH FIELD EXCEPT PK END$
-        "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$}"
+        /** $PROPERTYDESC$ */ $IFVERSION BEGIN$
+        "$FIELDNAME$ = $FIELDNAME$ + 1 ,", $IFVERSION ELSE$ 
+		"$FIELDNAME$ = #{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$", $IFVERSION END$  $FOREACH FIELD EXCEPT PK END$
+        "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$}" $HASVERSION BEGIN$ ,
+        " and version = #{version,jdbcType=INTEGER}" $HASVERSION END$ 
     })
     int updateByPrimaryKey($ENTITYNAME$Entity record);
 }

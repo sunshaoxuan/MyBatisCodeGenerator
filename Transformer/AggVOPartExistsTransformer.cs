@@ -1,38 +1,41 @@
 ﻿using MyBatisCodeGenerator.Utils;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyBatisCodeGenerator.Transformer
 {
-    /// <summary>
-    /// 是否存在多语段转换器
-    /// 
-    /// $HASMULTILANGPROPERTY$
-    /// </summary>
-    public class MultiLangPartExistsTransformer : AbstractTransformer
+    public class AggVOPartExistsTransformer : AbstractTransformer
     {
         public override int GetOrder()
         {
-            return 3;
+            return 1;
         }
 
         public override string GetTag()
         {
-            return "$HASMULTILANGPROPERTY$";
+            return "$HASAGGVO$";
         }
 
         public override bool IsTransformItem(Dictionary<string, string> item)
         {
-            return false;
+            return item.ContainsKey("DATA TYPE") && "AGGVO".Equals(item["DATA TYPE"].ToUpper());
         }
 
         public override bool IsValid()
         {
-            return TemplateUtils.MultiLangDefined(DesignData);
+            List<Dictionary<string, string>> details = GetProcessData();
+            foreach(Dictionary<string, string> detail in details)
+            {
+                if (TemplateUtils.IsAggVOItem(detail))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public override void Transform()

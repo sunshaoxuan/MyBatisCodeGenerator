@@ -11,7 +11,7 @@ namespace MyBatisCodeGenerator.Transformer
     {
         public override int GetOrder()
         {
-            return 13;
+            return 15;
         }
 
         public override string GetTag()

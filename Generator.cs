@@ -325,7 +325,6 @@ namespace MyBatisCodeGenerator
 
         private void Generate()
         {
-            int finishedCount = 0;
             tstrpProgress.Value = 0;
 
             if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -333,11 +332,9 @@ namespace MyBatisCodeGenerator
                 return;
             }
 
-
             //Load Design File
             tstrsStatus.Text = "Loading design file ...";
             Dictionary<string, DataTable> excelTables = ExcelUtils.GetExcelTableByOleDB(txtDesignFile.Text);
-            finishedCount++;
 
             //int stepCount = GetStepCount(excelTables);
 
@@ -349,26 +346,26 @@ namespace MyBatisCodeGenerator
             //Check Design File
             tstrsStatus.Text = "Checking design file ...";
             getPreparedTables(excelTables);
-            finishedCount++;
+
 
             if (runStatus.Equals(RunStatusEnum.Stopped))
             {
                 return;
             }
 
-            //tstrpProgress.Value = 100 * finishedCount / stepCount;
+
 
             //Check Templates
             tstrsStatus.Text = "Checking templates ...";
             checkTemplates();
-            finishedCount++;
+
 
             if (runStatus.Equals(RunStatusEnum.Stopped))
             {
                 return;
             }
 
-            //tstrpProgress.Value = 100 * finishedCount / stepCount;
+
 
             //Execute Task List
             foreach (KeyValuePair<string, DataTable> kv in excelTables)
@@ -399,9 +396,6 @@ namespace MyBatisCodeGenerator
                         DoGenerate(kv.Value, rtbEntityTpl.Text, TemplateUtils.TemplateTypeEnum.Entity);
                     }
 
-                    finishedCount++;
-                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
-
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
                         return;
@@ -412,9 +406,6 @@ namespace MyBatisCodeGenerator
                         DoGenerate(kv.Value, rtbSqlProviderTpl.Text, TemplateUtils.TemplateTypeEnum.SqlProvider);
                     }
 
-                    finishedCount++;
-                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
-
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
                         return;
@@ -424,9 +415,6 @@ namespace MyBatisCodeGenerator
                     {
                         DoGenerate(kv.Value, rtbMapperTpl.Text, TemplateUtils.TemplateTypeEnum.Mapper);
                     }
-
-                    finishedCount++;
-                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
@@ -439,9 +427,6 @@ namespace MyBatisCodeGenerator
                         DoGenerate(kv.Value, rtbMapperExtendTpl.Text, TemplateUtils.TemplateTypeEnum.MapperExtend);
                     }
 
-                    finishedCount++;
-                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
-
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
                         return;
@@ -453,8 +438,10 @@ namespace MyBatisCodeGenerator
                         DoGenerate(kv.Value, rtbVOTpl.Text, TemplateUtils.TemplateTypeEnum.VO);
                     }
 
-                    finishedCount++;
-                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    if (runStatus.Equals(RunStatusEnum.Stopped))
+                    {
+                        return;
+                    }
 
                     //AggVO
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.AggVO))
@@ -462,8 +449,54 @@ namespace MyBatisCodeGenerator
                         DoGenerate(kv.Value, rtbAggVO.Text, TemplateUtils.TemplateTypeEnum.AggVO);
                     }
 
-                    finishedCount++;
-                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
+                    if (runStatus.Equals(RunStatusEnum.Stopped))
+                    {
+                        return;
+                    }
+
+                    //Rest
+                    if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.Rest))
+                    {
+                        DoGenerate(kv.Value, rtbRestTpl.Text, TemplateUtils.TemplateTypeEnum.Rest);
+                    }
+
+                    if (runStatus.Equals(RunStatusEnum.Stopped))
+                    {
+                        return;
+                    }
+
+                    //Service
+                    if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.Service))
+                    {
+                        DoGenerate(kv.Value, rtbServiceTpl.Text, TemplateUtils.TemplateTypeEnum.Service);
+                    }
+
+                    if (runStatus.Equals(RunStatusEnum.Stopped))
+                    {
+                        return;
+                    }
+
+                    //ServiceImpl
+                    if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.ServiceImpl))
+                    {
+                        DoGenerate(kv.Value, rtbServiceImplTpl.Text, TemplateUtils.TemplateTypeEnum.ServiceImpl);
+                    }
+
+                    if (runStatus.Equals(RunStatusEnum.Stopped))
+                    {
+                        return;
+                    }
+
+                    //AggVORequest
+                    if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.AggVORequest))
+                    {
+                        DoGenerate(kv.Value, rtbAggVORequestTpl.Text, TemplateUtils.TemplateTypeEnum.AggVORequest);
+                    }
+
+                    if (runStatus.Equals(RunStatusEnum.Stopped))
+                    {
+                        return;
+                    }
 
                     //MultiLanguage
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.MultiLanguage))
@@ -478,8 +511,6 @@ namespace MyBatisCodeGenerator
                         {
                             DoGenerate(kv.Value, rtbMultiLangEntity.Text, TemplateUtils.TemplateTypeEnum.MultiLangEntity);
                         }
-                        finishedCount++;
-                        //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
                         {
@@ -491,8 +522,6 @@ namespace MyBatisCodeGenerator
                         {
                             DoGenerate(kv.Value, rtbMultiLangMapper.Text, TemplateUtils.TemplateTypeEnum.MultiLangMapper);
                         }
-                        finishedCount++;
-                        //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
                         {
@@ -504,8 +533,6 @@ namespace MyBatisCodeGenerator
                         {
                             DoGenerate(kv.Value, rtbMultiLangMapperExtend.Text, TemplateUtils.TemplateTypeEnum.MultiLangMapperExtend);
                         }
-                        finishedCount++;
-                        //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
                         {
@@ -517,8 +544,6 @@ namespace MyBatisCodeGenerator
                         {
                             DoGenerate(kv.Value, rtbMultiLangSqlProvider.Text, TemplateUtils.TemplateTypeEnum.MultiLangSqlProvider);
                         }
-                        finishedCount++;
-                        //tstrpProgress.Value = 100 * finishedCount / stepCount;
                     }
                 }
 
@@ -532,8 +557,6 @@ namespace MyBatisCodeGenerator
                 {
                     DoGenerate(kv.Value, rtbCreateTableTpl.Text, TemplateUtils.TemplateTypeEnum.CreateTable);
                 }
-                finishedCount++;
-                //tstrpProgress.Value = 100 * finishedCount / stepCount;
 
                 if (runStatus.Equals(RunStatusEnum.Stopped))
                 {
@@ -542,14 +565,11 @@ namespace MyBatisCodeGenerator
                 //MultiLanguage
                 if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.MultiLanguage))
                 {
-
                     //Create Table
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.CreateTable))
                     {
                         DoGenerate(kv.Value, rtbMultiLangCreateTable.Text, TemplateUtils.TemplateTypeEnum.MultiLangCreateTable);
                     }
-                    finishedCount++;
-                    //tstrpProgress.Value = (100 * finishedCount / stepCount) > 100 ? 100 : (100 * finishedCount / stepCount);
                 }
 
                 if (preparedDataTables.Contains(kv.Key))
@@ -564,9 +584,6 @@ namespace MyBatisCodeGenerator
                         DoGenerate(kv.Value, rtbInsertDataTpl.Text, TemplateUtils.TemplateTypeEnum.InsertData);
                     }
 
-                    finishedCount++;
-                    //tstrpProgress.Value = 100 * finishedCount / stepCount;
-
                     if (runStatus.Equals(RunStatusEnum.Stopped))
                     {
                         return;
@@ -579,8 +596,6 @@ namespace MyBatisCodeGenerator
                         {
                             DoGenerate(kv.Value, rtbMultiLangInsertData.Text, TemplateUtils.TemplateTypeEnum.MultiLangInsertData);
                         }
-                        finishedCount++;
-                        //tstrpProgress.Value = (100 * finishedCount / stepCount) > 100 ? 100 : (100 * finishedCount / stepCount);
                     }
                 }
 
@@ -716,11 +731,7 @@ namespace MyBatisCodeGenerator
             try
             {
                 Dictionary<String, String> defRefs = new Dictionary<string, string>();
-                defRefs.Add("ENTITYNAMESPACE", txtEntityNS.Text);
-                defRefs.Add("MAPPERNAMESPACE", txtMapperNS.Text);
-                defRefs.Add("SQLPROVIDERNAMESPACE", txtProviderNS.Text);
-                defRefs.Add("MULTILANGBASECLASS", txtMultiLangEntityClass.Text);
-                defRefs.Add("VONAMESPACE", txtVONS.Text);
+                defRefs.Add("CLASSROOT", txtClassRoot.Text);
 
                 generator.Author = chkGenerateAuthor.Checked ? txtAuthor.Text : "";
                 generator.IsCreatePath = chkCreatePath.Checked;
@@ -1398,6 +1409,74 @@ namespace MyBatisCodeGenerator
         private Dictionary<string, StringBuilder> ReadCreateTableScripts()
         {
             return ReadScript("CreateTable*.sql");
+        }
+
+        private void btnRestTpl_Click(object sender, EventArgs e)
+        {
+            dlgOpenFile.Filter = "Template File | *.Tpl";
+            dlgOpenFile.FileName = "Rest.Tpl";
+            DialogResult result = dlgOpenFile.ShowDialog();
+            if (result.Equals(DialogResult.OK))
+            {
+                txtRestTpl.Text = dlgOpenFile.FileName;
+            }
+        }
+
+        private void btnServiceTpl_Click(object sender, EventArgs e)
+        {
+            dlgOpenFile.Filter = "Template File | *.Tpl";
+            dlgOpenFile.FileName = "Service.Tpl";
+            DialogResult result = dlgOpenFile.ShowDialog();
+            if (result.Equals(DialogResult.OK))
+            {
+                txtServiceTpl.Text = dlgOpenFile.FileName;
+            }
+        }
+
+        private void btnServiceImplTpl_Click(object sender, EventArgs e)
+        {
+            dlgOpenFile.Filter = "Template File | *.Tpl";
+            dlgOpenFile.FileName = "ServiceImpl.Tpl";
+            DialogResult result = dlgOpenFile.ShowDialog();
+            if (result.Equals(DialogResult.OK))
+            {
+                txtServiceImplTpl.Text = dlgOpenFile.FileName;
+            }
+        }
+
+        private void txtServiceImplTpl_TextChanged(object sender, EventArgs e)
+        {
+            rtbServiceImplTpl.Text = CommonUtils.ReadTextFile(txtServiceImplTpl.Text);
+            CommonUtils.SetRichTextBoxTextColor(rtbServiceImplTpl, txtTagColor.ForeColor);
+        }
+
+        private void txtServiceTpl_TextChanged(object sender, EventArgs e)
+        {
+            rtbServiceTpl.Text = CommonUtils.ReadTextFile(txtServiceTpl.Text);
+            CommonUtils.SetRichTextBoxTextColor(rtbServiceTpl, txtTagColor.ForeColor);
+        }
+
+        private void txtRestTpl_TextChanged(object sender, EventArgs e)
+        {
+            rtbRestTpl.Text = CommonUtils.ReadTextFile(txtRestTpl.Text);
+            CommonUtils.SetRichTextBoxTextColor(rtbRestTpl, txtTagColor.ForeColor);
+        }
+
+        private void btnAggVORequestTpl_Click(object sender, EventArgs e)
+        {
+            dlgOpenFile.Filter = "Template File | *.Tpl";
+            dlgOpenFile.FileName = "AggVORequest.Tpl";
+            DialogResult result = dlgOpenFile.ShowDialog();
+            if (result.Equals(DialogResult.OK))
+            {
+                txtAggVORequestTpl.Text = dlgOpenFile.FileName;
+            }
+        }
+
+        private void txtAggVORequestTpl_TextChanged(object sender, EventArgs e)
+        {
+            rtbAggVORequestTpl.Text = CommonUtils.ReadTextFile(txtAggVORequestTpl.Text);
+            CommonUtils.SetRichTextBoxTextColor(rtbAggVORequestTpl, txtTagColor.ForeColor);
         }
     }
 }

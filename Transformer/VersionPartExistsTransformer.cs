@@ -7,31 +7,33 @@ using System.Threading.Tasks;
 
 namespace MyBatisCodeGenerator.Transformer
 {
-    public class NoPKPropertyTransformer : AbstractTransformer
+    public class VersionPartExistsTransformer : AbstractTransformer
     {
         public override int GetOrder()
         {
-            return 23;
+            return 4;
         }
 
         public override string GetTag()
         {
-            return "$FOREACH PROPERTY EXCEPT PK$";
+            return "$HASVERSION$";
         }
 
         public override bool IsTransformItem(Dictionary<string, string> item)
         {
-            return !TemplateUtils.IsMultiLangItem(item) && !TemplateUtils.IsAggVOItem(item) && !TemplateUtils.IsPrimaryKeyItem(item);
+            return item.ContainsKey("FIELD NAME") && "VERSION".Equals(item["FIELD NAME"].ToUpper());
         }
 
         public override bool IsValid()
         {
-            return true;
+            List<Dictionary<string, string>> rst = TemplateUtils.GetDesignMetaDetailByValue(DesignData, "FIELD NAME", "version");
+
+            return rst.Count > 0;
         }
 
         public override void Transform()
         {
-            DoCommonTransform();
+            SimpleReplace();
         }
     }
 }

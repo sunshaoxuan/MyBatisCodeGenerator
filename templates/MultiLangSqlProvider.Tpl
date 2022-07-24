@@ -1,7 +1,7 @@
-package $SQLPROVIDERNAMESPACE$;
+package $CLASSROOT$.dao.provider;
 
-import $SQLPROVIDERNAMESPACE$.$ENTITYNAME$ResEntitySqlProvider;
-import $ENTITYNAMESPACE$.$ENTITYNAME$ResEntity;
+import $CLASSROOT$.dao.provider.$ENTITYNAME$ResEntitySqlProvider;
+import $CLASSROOT$.entity.$ENTITYNAME$ResEntity;
 import org.apache.ibatis.jdbc.SQL;
 
 /**

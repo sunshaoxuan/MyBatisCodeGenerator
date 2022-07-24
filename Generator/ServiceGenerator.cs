@@ -7,9 +7,19 @@ using System.Threading.Tasks;
 
 namespace MyBatisCodeGenerator.Generator
 {
-    public class VOGenerator : AbstractGenerator
+    public class ServiceGenerator : AbstractGenerator
     {
-        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.VO;
+        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.Service;
+
+        public override string GetClassSpace()
+        {
+            return $"{GetItemDefine("CLASSROOT")}.service";
+        }
+
+        public override string GetRootPath()
+        {
+            return BaseSourcePath;
+        }
 
         public override string GetSavedFileName(string defaultExt)
         {
@@ -17,21 +27,12 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G07) Do not define VO file name.");
+                throw new Exception("(ERRNO:G10) Do not define service file name.");
             }
 
-            fileName = fileName + "VO" + defaultExt;
+            fileName = fileName + "Service" + defaultExt;
 
             return fileName;
-        }
-
-        public override string GetClassSpace()
-        {
-            return $"{GetItemDefine("CLASSROOT")}.vo";
-        }
-        public override string GetRootPath()
-        {
-            return BaseSourcePath;
         }
 
         public override bool IsGeneratable()
@@ -39,7 +40,7 @@ namespace MyBatisCodeGenerator.Generator
             return true;
         }
 
-        public VOGenerator()
+        public ServiceGenerator()
         {
             FileExtension = ".java";
             GenerateByMeta = true;

@@ -1,15 +1,12 @@
 ﻿using MyBatisCodeGenerator.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyBatisCodeGenerator.Generator
 {
-    public class AggVOGenerator : AbstractGenerator
+    public class AggVORequestGenerator : AbstractGenerator
     {
-        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.AggVO;
+        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.AggVORequest;
 
         public override string GetSavedFileName(string defaultExt)
         {
@@ -17,17 +14,17 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G07) Do not define AggVO file name.");
+                throw new Exception("(ERRNO:G12) Do not define AggVO file name.");
             }
 
-            fileName = fileName + "AggVO" + defaultExt;
+            fileName = fileName + "AggVORequest" + defaultExt;
 
             return fileName;
         }
 
         public override string GetClassSpace()
         {
-            return $"{GetItemDefine("CLASSROOT")}.vo";
+            return $"{GetItemDefine("CLASSROOT")}.rest.request";
         }
         public override string GetRootPath()
         {
@@ -47,7 +44,7 @@ namespace MyBatisCodeGenerator.Generator
             return false;
         }
 
-        public AggVOGenerator()
+        public AggVORequestGenerator()
         {
             FileExtension = ".java";
             GenerateByMeta = true;

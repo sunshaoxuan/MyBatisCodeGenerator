@@ -15,16 +15,16 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G03) Do not define EntityNameSpace.");
+                throw new Exception("(ERRNO:G03) Do not define mapper file name.");
             }
 
-            fileName = fileName + "EntityMapper" + defaultExt;
+            fileName = $"{fileName}EntityMapper{defaultExt}";
             return fileName;
         }
 
         public override string GetClassSpace()
         {
-            return GetItemDefine("MAPPERNAMESPACE");
+            return $"{GetItemDefine("CLASSROOT")}.dao";
         }
 
         public override string GetRootPath()

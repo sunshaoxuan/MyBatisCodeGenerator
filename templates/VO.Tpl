@@ -1,92 +1,71 @@
-package $VONAMESPACE$;
+package $CLASSROOT$.vo;
 
-import jp.co.kanran.common.constant.Language;
-import jp.co.gutingjun.common.pms.entity.*;
-import $ENTITYNAMESPACE$.*;
-import jp.co.gutingjun.pms.utils.VOUtils;
+import $CLASSROOT$.entity.$ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
+import $CLASSROOT$.entity.$ENTITYNAME$ResEntity;$HASMULTILANGPROPERTY END$
+import $CLASSROOT$.service.impl.EntityUtils;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.List;
 
+@NoArgsConstructor
+public class $ENTITYNAME$VO implements Serializable{
+  private $ENTITYNAME$Entity $LOWER_ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
+  private $ENTITYNAME$ResEntity[] $LOWER_ENTITYNAME$ResEntity;$HASMULTILANGPROPERTY END$
 
-/**
- * $ENTITYDESC$VO
- *
- * @author $AUTHOR$
- * @since $DATE$
- */
-public class $ENTITYNAME$VO {
-  /** $ENTITYDESC$VO无参构造器 */
-  public $ENTITYNAME$VO() {}
-
-  /** 按给定ID初始化$ENTITYDESC$VO构造器 */
-  public $ENTITYNAME$VO(Long id) {
-    //VO初始化
-    VOUtils.loadVOByID($ENTITYNAME$Entity.class.getSimpleName(), id, this);
-    initSubEntities(id);
-  }
-
-  public void initSubEntities(Long id) {$FOREACH AGG VO BEGIN$
-    //AggSubVO初始化: $PROPERTYDESC$
-    this.$PROPERTYSETMETHOD$(($
-    $)VOUtils.loadVOByBizKey($UPPER_PROPERTYNAME$Entity.class.getName(), id));
-    if (this.$PROPERTYNAME$ != null && this.$PROPERTYNAME$.length > 0) {
-      for (int i=0; i< this.$PROPERTYNAME$.length; i++) {
-        this.$PROPERTYNAME$[i].initSubEntities($PKGETMETHOD$());
-      }
-    }
-$FOREACH AGG VO END$
-  }
-
-$HASMULTILANGPROPERTY BEGIN$
-  /** 按给定ID及语言初始化多语$ENTITYDESC$VO构造器 */
-  public $ENTITYNAME$VO(Long id, Language lang) {
-    VOUtils.loadVOByID($ENTITYNAME$Entity.class.getSimpleName(), id, this);
-    MultiLangEntity mlEntity =
-        VOUtils.loadResEntityByMapper(
-            $ENTITYNAME$ResEntity.class.getSimpleName(), id, lang.toString());
-$FOREACH MULTILANG VO BEGIN$
-    this.$PROPERTYSETMETHOD$(new MultiLangVO[] {VOUtils.getMultiLangVO(mlEntity,"$PROPERTYNAME$")});
-$FOREACH MULTILANG VO END$
-  }
-$HASMULTILANGPROPERTY END$
-$FOREACH VO BEGIN$
-
-  /** $PROPERTYDESC$ */
-  private $PROPERTYVODATATYPE$ $PROPERTYNAME$;
-
-  public $PROPERTYVODATATYPE$ $PROPERTYGETMETHOD$() {
-    return $PROPERTYNAME$;
-  }
-
-  public void $PROPERTYSETMETHOD$($PROPERTYVODATATYPE$ value) {
-    this.$PROPERTYNAME$ = value;
-  }$FOREACH VO END$
-
-$FOREACH MULTILANG VO BEGIN$
-  /** $PROPERTYDESC$ */
-  private MultiLangVO[] $PROPERTYNAME$;
-
-  public void $PROPERTYSETMETHOD$(MultiLangVO[] value) {
-    this.$PROPERTYNAME$ = value;
-  }
-
-  public MultiLangVO[] $PROPERTYGETMETHOD$() {
-    if ($PROPERTYNAME$ == null) {
-      $PROPERTYNAME$ = VOUtils.getMultiLangRes($ENTITYNAME$ResEntity.class.getSimpleName(), $PKGETMETHOD$(), "$PROPERTYNAME$");
-    }
-
-    return $PROPERTYNAME$;
+  public $ENTITYNAME$Entity get$ENTITYNAME$Entity() {
+    return $LOWER_ENTITYNAME$Entity;
   }
   
-  public MultiLangVO $PROPERTYGETMETHOD$(String lang) {
-    if ($PROPERTYGETMETHOD$() != null) {
-      for (int i = 0; i < $PROPERTYGETMETHOD$().length; i++) {
-        if ($PROPERTYGETMETHOD$()[i].getLang().equals(lang)) {
-          return $PROPERTYGETMETHOD$()[i];
-        }
-      }
+  public Long getId() {
+    if (get$ENTITYNAME$Entity() != null) {
+      return get$ENTITYNAME$Entity().getId();
     }
+    return 0L;
+  }
 
-    return null;
-  } $FOREACH MULTILANG VO END$
+  public void set$ENTITYNAME$Entity($ENTITYNAME$Entity $LOWER_ENTITYNAME$Entity) {
+    this.$LOWER_ENTITYNAME$Entity = $LOWER_ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
+    if($LOWER_ENTITYNAME$Entity != null){
+      loadResByID($LOWER_ENTITYNAME$Entity.getId());
+    }$HASMULTILANGPROPERTY END$
+  }$HASMULTILANGPROPERTY BEGIN$
+
+  public $ENTITYNAME$ResEntity[] get$ENTITYNAME$ResEntity() {
+    return $LOWER_ENTITYNAME$ResEntity;
+  }
+
+  public void set$ENTITYNAME$ResEntity($ENTITYNAME$ResEntity[] $LOWER_ENTITYNAME$ResEntity) {
+    this.$LOWER_ENTITYNAME$ResEntity = $LOWER_ENTITYNAME$ResEntity;
+  }$HASMULTILANGPROPERTY END$
+
+  public $ENTITYNAME$VO(Long id) {
+    set$ENTITYNAME$Entity(EntityUtils.getEntityByPK($ENTITYNAME$Entity.class, id));$HASMULTILANGPROPERTY BEGIN$
+    loadResByID(id);$HASMULTILANGPROPERTY END$
+  }
+  
+  public $ENTITYNAME$VO(Long id, String lang){
+    set$ENTITYNAME$Entity(EntityUtils.getEntityByPK($ENTITYNAME$Entity.class, id));$HASMULTILANGPROPERTY BEGIN$
+    loadResByID(id, lang);$HASMULTILANGPROPERTY END$
+  }$HASMULTILANGPROPERTY BEGIN$
+
+  private void loadResByID(Long id) {
+    List<$ENTITYNAME$ResEntity> resEntities =
+        EntityUtils.getEntityListByBizKey($ENTITYNAME$ResEntity.class, id);
+    if (resEntities != null) {
+      set$ENTITYNAME$ResEntity(resEntities.toArray(new $ENTITYNAME$ResEntity[0]));
+    }
+  }
+
+  private void loadResByID(Long id, String lang) {
+    $ENTITYNAME$ResEntity resEntity = EntityUtils.getResEntityByPK($ENTITYNAME$ResEntity.class, id, lang);
+    if (resEntity != null) {
+      set$ENTITYNAME$ResEntity(new $ENTITYNAME$ResEntity[] {resEntity});
+    }
+  }$HASMULTILANGPROPERTY END$
+
+  public static List<$ENTITYNAME$Entity> getListByBizKey(Long bizKey) {
+    return EntityUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
+  }
 }

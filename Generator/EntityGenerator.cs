@@ -16,7 +16,7 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G01) Do not define EntityNameSpace.");
+                throw new Exception("(ERRNO:G01) Do not define entity file name.");
             }
 
             fileName = fileName + "Entity" + defaultExt;
@@ -26,7 +26,7 @@ namespace MyBatisCodeGenerator.Generator
 
         public override string GetClassSpace()
         {
-            return GetItemDefine("ENTITYNAMESPACE");
+            return $"{GetItemDefine("CLASSROOT")}.entity";
         }
         public override string GetRootPath()
         {

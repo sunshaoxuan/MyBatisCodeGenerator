@@ -1,8 +1,11 @@
-package $ENTITYNAMESPACE$;
+package $CLASSROOT$.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jp.co.gutingjun.common.multilang.MultiLangResource;
+import jp.co.gutingjun.common.util.DateTimeDeserializers;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +30,9 @@ public class $ENTITYNAME$Entity $PARENTCLASS$ $INTERFACES$ {$FOREACH PROPERTY BE
   /** $PROPERTYDESC$ */
   @ApiModelProperty(value = "$PROPERTYDESC$", name = "$PROPERTYNAME$", example = "")
   @MultiLangResource(catelog = "$MULTILANGRESCATALOG$", resourceid = "$MULTILANGRESID$")  $IFFORMATTEDDATE BEGIN$
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") $IFFORMATTEDDATE END$
+  @JsonDeserialize(using = DateTimeDeserializers.class)
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9") $IFFORMATTEDDATE END$
   private $PROPERTYJAVATYPE$ $PROPERTYNAME$;
 $FOREACH PROPERTY END$
 }

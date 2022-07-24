@@ -18,17 +18,17 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G61) Do not define EntityNameSpace.");
+                throw new Exception("(ERRNO:G61) Do not define multilang sql provider file name.");
             }
 
-            fileName = fileName + "ResEntitySqlProvider" + defaultExt;
+            fileName = $"{fileName}ResEntitySqlProvider{defaultExt}";
 
             return fileName;
         }
 
         public override string GetClassSpace()
         {
-            return GetItemDefine("SQLPROVIDERNAMESPACE");
+            return $"{GetItemDefine("CLASSROOT")}.dao.provider";
         }
 
         public override string GetRootPath()

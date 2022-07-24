@@ -15,7 +15,7 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G02) Do not define EntityNameSpace.");
+                throw new Exception("(ERRNO:G02) Do not define sql provider file name.");
             }
 
             fileName = fileName + "EntitySqlProvider" + defaultExt;
@@ -24,7 +24,7 @@ namespace MyBatisCodeGenerator.Generator
 
         public override string GetClassSpace()
         {
-            return GetItemDefine("SQLPROVIDERNAMESPACE");
+            return $"{GetItemDefine("CLASSROOT")}.dao.provider";
         }
 
         public override string GetRootPath()

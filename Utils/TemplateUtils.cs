@@ -13,8 +13,11 @@ namespace MyBatisCodeGenerator.Utils
     {
         public enum TemplateTypeEnum
         {
-            Entity = 0, SqlProvider = 1, Mapper = 2, MapperExtend = 3, CreateTable = 4, InsertData = 5, MultiLanguage = 6, VO = 7, AggVO = 8,
-            MultiLangEntity = 60, MultiLangSqlProvider = 61, MultiLangMapper = 62, MultiLangMapperExtend = 63, MultiLangCreateTable = 64, MultiLangInsertData = 65
+            Entity = 0, SqlProvider = 1, Mapper = 2, MapperExtend = 3, CreateTable = 4, 
+            InsertData = 5, MultiLanguage = 6, VO = 7, AggVO = 8, Rest = 9, Service = 10, 
+            ServiceImpl = 11, AggVORequest = 12,
+            MultiLangEntity = 60, MultiLangSqlProvider = 61, MultiLangMapper = 62, 
+            MultiLangMapperExtend = 63, MultiLangCreateTable = 64, MultiLangInsertData = 65
         }
 
         public static String designStartTag = "$MYBATIS META DESIGN START$";
@@ -608,7 +611,7 @@ namespace MyBatisCodeGenerator.Utils
             }
             else if (dataType.ToUpper().Equals("DATETIME"))
             {
-                return "DATE";
+                return "VARCHAR";
             }
             else if (dataType.ToUpper().StartsWith("DOUBLE"))
             {
@@ -624,17 +627,8 @@ namespace MyBatisCodeGenerator.Utils
 
         public static void ApplyFixedDefines(DataTable table, StringBuilder sb, Dictionary<string, string> defRefs)
         {
-            //$ENTITYNAMESPACE$
-            ReplaceTag(table, sb, "$ENTITYNAMESPACE$", "ENTITYNAMESPACE", "", "", defRefs);
-
-            //$MAPPERNAMESPACE$
-            ReplaceTag(table, sb, "$MAPPERNAMESPACE$", "MAPPERNAMESPACE", "", "", defRefs);
-
-            //$SQLPROVIDERNAMESPACE$
-            ReplaceTag(table, sb, "$SQLPROVIDERNAMESPACE$", "SQLPROVIDERNAMESPACE", "", "", defRefs);
-
-            //$VONAMESPACE$
-            ReplaceTag(table, sb, "$VONAMESPACE$", "VONAMESPACE", "", "", defRefs);
+            //$CLASSROOT$
+            ReplaceTag(table, sb, "$CLASSROOT$", "CLASSROOT", "", "", defRefs);
 
             //$ENTITYDESC$
             ReplaceTag(table, sb, "$ENTITYDESC$", "ENTITYDESC", "", "", defRefs);

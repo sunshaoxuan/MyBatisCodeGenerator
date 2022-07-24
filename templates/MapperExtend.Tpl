@@ -1,6 +1,6 @@
-package $MAPPERNAMESPACE$.extend;
+package $CLASSROOT$.dao.extend;
 
-import $MAPPERNAMESPACE$.$ENTITYNAME$EntityMapper;
+import $CLASSROOT$.dao.$ENTITYNAME$EntityMapper;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 

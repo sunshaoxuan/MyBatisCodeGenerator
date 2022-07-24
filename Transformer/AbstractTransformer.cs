@@ -122,16 +122,34 @@ namespace MyBatisCodeGenerator.Transformer
             tempSB.Replace("$DEFAULTTAG$", TemplateUtils.GetSQLDefaultTag(item["DEFAULT VALUE"], item["CAN BE NULL"]));
             tempSB.Replace("$PROPERTYGETMETHOD$", TemplateUtils.GetGetMethod(item["PROPERTY NAME"]));
             tempSB.Replace("%AUTO4SN%", index.ToString("D4"));
+
             if (tempSB.ToString().Contains("$IFFORMATTEDDATE"))
             {
                 if ("Date".Equals(TemplateUtils.GetJavaType(item["DATA TYPE"])))
                 {
                     tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), "$IFFORMATTEDDATE BEGIN$".Length);
-                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE END"), "$IFFORMATTEDDATE END".Length + 1);
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE END$"), "$IFFORMATTEDDATE END$".Length);
                 }
                 else
                 {
-                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), tempSB.ToString().IndexOf("$IFFORMATTEDDATE END") + "$IFFORMATTEDDATE END".Length - tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$") + 1);
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), 
+                        tempSB.ToString().IndexOf("$IFFORMATTEDDATE END$") + "$IFFORMATTEDDATE END$".Length - tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"));
+                }
+            }
+
+            if(tempSB.ToString().Contains("$IFVERSION "))
+            {
+                if ("VERSION".Equals(item["FIELD NAME"].ToUpper()))
+                {
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFVERSION BEGIN$"), "$IFVERSION BEGIN$".Length);
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFVERSION ELSE$"),
+                        tempSB.ToString().IndexOf("$IFVERSION END$") + "$IFVERSION END$".Length - tempSB.ToString().IndexOf("$IFVERSION ELSE$"));
+                }
+                else
+                {
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFVERSION BEGIN$"),
+                        tempSB.ToString().IndexOf("$IFVERSION ELSE$") + "$IFVERSION ELSE$".Length - tempSB.ToString().IndexOf("$IFVERSION BEGIN$"));
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFVERSION END$"), "$IFVERSION END$".Length);
                 }
             }
         }

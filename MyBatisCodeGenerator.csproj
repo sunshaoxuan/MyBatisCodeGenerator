@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Generator\AbstractGenerator.cs" />
+    <Compile Include="Generator\AggVORequestGenerator.cs" />
     <Compile Include="Generator\MultiLangInsertDataGenerator.cs" />
     <Compile Include="Generator\MultiLangCreateTableGenerator.cs" />
     <Compile Include="Generator\MapperExtendGenerator.cs" />
@@ -149,11 +150,15 @@
     <Compile Include="Generator\MapperGenerator.cs" />
     <Compile Include="Generator\MultiLangEntityGenerator.cs" />
     <Compile Include="Generator\MultiLangSqlProviderGenerator.cs" />
+    <Compile Include="Generator\RestGenerator.cs" />
+    <Compile Include="Generator\ServiceGenerator.cs" />
+    <Compile Include="Generator\ServiceImplGenerator.cs" />
     <Compile Include="Generator\SqlProviderGenerator.cs" />
     <Compile Include="Generator\AggVOGenerator.cs" />
     <Compile Include="Generator\VOGenerator.cs" />
     <Compile Include="Transformer\AbstractTransformer.cs" />
     <Compile Include="Transformer\AggVOTransformer.cs" />
+    <Compile Include="Transformer\AggVOPartExistsTransformer.cs" />
     <Compile Include="Transformer\BizKeyPartExistsTransformer.cs" />
     <Compile Include="Transformer\BizKeyTransformer.cs" />
     <Compile Include="Transformer\CommonFieldTransformer.cs" />
@@ -168,7 +173,8 @@
     <Compile Include="Transformer\NoPKFieldTransformer.cs" />
     <Compile Include="Transformer\NoPKPropertyTransformer.cs" />
     <Compile Include="Transformer\PKItemTransformer.cs" />
-    <Compile Include="Transformer\SnowFlakeWorker.cs" />
+    <Compile Include="Transformer\SkipPartTransformer.cs" />
+    <Compile Include="Transformer\VersionPartExistsTransformer.cs" />
     <Compile Include="Transformer\VOTransformer.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
     <Compile Include="Utils\ExcelUtils.cs" />
@@ -184,6 +190,7 @@
     <Compile Include="Utils\TemplateUtils.cs" />
     <EmbeddedResource Include="Generator.resx">
       <DependentUpon>Generator.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -244,7 +251,20 @@
     <Content Include="templates\VO.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="templates\VO.Tpl.BAK" />
     <Content Include="templates\AggVO.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Rest.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Service.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\ServiceImpl.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\AggVORequest.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

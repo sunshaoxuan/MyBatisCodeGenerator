@@ -1,7 +1,7 @@
-package $MAPPERNAMESPACE$;
+package $CLASSROOT$.dao;
 
-import $SQLPROVIDERNAMESPACE$.$ENTITYNAME$ResEntitySqlProvider;
-import $ENTITYNAMESPACE$.$ENTITYNAME$ResEntity;
+import $CLASSROOT$.dao.provider.$ENTITYNAME$ResEntitySqlProvider;
+import $CLASSROOT$.entity.$ENTITYNAME$ResEntity;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
@@ -73,7 +73,7 @@ $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
     @Result(column = "updated_time", property = "updatedTime", jdbcType = JdbcType.DATE),
   })
-  $ENTITYNAME$ResEntity selectByPrimaryKey(Long $PKFIELDNAME$, String lang);
+  $ENTITYNAME$ResEntity selectByPrimaryKey(@Param("$PKFIELDNAME$") Long $PKFIELDNAME$, @Param("lang") String lang);
 
     @Select({
     "select",

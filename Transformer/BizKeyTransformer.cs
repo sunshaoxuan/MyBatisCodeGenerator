@@ -12,7 +12,7 @@ namespace MyBatisCodeGenerator.Transformer
     {
         public override int GetOrder()
         {
-            return 14;
+            return 21;
         }
 
         public override string GetTag()
@@ -45,8 +45,12 @@ namespace MyBatisCodeGenerator.Transformer
                         OriginalContent.Replace("$BIZKEYFIELDDATATYPE$", TemplateUtils.GetJDBCType(item["DATA TYPE"]));
                         OriginalContent.Replace("$BIZKEYFIELDJAVATYPE$", TemplateUtils.GetJavaType(item["DATA TYPE"]));
                         OriginalContent.Replace("$BIZKEYGETMETHOD$", TemplateUtils.GetPropertyGetMethod(item["PROPERTY NAME"]));
+                        OriginalContent.Replace("$BIZKEYWHERECONDITION$",
+                            "$BIZKEYWHERECONDITION$ OR " + item["FIELD NAME"] + "= #{bizKeyValue,jdbcType=" + TemplateUtils.GetJDBCType(item["DATA TYPE"]) + "}");
                     }
                 }
+
+                OriginalContent.Replace("$BIZKEYWHERECONDITION$", "");
             }
         }
     }

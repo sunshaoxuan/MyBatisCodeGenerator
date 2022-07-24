@@ -11,7 +11,7 @@ namespace MyBatisCodeGenerator.Generator
 
         public override string GetClassSpace()
         {
-            return GetItemDefine("MAPPERNAMESPACE") + ".extend";
+            return $"{GetItemDefine("CLASSROOT")}.dao.extend";
         }
 
         public override string GetRootPath()
@@ -25,10 +25,10 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G03) Do not define EntityNameSpace.");
+                throw new Exception("(ERRNO:G03) Do not define mapper extend file name.");
             }
 
-            fileName = fileName + "EntityExtendMapper" + defaultExt;
+            fileName = $"{fileName}EntityExtendMapper{defaultExt}";
             return fileName;
         }
 

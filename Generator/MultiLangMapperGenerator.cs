@@ -14,16 +14,16 @@ namespace MyBatisCodeGenerator.Generator
 
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new Exception("(ERRNO:G62) Do not define EntityNameSpace.");
+                throw new Exception("(ERRNO:G62) Do not define multilang mapper file name.");
             }
 
-            fileName = fileName + "ResEntityMapper" + defaultExt;
+            fileName = $"{fileName}ResEntityMapper{defaultExt}";
             return fileName;
         }
 
         public override string GetClassSpace()
         {
-            return GetItemDefine("MAPPERNAMESPACE");
+            return $"{GetItemDefine("CLASSROOT")}.dao";
         }
 
         public override string GetRootPath()

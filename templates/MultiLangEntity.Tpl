@@ -1,4 +1,4 @@
-package $ENTITYNAMESPACE$;
+package $CLASSROOT$.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
