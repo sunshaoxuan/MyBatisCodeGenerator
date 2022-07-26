@@ -61,8 +61,21 @@ public interface $ENTITYNAME$EntityMapper {
         @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
     List<$ENTITYNAME$Entity> selectAll();
-
 $HASBIZKEY BEGIN$
+$IF BIZKEYCONTAINVARCHAR$
+    @Select({
+        "select",$FOREACH FIELD BEGIN$
+        /** $PROPERTYDESC$ */
+        "$FIELDNAME$ $COMMAEXCEPTLAST$",$FOREACH FIELD END$
+        "from $TABLENAME$",
+        "where (1=2$BIZKEYWHERECONDITION$)"
+    })
+    @Results({$FOREACH FIELD BEGIN$
+        /** $PROPERTYDESC$ */
+        @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.VARCHAR $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
+    })
+    List<$ENTITYNAME$Entity> selectByBizKey(String bizKeyValue);
+$ELSE$
     @Select({
         "select",$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
@@ -74,7 +87,7 @@ $HASBIZKEY BEGIN$
         /** $PROPERTYDESC$ */
         @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
-    List<$ENTITYNAME$Entity> selectByBizKey($BIZKEYFIELDJAVATYPE$ bizKeyValue);
+    List<$ENTITYNAME$Entity> selectByBizKey($BIZKEYFIELDJAVATYPE$ bizKeyValue);$END IF$
 $HASBIZKEY END$
     @UpdateProvider(type=$ENTITYNAME$EntitySqlProvider.class, method="updateByPrimaryKeySelective")
     int updateByPrimaryKeySelective($ENTITYNAME$Entity record);

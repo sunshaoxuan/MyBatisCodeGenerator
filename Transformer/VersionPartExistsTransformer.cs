@@ -26,9 +26,7 @@ namespace MyBatisCodeGenerator.Transformer
 
         public override bool IsValid()
         {
-            List<Dictionary<string, string>> rst = TemplateUtils.GetDesignMetaDetailByValue(DesignData, "FIELD NAME", "version");
-
-            return rst.Count > 0;
+            return TemplateUtils.VersionPropertyDefined(DesignData);
         }
 
         public override void Transform()

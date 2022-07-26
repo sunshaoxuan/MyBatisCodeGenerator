@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jp.co.gutingjun.common.util.BaseRest;
 import jp.co.gutingjun.common.util.R;
-import $CLASSROOT$.entity.$ENTITYNAME$Entity;
 import $CLASSROOT$.rest.request.IDRequest;
 import $CLASSROOT$.vo.$ENTITYNAME$VO;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import $CLASSROOT$.service.*;
 $HASAGGVO BEGIN$
-import jp.co.gutingjun.common.pms.entity.AggVO;
+import jp.co.gutingjun.pms.vo.AggVO;
 import $CLASSROOT$.rest.request.$ENTITYNAME$AggVORequest;
 import $CLASSROOT$.vo.$ENTITYNAME$AggVO;$HASAGGVO END$
 
@@ -37,21 +36,7 @@ public class $ENTITYNAME$Rest extends BaseRest {
   public R<$ENTITYNAME$VO[]> load$ENTITYNAME$() {
     return R.responseBySuccess($LOWER_ENTITYNAME$Service.getAll$ENTITYNAME$());
   }
-
-  @ApiOperation(value = "/$ENTITYNAME_LOWER$byid", notes = "指定$ENTITYDESC$数据加载")
-  @PostMapping(value = "/$ENTITYNAME_LOWER$byid")
-  @ResponseBody
-  public R<$ENTITYNAME$VO> load$ENTITYNAME$ByID(@RequestBody IDRequest request) {
-    return R.responseBySuccess($LOWER_ENTITYNAME$Service.get$ENTITYNAME$ByID(request.getId()));
-  }
-
-  @ApiOperation(value = "/$ENTITYNAME_LOWER$save", notes = "$ENTITYDESC$数据保存")
-  @PostMapping(value = "/$ENTITYNAME_LOWER$save")
-  @ResponseBody
-  public R<Long> save(@RequestBody $ENTITYNAME$Entity request) {
-    return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(request));
-  }
-$HASAGGVO BEGIN$
+$IF HASAGGVO$
   @ApiOperation(value = "/$ENTITYNAME_LOWER$byparentid", notes = "指定$ENTITYDESC$聚合数据加载")
   @PostMapping(value = "/$ENTITYNAME_LOWER$byparentid")
   @ResponseBody
@@ -73,5 +58,19 @@ $HASAGGVO BEGIN$
       return R.responseByError(0, ex.getMessage());
     }
   }
-$HASAGGVO END$
+$ELSE$
+  @ApiOperation(value = "/$ENTITYNAME_LOWER$byid", notes = "指定$ENTITYDESC$数据加载")
+  @PostMapping(value = "/$ENTITYNAME_LOWER$byid")
+  @ResponseBody
+  public R<$ENTITYNAME$VO> load$ENTITYNAME$ByID(@RequestBody IDRequest request) {
+    return R.responseBySuccess($LOWER_ENTITYNAME$Service.get$ENTITYNAME$ByID(request.getId()));
+  }
+
+  @ApiOperation(value = "/$ENTITYNAME_LOWER$save", notes = "$ENTITYDESC$数据保存")
+  @PostMapping(value = "/$ENTITYNAME_LOWER$save")
+  @ResponseBody
+  public R<Long> save(@RequestBody $ENTITYNAME$VO request) {
+    return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(request));
+  }
+$END IF$
 }

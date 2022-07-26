@@ -13,11 +13,31 @@ namespace MyBatisCodeGenerator.Utils
     {
         public enum TemplateTypeEnum
         {
-            Entity = 0, SqlProvider = 1, Mapper = 2, MapperExtend = 3, CreateTable = 4, 
-            InsertData = 5, MultiLanguage = 6, VO = 7, AggVO = 8, Rest = 9, Service = 10, 
+            Entity = 0, SqlProvider = 1, Mapper = 2, MapperExtend = 3, CreateTable = 4,
+            InsertData = 5, MultiLanguage = 6, VO = 7, AggVO = 8, Rest = 9, Service = 10,
             ServiceImpl = 11, AggVORequest = 12,
-            MultiLangEntity = 60, MultiLangSqlProvider = 61, MultiLangMapper = 62, 
+            MultiLangEntity = 60, MultiLangSqlProvider = 61, MultiLangMapper = 62,
             MultiLangMapperExtend = 63, MultiLangCreateTable = 64, MultiLangInsertData = 65
+        }
+
+        internal static bool BizKeyDefined(DataTable designData)
+        {
+            List<Dictionary<string, string>> details = GetAllDesignMetaDetail(designData);
+            foreach (Dictionary<string, string> detail in details)
+            {
+                if (TemplateUtils.IsBizKeyItem(detail))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal static bool VersionPropertyDefined(DataTable designData)
+        {
+            List<Dictionary<string, string>> rst = TemplateUtils.GetDesignMetaDetailByValue(designData, "FIELD NAME", "version");
+            return rst.Count > 0;
         }
 
         public static String designStartTag = "$MYBATIS META DESIGN START$";
@@ -94,8 +114,30 @@ namespace MyBatisCodeGenerator.Utils
 
         public static Boolean MultiLangDefined(DataTable designData)
         {
-            List<Dictionary<string, string>> details = TemplateUtils.GetDesignMetaDetailByValue(designData, "VO DATA TYPE", "MultiLangVO[]");
-            return details.Count > 0;
+            List<Dictionary<string, string>> details = GetAllDesignMetaDetail(designData);
+            foreach (Dictionary<string, string> detail in details)
+            {
+                if (TemplateUtils.IsMultiLangItem(detail))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static Boolean AggVODefined(DataTable designData)
+        {
+            List<Dictionary<string, string>> details = GetAllDesignMetaDetail(designData);
+            foreach (Dictionary<string, string> detail in details)
+            {
+                if (TemplateUtils.IsAggVOItem(detail))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static List<Dictionary<string, string>> GetAllDesignMetaDetail(DataTable designData)
@@ -161,6 +203,28 @@ namespace MyBatisCodeGenerator.Utils
 
             return detail;
         }
+
+        internal static bool BizKeyContainVarchar(DataTable designData)
+        {
+            List<Dictionary<string, string>> details = GetAllDesignMetaDetail(designData);
+            foreach (Dictionary<string, string> detail in details)
+            {
+                if (TemplateUtils.IsBizKeyItem(detail))
+                {
+                    if (TemplateUtils.IsVarcharItem(detail))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static bool IsVarcharItem(Dictionary<string, string> item)
+        {
+            return item.ContainsKey("DATA TYPE") && item["DATA TYPE"].ToUpper().Equals("VARCHAR");
+        }
+
         public static List<Dictionary<string, string>> GetDesignMetaDetailByValue(DataTable designData, String designItem, String compareValue)
         {
             List<Dictionary<string, string>> detail = new List<Dictionary<string, string>>();

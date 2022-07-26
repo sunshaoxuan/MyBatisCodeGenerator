@@ -13,7 +13,7 @@ import lombok.Data;
  @Data
  public class $ENTITYNAME$AggVORequest {
   /** $ENTITYDESC$ */
-  private $ENTITYNAME$Entity parent;
+  private $ENTITYNAME$VO parent;
   $FOREACH AGG VO BEGIN$	
   /** $PROPERTYDESC$ */
   private $PROPERTYVODATATYPE$[] $LOWER_PROPERTYVODATATYPE$; $FOREACH AGG VO END$

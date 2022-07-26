@@ -1244,72 +1244,81 @@ namespace MyBatisCodeGenerator
 
         private void btnPublish_Click(object sender, EventArgs e)
         {
-            runStatus = RunStatusEnum.Running;
+            frmScriptChoose frmScript = new frmScriptChoose();
+            string[] filenames = Directory.GetFiles(txtScriptSavePath.Text, "*.sql");
+            frmScript.setScripts(filenames);
 
-            tstrsStatus.Text = "Publishing ...";
-            DisableAllOnRunning();
-            dtgStepLog.Rows.Clear();
-            btnRun.Enabled = false;
-            btnStop.Enabled = true;
-
-            Application.DoEvents();
-
-            try
+            if (frmScript.ShowDialog() == DialogResult.OK)
             {
-                String connetStr = txtDBConnStr.Text;
+                List<String> checkedScripts = frmScript.getCheckedScriptNames();
 
-                if (string.IsNullOrEmpty(connetStr))
-                {
-                    MessageBox.Show("No database connection info defined.");
-                }
-                else
-                {
-                    dtgStepLog.Rows.Clear();
+                runStatus = RunStatusEnum.Running;
 
-                    MySqlConnection conn = new MySqlConnection(connetStr);
-                    try
+                tstrsStatus.Text = "Publishing ...";
+                DisableAllOnRunning();
+                dtgStepLog.Rows.Clear();
+                btnRun.Enabled = false;
+                btnStop.Enabled = true;
+
+                Application.DoEvents();
+
+                try
+                {
+                    String connetStr = txtDBConnStr.Text;
+
+                    if (string.IsNullOrEmpty(connetStr))
                     {
-                        conn.Open();
+                        MessageBox.Show("No database connection info defined.");
+                    }
+                    else
+                    {
+                        dtgStepLog.Rows.Clear();
 
-                        Dictionary<string, StringBuilder> scriptSB = null;
-
-                        scriptSB = ReadSpecificCreateTableScript(txtCreateTablePrefix.Text, txtBaseExecutive.Text);
-                        RunScripts(scriptSB, conn, "Pre-execute scripts");
-
-                        scriptSB = ReadSpecificCreateTableScript(txtInsertDataPrefix.Text, txtBaseExecutive.Text);
-                        RunScripts(scriptSB, conn, "Pre-insert data scripts");
-
-                        scriptSB = ReadCreateTableScripts();
-                        RunScripts(scriptSB, conn, "Create table scripts");
-
-                        scriptSB = ReadInsertDataScripts();
-                        RunScripts(scriptSB, conn, "Metadata Insert Scripts");
-
-                        if (chkExecuteMultiLang.Checked)
+                        MySqlConnection conn = new MySqlConnection(connetStr);
+                        try
                         {
-                            scriptSB = ReadMultiLangInsertDataScripts();
-                            RunScripts(scriptSB, conn, "Multi Language Data Insert Scripts");
+                            conn.Open();
+
+                            Dictionary<string, StringBuilder> scriptSB = null;
+
+                            scriptSB = ReadSpecificCreateTableScript(txtCreateTablePrefix.Text, txtBaseExecutive.Text);
+                            RunScripts(scriptSB, conn, "Pre-execute scripts");
+
+                            scriptSB = ReadSpecificCreateTableScript(txtInsertDataPrefix.Text, txtBaseExecutive.Text);
+                            RunScripts(scriptSB, conn, "Pre-insert data scripts");
+
+                            scriptSB = ReadCreateTableScripts();
+                            RunScripts(scriptSB, conn, "Create table scripts");
+
+                            scriptSB = ReadInsertDataScripts();
+                            RunScripts(scriptSB, conn, "Metadata Insert Scripts");
+
+                            if (chkExecuteMultiLang.Checked)
+                            {
+                                scriptSB = ReadMultiLangInsertDataScripts();
+                                RunScripts(scriptSB, conn, "Multi Language Data Insert Scripts");
+                            }
                         }
-                    }
-                    finally
-                    {
-                        conn.Close();
-                    }
+                        finally
+                        {
+                            conn.Close();
+                        }
 
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                CommonUtils.Log(ex.StackTrace);
-                MessageBox.Show(ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    CommonUtils.Log(ex.StackTrace);
+                    MessageBox.Show(ex.Message);
+                }
 
-            EnableAllOnStop();
-            btnRun.Enabled = true;
-            btnStop.Enabled = false;
-            tstrsStatus.Text = "";
-            tstrpProgress.Visible = false;
-            runStatus = RunStatusEnum.Stopped;
+                EnableAllOnStop();
+                btnRun.Enabled = true;
+                btnStop.Enabled = false;
+                tstrsStatus.Text = "";
+                tstrpProgress.Visible = false;
+                runStatus = RunStatusEnum.Stopped;
+            }
         }
 
         private Dictionary<string, StringBuilder> ReadSpecificCreateTableScript(string prefix, string tableNameStr)

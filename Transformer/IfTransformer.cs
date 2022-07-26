@@ -1,5 +1,4 @@
-﻿using MyBatisCodeGenerator.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,31 +6,31 @@ using System.Threading.Tasks;
 
 namespace MyBatisCodeGenerator.Transformer
 {
-    public class AggVOPartExistsTransformer : AbstractTransformer
+    internal class IfTransformer : AbstractTransformer
     {
         public override int GetOrder()
         {
-            return 1;
+            return 6;
         }
 
         public override string GetTag()
         {
-            return "$HASAGGVO$";
+            return "$IF$";
         }
 
         public override bool IsTransformItem(Dictionary<string, string> item)
         {
-            return item.ContainsKey("DATA TYPE") && "AGGVO".Equals(item["DATA TYPE"].ToUpper());
+            return true;
         }
 
         public override bool IsValid()
         {
-            return TemplateUtils.AggVODefined(DesignData);
+            return false;
         }
 
         public override void Transform()
         {
-            SimpleReplace();
+            ConditionalReplace();
         }
     }
 }

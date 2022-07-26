@@ -3,26 +3,30 @@ package $CLASSROOT$.vo;
 import $CLASSROOT$.entity.$ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
 import $CLASSROOT$.entity.$ENTITYNAME$ResEntity;$HASMULTILANGPROPERTY END$
 import $CLASSROOT$.service.impl.EntityUtils;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 @NoArgsConstructor
-public class $ENTITYNAME$VO implements Serializable{
+public class $ENTITYNAME$VO extends ValueObject{
   private $ENTITYNAME$Entity $LOWER_ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
   private $ENTITYNAME$ResEntity[] $LOWER_ENTITYNAME$ResEntity;$HASMULTILANGPROPERTY END$
 
   public $ENTITYNAME$Entity get$ENTITYNAME$Entity() {
     return $LOWER_ENTITYNAME$Entity;
   }
-  
+
+  @Override
   public Long getId() {
     if (get$ENTITYNAME$Entity() != null) {
       return get$ENTITYNAME$Entity().getId();
     }
     return 0L;
+  }
+  
+  @Override
+  public void putEntity(Object entity) {
+    set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity);
   }
 
   public void set$ENTITYNAME$Entity($ENTITYNAME$Entity $LOWER_ENTITYNAME$Entity) {
@@ -51,10 +55,12 @@ public class $ENTITYNAME$VO implements Serializable{
   }$HASMULTILANGPROPERTY BEGIN$
 
   private void loadResByID(Long id) {
-    List<$ENTITYNAME$ResEntity> resEntities =
-        EntityUtils.getEntityListByBizKey($ENTITYNAME$ResEntity.class, id);
-    if (resEntities != null) {
-      set$ENTITYNAME$ResEntity(resEntities.toArray(new $ENTITYNAME$ResEntity[0]));
+    if (id != null && id > 0L) {
+      List<$ENTITYNAME$ResEntity> resEntities =
+          EntityUtils.getResEntityByPK($ENTITYNAME$ResEntity.class, id);
+      if (resEntities != null) {
+        set$ENTITYNAME$ResEntity(resEntities.toArray(new $ENTITYNAME$ResEntity[0]));
+      }
     }
   }
 
@@ -67,5 +73,15 @@ public class $ENTITYNAME$VO implements Serializable{
 
   public static List<$ENTITYNAME$Entity> getListByBizKey(Long bizKey) {
     return EntityUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
+  }
+
+  @Override
+  public Object pickEntity() {
+    return get$ENTITYNAME$Entity();
+  }
+
+  @Override
+  public Object pickRefEntity() {
+    return $IF HASMULTILANGPROPERTY$get$ENTITYNAME$ResEntity();$ELSE$null;$END IF$
   }
 }

@@ -1,9 +1,7 @@
 package $CLASSROOT$.vo;
 
-import jp.co.gutingjun.common.pms.entity.AggVO;
-import $CLASSROOT$.entity.*;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,20 +14,23 @@ import java.util.List;
   /** $ENTITYDESC$ */
   private $ENTITYNAME$VO parent;
 
-  public $ENTITYNAME$VO getParent() {
-    return parent;
+  @Override
+  public ValueObject getParent() {
+    return (ValueObject) parent;
   }
 
-  public void setParent($ENTITYNAME$VO parent) {
-    this.parent = parent;
+  @Override
+  public void setParent(ValueObject parent) {
+    this.parent = ($ENTITYNAME$VO) parent;
   }
-  
-  public void setParent($ENTITYNAME$Entity parentEntity) {
-    if (this.parent == null) {
-      this.parent = new $ENTITYNAME$VO();
+
+  @Override
+  public Long pickParentID() {
+    if (getParent() != null) {
+      return getParent().getId();
     }
 
-    this.parent.set$ENTITYNAME$Entity(parentEntity);
+    return -1L;
   }
 
   $FOREACH AGG VO BEGIN$	
@@ -49,15 +50,24 @@ import java.util.List;
   } 
   $FOREACH AGG VO END$
   @Override
-  public Class ensureParentClass() {
+  public Class pickParentClass() {
     return $ENTITYNAME$VO.class;
   }
 
   @Override
-  public List<Class> ensureSubClasses() {
+  public List<Class> pickSubClasses() {
     List<Class> entityClasses = new ArrayList<Class>();  $FOREACH AGG VO BEGIN$	
     entityClasses.add($PROPERTYVODATATYPE$.class);  $FOREACH AGG VO END$
     return entityClasses;
   }
+
+    @Override
+    public List pickSubVOList(Class subVOClazz) {$FOREACH AGG VO BEGIN$
+      if(subVOClazz.equals($PROPERTYVODATATYPE$.class)){
+          return new ArrayList<$PROPERTYVODATATYPE$>(Arrays.asList(get$PROPERTYVODATATYPE$()));
+      } $FOREACH AGG VO END$
+      return null;
+    }
+
 }
 

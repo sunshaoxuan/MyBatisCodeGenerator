@@ -136,6 +136,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmScriptChoose.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScriptChoose.Designer.cs">
+      <DependentUpon>frmScriptChoose.cs</DependentUpon>
+    </Compile>
     <Compile Include="Generator\AbstractGenerator.cs" />
     <Compile Include="Generator\AggVORequestGenerator.cs" />
     <Compile Include="Generator\MultiLangInsertDataGenerator.cs" />
@@ -163,6 +169,7 @@
     <Compile Include="Transformer\BizKeyTransformer.cs" />
     <Compile Include="Transformer\CommonFieldTransformer.cs" />
     <Compile Include="Transformer\FixItemTransformer.cs" />
+    <Compile Include="Transformer\IfTransformer.cs" />
     <Compile Include="Transformer\InsertDataTransformer.cs" />
     <Compile Include="Transformer\MultiLangFieldTransformer.cs" />
     <Compile Include="Transformer\MultiLangInsertDataTransformer.cs" />
@@ -188,6 +195,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\SnowFlakeWorker.cs" />
     <Compile Include="Utils\TemplateUtils.cs" />
+    <EmbeddedResource Include="frmScriptChoose.resx">
+      <DependentUpon>frmScriptChoose.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Generator.resx">
       <DependentUpon>Generator.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -251,7 +261,6 @@
     <Content Include="templates\VO.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="templates\VO.Tpl.BAK" />
     <Content Include="templates\AggVO.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

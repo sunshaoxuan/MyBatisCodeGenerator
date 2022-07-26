@@ -90,6 +90,66 @@ namespace MyBatisCodeGenerator.Transformer
             }
         }
 
+        public void ConditionalReplace()
+        {
+            string condBeginTag = "$IF ";
+            string condElse = "$ELSE$";
+            string condEndTag = "$END IF$";
+
+            while (OriginalContent.ToString().Contains(condBeginTag))
+            {
+                int blockStartIndex = OriginalContent.ToString().IndexOf(condBeginTag);
+                int elseIndex = OriginalContent.ToString().IndexOf(condElse);
+                int blockEndIndex = OriginalContent.ToString().IndexOf(condEndTag) + condEndTag.Length;
+                string condition = OriginalContent.ToString().Substring(blockStartIndex + condBeginTag.Length, OriginalContent.ToString().IndexOf("$", blockStartIndex + 1) - blockStartIndex - condBeginTag.Length).Trim();
+
+                if (blockEndIndex < blockStartIndex)
+                {
+                    throw new Exception("[$IF$] tag define invalid.");
+                }
+
+                string block = OriginalContent.ToString().Substring(blockStartIndex, blockEndIndex - blockStartIndex);
+
+                int truePartSeedStartIndex = blockStartIndex + condBeginTag.Length + condition.Length + 1;
+                int truePartSeedEndIndex = elseIndex - 1;
+                int falsePartSeedStartIndex = elseIndex + condElse.Length;
+                int falsePartSeedEndIndex = blockEndIndex - condEndTag.Length;
+                string truePartSeed = OriginalContent.ToString().Substring(truePartSeedStartIndex, truePartSeedEndIndex - truePartSeedStartIndex + 1);
+                string falsePartSeed = OriginalContent.ToString().Substring(falsePartSeedStartIndex, falsePartSeedEndIndex - falsePartSeedStartIndex);
+
+                bool conditionValue = false;
+                if (condition.StartsWith("HASMULTILANGPROPERTY"))
+                {
+                    conditionValue = TemplateUtils.MultiLangDefined(DesignData);
+                }
+                else if (condition.StartsWith("HASAGGVO"))
+                {
+                    conditionValue = TemplateUtils.AggVODefined(DesignData);
+                }
+                else if (condition.StartsWith("HASVERSION"))
+                {
+                    conditionValue = TemplateUtils.VersionPropertyDefined(DesignData);
+                }
+                else if (condition.StartsWith("HASBIZKEY"))
+                {
+                    conditionValue = TemplateUtils.BizKeyDefined(DesignData);
+                }
+                else if (condition.StartsWith("BIZKEYCONTAINVARCHAR"))
+                {
+                    conditionValue = TemplateUtils.BizKeyContainVarchar(DesignData);
+                }
+
+                if (conditionValue)
+                {
+                    OriginalContent = OriginalContent.Replace(block, truePartSeed);
+                }
+                else
+                {
+                    OriginalContent = OriginalContent.Replace(block, falsePartSeed);
+                }
+            }
+        }
+
         public abstract bool IsValid();
 
         internal List<Dictionary<string, string>> GetGeneratedMetaDetail()
@@ -132,12 +192,12 @@ namespace MyBatisCodeGenerator.Transformer
                 }
                 else
                 {
-                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), 
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"),
                         tempSB.ToString().IndexOf("$IFFORMATTEDDATE END$") + "$IFFORMATTEDDATE END$".Length - tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"));
                 }
             }
 
-            if(tempSB.ToString().Contains("$IFVERSION "))
+            if (tempSB.ToString().Contains("$IFVERSION "))
             {
                 if ("VERSION".Equals(item["FIELD NAME"].ToUpper()))
                 {
@@ -270,7 +330,7 @@ namespace MyBatisCodeGenerator.Transformer
                 {
                     if (!MultiLangRefInfo[entityName].ContainsKey(""))
                     {
-                        MultiLangRefInfo[entityName].Add("", new string[] { entityDesc, itemResCatalog, "mt0000"});
+                        MultiLangRefInfo[entityName].Add("", new string[] { entityDesc, itemResCatalog, "mt0000" });
 
                     }
                 }
@@ -282,13 +342,13 @@ namespace MyBatisCodeGenerator.Transformer
 
         private string[] MatchMultiLangRes(string itemShowName, Dictionary<string, Dictionary<string, string>> commonMultiLang)
         {
-            foreach(KeyValuePair<string, Dictionary<string, string>> catalogDic in commonMultiLang)
+            foreach (KeyValuePair<string, Dictionary<string, string>> catalogDic in commonMultiLang)
             {
-                foreach(KeyValuePair<string, string> resinfo in catalogDic.Value)
+                foreach (KeyValuePair<string, string> resinfo in catalogDic.Value)
                 {
                     if (resinfo.Value.Equals(itemShowName))
                     {
-                        return new string[] { catalogDic.Key, resinfo.Key};
+                        return new string[] { catalogDic.Key, resinfo.Key };
                     }
                 }
             }

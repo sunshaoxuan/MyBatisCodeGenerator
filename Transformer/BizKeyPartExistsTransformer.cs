@@ -26,16 +26,7 @@ namespace MyBatisCodeGenerator.Transformer
 
         public override bool IsValid()
         {
-            List<Dictionary<string, string>> details = GetProcessData();
-            foreach(Dictionary<string, string> detail in details)
-            {
-                if (TemplateUtils.IsBizKeyItem(detail))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return TemplateUtils.BizKeyDefined(DesignData);
         }
 
         public override void Transform()
