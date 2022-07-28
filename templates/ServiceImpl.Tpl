@@ -5,8 +5,9 @@ import $CLASSROOT$.service.$ENTITYNAME$Service;
 import org.springframework.stereotype.Service;
 import $CLASSROOT$.vo.$ENTITYNAME$VO;
 $HASAGGVO BEGIN$
-import jp.co.gutingjun.pms.vo.AggVO;
+import $CLASSROOT$.vo.AggVO;
 import $CLASSROOT$.vo.$ENTITYNAME$AggVO; $HASAGGVO END$
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,22 +38,35 @@ public class $ENTITYNAME$ServiceImpl implements $ENTITYNAME$Service {
   }
 $IF HASAGGVO$
     @Override
-    public AggVO get$ENTITYNAME$AggVOByID(Long id) {
-        AggVO aggvo = AggVOUtil.loadAggVOByParent($ENTITYNAME$AggVO.class, id);
-        return aggvo;
-    }
-
+  public AggVO get$ENTITYNAME$AggVOByID(Long id) {
+    $ENTITYNAME$AggVO aggVO = new $ENTITYNAME$AggVO();
+    aggVO.loadByParentID(id);
+    return aggVO;
+  }
+  
   @Override
-  public Long save($ENTITYNAME$AggVO aggVO) throws Exception{
-    return aggVO.save();
+  public AggVO get$ENTITYNAME$AggVOByIDLang(Long id, String lang) {
+    $ENTITYNAME$AggVO aggVO = new $ENTITYNAME$AggVO();
+    aggVO.putLang(lang);
+    aggVO.loadByParentID(id);
+    return aggVO;
+  }
+
+  @Transactional(rollbackFor=Exception.class)
+  @Override
+  public $ENTITYNAME$AggVO save($ENTITYNAME$AggVO aggVO) throws Exception{
+    aggVO.save();
+
+    $ENTITYNAME$AggVO newAggVO = new $ENTITYNAME$AggVO();
+    newAggVO.loadByParentID(aggVO.pickParentID());
+    return newAggVO;
   }
 $ELSE$
+  @Transactional(rollbackFor=Exception.class)
   @Override
   public Long save($ENTITYNAME$VO vo) {
     return vo.save();
-  }$END IF$
-$HASBIZKEY BEGIN$
-$IF BIZKEYCONTAINVARCHAR$
+  }$END IF$ $HASBIZKEY BEGIN$ $IF BIZKEYCONTAINVARCHAR$
     @Override
     public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(String bizKey) {
         List<$ENTITYNAME$VO> rtn = new ArrayList<$ENTITYNAME$VO>();
@@ -66,17 +80,17 @@ $IF BIZKEYCONTAINVARCHAR$
         }
         return result == null ? null : rtn.toArray(new $ENTITYNAME$VO[0]); 
     }$ELSE$
-    @Override
-    public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(Long bizKey) {
-        List<$ENTITYNAME$VO> rtn = new ArrayList<$ENTITYNAME$VO>();
-        List<$ENTITYNAME$Entity> result = EntityUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
-        if(result != null && result.size() > 0){
-          for ($ENTITYNAME$Entity entity : result) {
-              $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
-              newVO.set$ENTITYNAME$Entity(entity);
-              rtn.add(newVO);
-          }
+  @Override
+  public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(Long bizKey) {
+    List<$ENTITYNAME$VO> rtn = new ArrayList<$ENTITYNAME$VO>();
+    List<$ENTITYNAME$Entity> result = EntityUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
+    if(result != null && result.size() > 0){
+        for ($ENTITYNAME$Entity entity : result) {
+            $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
+            newVO.set$ENTITYNAME$Entity(entity);
+            rtn.add(newVO);
         }
-        return result == null ? null : rtn.toArray(new $ENTITYNAME$VO[0]); 
-    }$END IF$ $HASBIZKEY END$
+    }
+    return result == null ? null : rtn.toArray(new $ENTITYNAME$VO[0]); 
+  }$END IF$ $HASBIZKEY END$
 }

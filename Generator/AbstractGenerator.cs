@@ -41,6 +41,11 @@ namespace MyBatisCodeGenerator.Generator
         public Boolean IsOverwriteExists { get; set; } = true;
 
         /// <summary>
+        /// 完整定义数据表
+        /// </summary>
+        public Dictionary<string, DataTable> ExcelData { get; set; }
+
+        /// <summary>
         /// 设置数据表
         /// </summary>
         public DataTable DesignData { get; set; }
@@ -98,6 +103,7 @@ namespace MyBatisCodeGenerator.Generator
 
             foreach (KeyValuePair<int, AbstractTransformer> transformer in this.DefaultTransformers)
             {
+                transformer.Value.ExcelData = ExcelData;
                 transformer.Value.DesignData = DesignData;
                 transformer.Value.OriginalContent = sb;
                 transformer.Value.DefRefs = DefRefs;

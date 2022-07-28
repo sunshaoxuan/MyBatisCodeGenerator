@@ -27,7 +27,7 @@ import java.util.List;
   @Override
   public Long pickParentID() {
     if (getParent() != null) {
-      return getParent().getId();
+      return getParent().pickId();
     }
 
     return -1L;
@@ -44,7 +44,7 @@ import java.util.List;
   public void set$PROPERTYVODATATYPE$($PROPERTYVODATATYPE$[] subVOs) {
     this.$LOWER_PROPERTYVODATATYPE$ = subVOs;
   }
-
+  
   public void set$PROPERTYVODATATYPE$(ArrayList<$PROPERTYVODATATYPE$> subVOs) {
     set$PROPERTYVODATATYPE$(subVOs.toArray(new $PROPERTYVODATATYPE$[0]));
   } 

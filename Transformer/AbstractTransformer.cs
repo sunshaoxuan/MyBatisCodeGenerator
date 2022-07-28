@@ -21,6 +21,11 @@ namespace MyBatisCodeGenerator.Transformer
         public StringBuilder OriginalContent { get; set; }
 
         /// <summary>
+        /// 完整定义数据表
+        /// </summary>
+        public Dictionary<string, DataTable> ExcelData { get; set; }
+
+        /// <summary>
         /// 模型定义数据表
         /// </summary>
         public DataTable DesignData { get; set; }
@@ -171,6 +176,8 @@ namespace MyBatisCodeGenerator.Transformer
             tempSB.Replace("$LOWER_PROPERTYNAME$", TemplateUtils.replaceSeed("", "", item["PROPERTY NAME"], "$LOWER_PROPERTYNAME$"));
             tempSB.Replace("$UPPER_PROPERTYVODATATYPE$", TemplateUtils.replaceSeed("", "", item["VO DATA TYPE"], "$UPPER_PROPERTYVODATATYPE$"));
             tempSB.Replace("$LOWER_PROPERTYVODATATYPE$", TemplateUtils.replaceSeed("", "", item["VO DATA TYPE"], "$LOWER_PROPERTYVODATATYPE$"));
+            tempSB.Replace("$PROPERTYVODATATYPE_REMOVEVO$", item["VO DATA TYPE"].EndsWith("VO") ? item["VO DATA TYPE"].Replace("VO", "") : item["VO DATA TYPE"]);
+            tempSB.Replace("$LOWER_PROPERTYVODATATYPE_REMOVEVO$", TemplateUtils.replaceSeed("", "", item["VO DATA TYPE"].EndsWith("VO") ? item["VO DATA TYPE"].Replace("VO", "") : item["VO DATA TYPE"], "$LOWER_PROPERTYVODATATYPE$"));
             tempSB.Replace("$PROPERTYDATATYPE$", TemplateUtils.GetJDBCType(item["DATA TYPE"]));
             tempSB.Replace("$PROPERTYJAVATYPE$", TemplateUtils.GetJavaType(item["DATA TYPE"]));
             tempSB.Replace("$PROPERTYVODATATYPE$", item["VO DATA TYPE"]);
@@ -183,9 +190,23 @@ namespace MyBatisCodeGenerator.Transformer
             tempSB.Replace("$PROPERTYGETMETHOD$", TemplateUtils.GetGetMethod(item["PROPERTY NAME"]));
             tempSB.Replace("%AUTO4SN%", index.ToString("D4"));
 
+            if (tempSB.ToString().Contains("$BIGINT"))
+            {
+                if ("Long".Equals(TemplateUtils.GetJavaType(item["DATA TYPE"]))) {
+
+                    tempSB.Remove(tempSB.ToString().IndexOf("$BIGINT BEGIN$"), "$BIGINT BEGIN$".Length);
+                    tempSB.Remove(tempSB.ToString().IndexOf("$BIGINT END$"), "$BIGINT END$".Length);
+                }
+                else
+                {
+                    tempSB.Remove(tempSB.ToString().IndexOf("$BIGINT BEGIN$"),
+                        tempSB.ToString().IndexOf("$BIGINT END$") + "$BIGINT END$".Length - tempSB.ToString().IndexOf("$BIGINT BEGIN$"));
+                }
+            }
+
             if (tempSB.ToString().Contains("$IFFORMATTEDDATE"))
             {
-                if ("Date".Equals(TemplateUtils.GetJavaType(item["DATA TYPE"])))
+                if ("Date".Equals(TemplateUtils.GetJavaType(item["VO DATA TYPE"])))
                 {
                     tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), "$IFFORMATTEDDATE BEGIN$".Length);
                     tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE END$"), "$IFFORMATTEDDATE END$".Length);

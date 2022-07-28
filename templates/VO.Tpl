@@ -17,7 +17,7 @@ public class $ENTITYNAME$VO extends ValueObject{
   }
 
   @Override
-  public Long getId() {
+  public Long pickId() {
     if (get$ENTITYNAME$Entity() != null) {
       return get$ENTITYNAME$Entity().getId();
     }
@@ -53,14 +53,21 @@ public class $ENTITYNAME$VO extends ValueObject{
     set$ENTITYNAME$Entity(EntityUtils.getEntityByPK($ENTITYNAME$Entity.class, id));$HASMULTILANGPROPERTY BEGIN$
     loadResByID(id, lang);$HASMULTILANGPROPERTY END$
   }$HASMULTILANGPROPERTY BEGIN$
-
-  private void loadResByID(Long id) {
+    private void loadResByID(Long id) {
     if (id != null && id > 0L) {
       List<$ENTITYNAME$ResEntity> resEntities =
           EntityUtils.getResEntityByPK($ENTITYNAME$ResEntity.class, id);
       if (resEntities != null) {
         set$ENTITYNAME$ResEntity(resEntities.toArray(new $ENTITYNAME$ResEntity[0]));
       }
+    }
+  }
+
+  
+  public void set$ENTITYNAME$Entity($ENTITYNAME$Entity  $LOWER_ENTITYNAME$Entity, String lang) {
+    this. $LOWER_ENTITYNAME$Entity =  $LOWER_ENTITYNAME$Entity;
+    if( $LOWER_ENTITYNAME$Entity != null){
+      loadResByID( $LOWER_ENTITYNAME$Entity.getId(), lang);
     }
   }
 
@@ -83,5 +90,10 @@ public class $ENTITYNAME$VO extends ValueObject{
   @Override
   public Object pickRefEntity() {
     return $IF HASMULTILANGPROPERTY$get$ENTITYNAME$ResEntity();$ELSE$null;$END IF$
+  }
+    
+  @Override
+  public void putEntity(Object entity, String lang) {
+    $IF HASMULTILANGPROPERTY$ set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity, lang); $ELSE$ $END IF$
   }
 }

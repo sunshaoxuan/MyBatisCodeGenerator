@@ -1,7 +1,7 @@
 package $CLASSROOT$.dao;
 
-import $CLASSROOT$.dao.provider.$ENTITYNAME$ResEntitySqlProvider;
-import $CLASSROOT$.entity.$ENTITYNAME$ResEntity;
+$SKIP BEGIN$import $CLASSROOT$.dao.provider.$ENTITYNAME$ResEntitySqlProvider;
+$SKIP END$import $CLASSROOT$.entity.$ENTITYNAME$ResEntity;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
@@ -33,20 +33,17 @@ $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
 	"updated_time) values (",
 	/** 主键 */
-	"#{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$} ,",
+	"#{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} ,",
 	/** 语言 */
 	"#{lang,jdbcType=VARCHAR} ,",$FOREACH MULTILANG PROPERTY BEGIN$
     /** $PROPERTYDESC$ */
-    "#{$FIELDNAME$,jdbcType=$PROPERTYDATATYPE$} ,",
+    "#{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} ,",
 $FOREACH MULTILANG PROPERTY END$
 	/** 更新时间 */
     "#{updatedTime,jdbcType=DATE}",
     ")"
   })
   int insert($ENTITYNAME$ResEntity record);
-
-  @InsertProvider(type = $ENTITYNAME$ResEntitySqlProvider.class, method = "insertSelective")
-  int insertSelective($ENTITYNAME$ResEntity record);
 
   @Select({
     "select",
@@ -60,7 +57,7 @@ $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
     "updated_time",
     "from $TABLENAME$_res",
-    "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=VARCHAR}"
+    "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=VARCHAR}"
   })
   @Results({
     /** 主键 */
@@ -87,7 +84,7 @@ $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
     "updated_time",
     "from $TABLENAME$_res",
-    "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$} "
+    "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} "
   })
   @Results({
     /** 主键 */
@@ -101,9 +98,6 @@ $FOREACH MULTILANG PROPERTY END$
     @Result(column = "updated_time", property = "updatedTime", jdbcType = JdbcType.DATE),
   })
   List<$ENTITYNAME$ResEntity> selectByEntityID(Long $PKFIELDNAME$);
-
-  @UpdateProvider(type = $ENTITYNAME$ResEntitySqlProvider.class, method = "updateByPrimaryKeySelective")
-  int updateByPrimaryKeySelective($ENTITYNAME$ResEntity record);
 
   @Update({
     "update $TABLENAME$_res",

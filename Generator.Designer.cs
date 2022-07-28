@@ -39,6 +39,7 @@
             this.strpStatus = new System.Windows.Forms.StatusStrip();
             this.tstrpProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.tstrsStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnRefreshTemplate = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.btnSelectReverse = new System.Windows.Forms.Button();
@@ -145,6 +146,16 @@
             this.btnServiceImplTpl = new System.Windows.Forms.Button();
             this.txtServiceImplTpl = new System.Windows.Forms.TextBox();
             this.lblServiceImplTpl = new System.Windows.Forms.Label();
+            this.tabAggDTO = new System.Windows.Forms.TabPage();
+            this.rtbAggVORequestTpl = new System.Windows.Forms.RichTextBox();
+            this.btnAggVORequestTpl = new System.Windows.Forms.Button();
+            this.txtAggVORequestTpl = new System.Windows.Forms.TextBox();
+            this.lblAggVORequestTpl = new System.Windows.Forms.Label();
+            this.tabDTO = new System.Windows.Forms.TabPage();
+            this.rtbDTOTpl = new System.Windows.Forms.RichTextBox();
+            this.btnDTOTpl = new System.Windows.Forms.Button();
+            this.txtDTOTpl = new System.Windows.Forms.TextBox();
+            this.lblDTOTpl = new System.Windows.Forms.Label();
             this.tabSetting = new System.Windows.Forms.TabPage();
             this.grpPublish = new System.Windows.Forms.GroupBox();
             this.lblBaseExecutive = new System.Windows.Forms.Label();
@@ -168,11 +179,11 @@
             this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.dlgFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
-            this.tabAggVORequest = new System.Windows.Forms.TabPage();
-            this.rtbAggVORequestTpl = new System.Windows.Forms.RichTextBox();
-            this.btnAggVORequestTpl = new System.Windows.Forms.Button();
-            this.txtAggVORequestTpl = new System.Windows.Forms.TextBox();
-            this.lblAggVORequestTpl = new System.Windows.Forms.Label();
+            this.tabHandler = new System.Windows.Forms.TabPage();
+            this.rtbHandlerTpl = new System.Windows.Forms.RichTextBox();
+            this.btnHandlerTpl = new System.Windows.Forms.Button();
+            this.txtHandlerTpl = new System.Windows.Forms.TextBox();
+            this.lblHandlerTpl = new System.Windows.Forms.Label();
             this.tabcMain.SuspendLayout();
             this.tabGenerator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgStepLog)).BeginInit();
@@ -196,10 +207,12 @@
             this.tabRest.SuspendLayout();
             this.tabService.SuspendLayout();
             this.tabServiceImpl.SuspendLayout();
+            this.tabAggDTO.SuspendLayout();
+            this.tabDTO.SuspendLayout();
             this.tabSetting.SuspendLayout();
             this.grpPublish.SuspendLayout();
             this.grpGenerate.SuspendLayout();
-            this.tabAggVORequest.SuspendLayout();
+            this.tabHandler.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabcMain
@@ -220,6 +233,7 @@
             this.tabGenerator.Controls.Add(this.btnPublish);
             this.tabGenerator.Controls.Add(this.dtgStepLog);
             this.tabGenerator.Controls.Add(this.strpStatus);
+            this.tabGenerator.Controls.Add(this.btnRefreshTemplate);
             this.tabGenerator.Controls.Add(this.btnStop);
             this.tabGenerator.Controls.Add(this.btnRun);
             this.tabGenerator.Controls.Add(this.btnSelectReverse);
@@ -324,6 +338,17 @@
             this.tstrsStatus.Size = new System.Drawing.Size(0, 17);
             this.tstrsStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // btnRefreshTemplate
+            // 
+            this.btnRefreshTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefreshTemplate.Location = new System.Drawing.Point(6, 227);
+            this.btnRefreshTemplate.Name = "btnRefreshTemplate";
+            this.btnRefreshTemplate.Size = new System.Drawing.Size(149, 23);
+            this.btnRefreshTemplate.TabIndex = 7;
+            this.btnRefreshTemplate.Text = "Refresh Templates (&T)";
+            this.btnRefreshTemplate.UseVisualStyleBackColor = true;
+            this.btnRefreshTemplate.Click += new System.EventHandler(this.btnRefreshTemplate_Click);
+            // 
             // btnStop
             // 
             this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -347,6 +372,7 @@
             this.btnRun.Text = "Run (&R)";
             this.btnRun.UseVisualStyleBackColor = true;
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
+            this.btnRun.MouseHover += new System.EventHandler(this.btnRun_MouseHover);
             // 
             // btnSelectReverse
             // 
@@ -435,7 +461,9 @@
             "Rest",
             "Service",
             "ServiceImpl",
-            "AggVORequest"});
+            "AggDTO",
+            "DTO",
+            "Handler"});
             this.chklTemplate.Location = new System.Drawing.Point(155, 39);
             this.chklTemplate.MultiColumn = true;
             this.chklTemplate.Name = "chklTemplate";
@@ -584,7 +612,9 @@
             this.tabcTemplates.Controls.Add(this.tabRest);
             this.tabcTemplates.Controls.Add(this.tabService);
             this.tabcTemplates.Controls.Add(this.tabServiceImpl);
-            this.tabcTemplates.Controls.Add(this.tabAggVORequest);
+            this.tabcTemplates.Controls.Add(this.tabAggDTO);
+            this.tabcTemplates.Controls.Add(this.tabDTO);
+            this.tabcTemplates.Controls.Add(this.tabHandler);
             this.tabcTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabcTemplates.Location = new System.Drawing.Point(3, 3);
             this.tabcTemplates.Name = "tabcTemplates";
@@ -1562,6 +1592,120 @@
             this.lblServiceImplTpl.TabIndex = 41;
             this.lblServiceImplTpl.Text = "ServiceImpl.tpl File";
             // 
+            // tabAggDTO
+            // 
+            this.tabAggDTO.Controls.Add(this.rtbAggVORequestTpl);
+            this.tabAggDTO.Controls.Add(this.btnAggVORequestTpl);
+            this.tabAggDTO.Controls.Add(this.txtAggVORequestTpl);
+            this.tabAggDTO.Controls.Add(this.lblAggVORequestTpl);
+            this.tabAggDTO.Location = new System.Drawing.Point(4, 22);
+            this.tabAggDTO.Name = "tabAggDTO";
+            this.tabAggDTO.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAggDTO.Size = new System.Drawing.Size(762, 503);
+            this.tabAggDTO.TabIndex = 18;
+            this.tabAggDTO.Text = "AggDTO";
+            this.tabAggDTO.UseVisualStyleBackColor = true;
+            // 
+            // rtbAggVORequestTpl
+            // 
+            this.rtbAggVORequestTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbAggVORequestTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbAggVORequestTpl.Location = new System.Drawing.Point(1, 29);
+            this.rtbAggVORequestTpl.Name = "rtbAggVORequestTpl";
+            this.rtbAggVORequestTpl.ReadOnly = true;
+            this.rtbAggVORequestTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbAggVORequestTpl.TabIndex = 48;
+            this.rtbAggVORequestTpl.Text = "";
+            // 
+            // btnAggVORequestTpl
+            // 
+            this.btnAggVORequestTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAggVORequestTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAggVORequestTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnAggVORequestTpl.Name = "btnAggVORequestTpl";
+            this.btnAggVORequestTpl.Size = new System.Drawing.Size(20, 20);
+            this.btnAggVORequestTpl.TabIndex = 47;
+            this.btnAggVORequestTpl.Text = "...";
+            this.btnAggVORequestTpl.UseVisualStyleBackColor = true;
+            this.btnAggVORequestTpl.Click += new System.EventHandler(this.btnAggVORequestTpl_Click);
+            // 
+            // txtAggVORequestTpl
+            // 
+            this.txtAggVORequestTpl.Location = new System.Drawing.Point(115, 4);
+            this.txtAggVORequestTpl.Name = "txtAggVORequestTpl";
+            this.txtAggVORequestTpl.Size = new System.Drawing.Size(616, 19);
+            this.txtAggVORequestTpl.TabIndex = 46;
+            this.txtAggVORequestTpl.TextChanged += new System.EventHandler(this.txtAggVORequestTpl_TextChanged);
+            // 
+            // lblAggVORequestTpl
+            // 
+            this.lblAggVORequestTpl.AutoSize = true;
+            this.lblAggVORequestTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblAggVORequestTpl.Location = new System.Drawing.Point(8, 7);
+            this.lblAggVORequestTpl.Name = "lblAggVORequestTpl";
+            this.lblAggVORequestTpl.Size = new System.Drawing.Size(101, 12);
+            this.lblAggVORequestTpl.TabIndex = 45;
+            this.lblAggVORequestTpl.Text = "AggDTO.tpl File";
+            // 
+            // tabDTO
+            // 
+            this.tabDTO.Controls.Add(this.rtbDTOTpl);
+            this.tabDTO.Controls.Add(this.btnDTOTpl);
+            this.tabDTO.Controls.Add(this.txtDTOTpl);
+            this.tabDTO.Controls.Add(this.lblDTOTpl);
+            this.tabDTO.Location = new System.Drawing.Point(4, 22);
+            this.tabDTO.Name = "tabDTO";
+            this.tabDTO.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDTO.Size = new System.Drawing.Size(762, 503);
+            this.tabDTO.TabIndex = 19;
+            this.tabDTO.Text = "DTO";
+            this.tabDTO.UseVisualStyleBackColor = true;
+            // 
+            // rtbDTOTpl
+            // 
+            this.rtbDTOTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbDTOTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbDTOTpl.Location = new System.Drawing.Point(1, 29);
+            this.rtbDTOTpl.Name = "rtbDTOTpl";
+            this.rtbDTOTpl.ReadOnly = true;
+            this.rtbDTOTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbDTOTpl.TabIndex = 52;
+            this.rtbDTOTpl.Text = "";
+            // 
+            // btnDTOTpl
+            // 
+            this.btnDTOTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDTOTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDTOTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnDTOTpl.Name = "btnDTOTpl";
+            this.btnDTOTpl.Size = new System.Drawing.Size(20, 20);
+            this.btnDTOTpl.TabIndex = 51;
+            this.btnDTOTpl.Text = "...";
+            this.btnDTOTpl.UseVisualStyleBackColor = true;
+            this.btnDTOTpl.Click += new System.EventHandler(this.btnDTOTpl_Click);
+            // 
+            // txtDTOTpl
+            // 
+            this.txtDTOTpl.Location = new System.Drawing.Point(92, 4);
+            this.txtDTOTpl.Name = "txtDTOTpl";
+            this.txtDTOTpl.Size = new System.Drawing.Size(639, 19);
+            this.txtDTOTpl.TabIndex = 50;
+            this.txtDTOTpl.TextChanged += new System.EventHandler(this.txtDTOTpl_TextChanged);
+            // 
+            // lblDTOTpl
+            // 
+            this.lblDTOTpl.AutoSize = true;
+            this.lblDTOTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblDTOTpl.Location = new System.Drawing.Point(8, 7);
+            this.lblDTOTpl.Name = "lblDTOTpl";
+            this.lblDTOTpl.Size = new System.Drawing.Size(78, 12);
+            this.lblDTOTpl.TabIndex = 49;
+            this.lblDTOTpl.Text = "DTO.tpl File";
+            // 
             // tabSetting
             // 
             this.tabSetting.Controls.Add(this.grpPublish);
@@ -1799,62 +1943,62 @@
             this.imgList.Images.SetKeyName(3, "success.gif");
             this.imgList.Images.SetKeyName(4, "warning.gif");
             // 
-            // tabAggVORequest
+            // tabHandler
             // 
-            this.tabAggVORequest.Controls.Add(this.rtbAggVORequestTpl);
-            this.tabAggVORequest.Controls.Add(this.btnAggVORequestTpl);
-            this.tabAggVORequest.Controls.Add(this.txtAggVORequestTpl);
-            this.tabAggVORequest.Controls.Add(this.lblAggVORequestTpl);
-            this.tabAggVORequest.Location = new System.Drawing.Point(4, 22);
-            this.tabAggVORequest.Name = "tabAggVORequest";
-            this.tabAggVORequest.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAggVORequest.Size = new System.Drawing.Size(762, 503);
-            this.tabAggVORequest.TabIndex = 18;
-            this.tabAggVORequest.Text = "AggVORequest";
-            this.tabAggVORequest.UseVisualStyleBackColor = true;
+            this.tabHandler.Controls.Add(this.rtbHandlerTpl);
+            this.tabHandler.Controls.Add(this.btnHandlerTpl);
+            this.tabHandler.Controls.Add(this.txtHandlerTpl);
+            this.tabHandler.Controls.Add(this.lblHandlerTpl);
+            this.tabHandler.Location = new System.Drawing.Point(4, 22);
+            this.tabHandler.Name = "tabHandler";
+            this.tabHandler.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHandler.Size = new System.Drawing.Size(762, 503);
+            this.tabHandler.TabIndex = 20;
+            this.tabHandler.Text = "Handler";
+            this.tabHandler.UseVisualStyleBackColor = true;
             // 
-            // rtbAggVORequestTpl
+            // rtbHandlerTpl
             // 
-            this.rtbAggVORequestTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.rtbHandlerTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbAggVORequestTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbAggVORequestTpl.Location = new System.Drawing.Point(1, 29);
-            this.rtbAggVORequestTpl.Name = "rtbAggVORequestTpl";
-            this.rtbAggVORequestTpl.ReadOnly = true;
-            this.rtbAggVORequestTpl.Size = new System.Drawing.Size(762, 471);
-            this.rtbAggVORequestTpl.TabIndex = 48;
-            this.rtbAggVORequestTpl.Text = "";
+            this.rtbHandlerTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbHandlerTpl.Location = new System.Drawing.Point(1, 29);
+            this.rtbHandlerTpl.Name = "rtbHandlerTpl";
+            this.rtbHandlerTpl.ReadOnly = true;
+            this.rtbHandlerTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbHandlerTpl.TabIndex = 56;
+            this.rtbHandlerTpl.Text = "";
             // 
-            // btnAggVORequestTpl
+            // btnHandlerTpl
             // 
-            this.btnAggVORequestTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAggVORequestTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAggVORequestTpl.Location = new System.Drawing.Point(732, 3);
-            this.btnAggVORequestTpl.Name = "btnAggVORequestTpl";
-            this.btnAggVORequestTpl.Size = new System.Drawing.Size(20, 20);
-            this.btnAggVORequestTpl.TabIndex = 47;
-            this.btnAggVORequestTpl.Text = "...";
-            this.btnAggVORequestTpl.UseVisualStyleBackColor = true;
-            this.btnAggVORequestTpl.Click += new System.EventHandler(this.btnAggVORequestTpl_Click);
+            this.btnHandlerTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHandlerTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHandlerTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnHandlerTpl.Name = "btnHandlerTpl";
+            this.btnHandlerTpl.Size = new System.Drawing.Size(20, 20);
+            this.btnHandlerTpl.TabIndex = 55;
+            this.btnHandlerTpl.Text = "...";
+            this.btnHandlerTpl.UseVisualStyleBackColor = true;
+            this.btnHandlerTpl.Click += new System.EventHandler(this.btnHandlerTpl_Click);
             // 
-            // txtAggVORequestTpl
+            // txtHandlerTpl
             // 
-            this.txtAggVORequestTpl.Location = new System.Drawing.Point(156, 4);
-            this.txtAggVORequestTpl.Name = "txtAggVORequestTpl";
-            this.txtAggVORequestTpl.Size = new System.Drawing.Size(575, 19);
-            this.txtAggVORequestTpl.TabIndex = 46;
-            this.txtAggVORequestTpl.TextChanged += new System.EventHandler(this.txtAggVORequestTpl_TextChanged);
+            this.txtHandlerTpl.Location = new System.Drawing.Point(112, 4);
+            this.txtHandlerTpl.Name = "txtHandlerTpl";
+            this.txtHandlerTpl.Size = new System.Drawing.Size(619, 19);
+            this.txtHandlerTpl.TabIndex = 54;
+            this.txtHandlerTpl.TextChanged += new System.EventHandler(this.txtHandlerTpl_TextChanged);
             // 
-            // lblAggVORequestTpl
+            // lblHandlerTpl
             // 
-            this.lblAggVORequestTpl.AutoSize = true;
-            this.lblAggVORequestTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblAggVORequestTpl.Location = new System.Drawing.Point(8, 7);
-            this.lblAggVORequestTpl.Name = "lblAggVORequestTpl";
-            this.lblAggVORequestTpl.Size = new System.Drawing.Size(142, 12);
-            this.lblAggVORequestTpl.TabIndex = 45;
-            this.lblAggVORequestTpl.Text = "AggVORequest.tpl File";
+            this.lblHandlerTpl.AutoSize = true;
+            this.lblHandlerTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblHandlerTpl.Location = new System.Drawing.Point(8, 7);
+            this.lblHandlerTpl.Name = "lblHandlerTpl";
+            this.lblHandlerTpl.Size = new System.Drawing.Size(98, 12);
+            this.lblHandlerTpl.TabIndex = 53;
+            this.lblHandlerTpl.Text = "Handler.tpl File";
             // 
             // frmMain
             // 
@@ -1912,13 +2056,17 @@
             this.tabService.PerformLayout();
             this.tabServiceImpl.ResumeLayout(false);
             this.tabServiceImpl.PerformLayout();
+            this.tabAggDTO.ResumeLayout(false);
+            this.tabAggDTO.PerformLayout();
+            this.tabDTO.ResumeLayout(false);
+            this.tabDTO.PerformLayout();
             this.tabSetting.ResumeLayout(false);
             this.grpPublish.ResumeLayout(false);
             this.grpPublish.PerformLayout();
             this.grpGenerate.ResumeLayout(false);
             this.grpGenerate.PerformLayout();
-            this.tabAggVORequest.ResumeLayout(false);
-            this.tabAggVORequest.PerformLayout();
+            this.tabHandler.ResumeLayout(false);
+            this.tabHandler.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2063,11 +2211,22 @@
         private System.Windows.Forms.Button btnServiceImplTpl;
         private System.Windows.Forms.TextBox txtServiceImplTpl;
         private System.Windows.Forms.Label lblServiceImplTpl;
-        private System.Windows.Forms.TabPage tabAggVORequest;
+        private System.Windows.Forms.TabPage tabAggDTO;
         private System.Windows.Forms.RichTextBox rtbAggVORequestTpl;
         private System.Windows.Forms.Button btnAggVORequestTpl;
         private System.Windows.Forms.TextBox txtAggVORequestTpl;
         private System.Windows.Forms.Label lblAggVORequestTpl;
+        private System.Windows.Forms.TabPage tabDTO;
+        private System.Windows.Forms.RichTextBox rtbDTOTpl;
+        private System.Windows.Forms.Button btnDTOTpl;
+        private System.Windows.Forms.TextBox txtDTOTpl;
+        private System.Windows.Forms.Label lblDTOTpl;
+        private System.Windows.Forms.Button btnRefreshTemplate;
+        private System.Windows.Forms.TabPage tabHandler;
+        private System.Windows.Forms.RichTextBox rtbHandlerTpl;
+        private System.Windows.Forms.Button btnHandlerTpl;
+        private System.Windows.Forms.TextBox txtHandlerTpl;
+        private System.Windows.Forms.Label lblHandlerTpl;
     }
 }
 

@@ -15,7 +15,7 @@ namespace MyBatisCodeGenerator.Utils
         {
             Entity = 0, SqlProvider = 1, Mapper = 2, MapperExtend = 3, CreateTable = 4,
             InsertData = 5, MultiLanguage = 6, VO = 7, AggVO = 8, Rest = 9, Service = 10,
-            ServiceImpl = 11, AggVORequest = 12,
+            ServiceImpl = 11, AggDTO = 12, DTO = 13, Handler = 14,
             MultiLangEntity = 60, MultiLangSqlProvider = 61, MultiLangMapper = 62,
             MultiLangMapperExtend = 63, MultiLangCreateTable = 64, MultiLangInsertData = 65
         }
@@ -36,7 +36,7 @@ namespace MyBatisCodeGenerator.Utils
 
         internal static bool VersionPropertyDefined(DataTable designData)
         {
-            List<Dictionary<string, string>> rst = TemplateUtils.GetDesignMetaDetailByValue(designData, "FIELD NAME", "version");
+            List<Dictionary<string, string>> rst = GetDesignMetaDetailByValue(designData, "FIELD NAME", "version");
             return rst.Count > 0;
         }
 

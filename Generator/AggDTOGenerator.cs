@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace MyBatisCodeGenerator.Generator
 {
-    public class AggVORequestGenerator : AbstractGenerator
+    public class AggDTOGenerator : AbstractGenerator
     {
-        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.AggVORequest;
+        public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.AggDTO;
 
         public override string GetSavedFileName(string defaultExt)
         {
@@ -17,14 +17,14 @@ namespace MyBatisCodeGenerator.Generator
                 throw new Exception("(ERRNO:G12) Do not define AggVO file name.");
             }
 
-            fileName = fileName + "AggVORequest" + defaultExt;
+            fileName = fileName + "AggDTO" + defaultExt;
 
             return fileName;
         }
 
         public override string GetClassSpace()
         {
-            return $"{GetItemDefine("CLASSROOT")}.rest.request";
+            return $"{GetItemDefine("CLASSROOT")}.rest.dto";
         }
         public override string GetRootPath()
         {
@@ -44,7 +44,7 @@ namespace MyBatisCodeGenerator.Generator
             return false;
         }
 
-        public AggVORequestGenerator()
+        public AggDTOGenerator()
         {
             FileExtension = ".java";
             GenerateByMeta = true;

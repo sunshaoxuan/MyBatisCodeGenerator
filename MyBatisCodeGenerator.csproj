@@ -143,7 +143,8 @@
       <DependentUpon>frmScriptChoose.cs</DependentUpon>
     </Compile>
     <Compile Include="Generator\AbstractGenerator.cs" />
-    <Compile Include="Generator\AggVORequestGenerator.cs" />
+    <Compile Include="Generator\DTOGenerator.cs" />
+    <Compile Include="Generator\AggDTOGenerator.cs" />
     <Compile Include="Generator\MultiLangInsertDataGenerator.cs" />
     <Compile Include="Generator\MultiLangCreateTableGenerator.cs" />
     <Compile Include="Generator\MapperExtendGenerator.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Generator\MultiLangSqlProviderGenerator.cs" />
     <Compile Include="Generator\RestGenerator.cs" />
     <Compile Include="Generator\ServiceGenerator.cs" />
+    <Compile Include="Generator\HandlerGenerator.cs" />
     <Compile Include="Generator\ServiceImplGenerator.cs" />
     <Compile Include="Generator\SqlProviderGenerator.cs" />
     <Compile Include="Generator\AggVOGenerator.cs" />
@@ -273,7 +275,13 @@
     <Content Include="templates\ServiceImpl.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="templates\AggVORequest.Tpl">
+    <Content Include="templates\AggDTO.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\DTO.Tpl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\Handler.Tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

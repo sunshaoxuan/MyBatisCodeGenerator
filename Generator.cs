@@ -42,7 +42,8 @@ namespace MyBatisCodeGenerator
                 txtDesignFile.Text = dlgOpenFile.FileName;
             }
 
-            refreshControlStatus();
+            RefreshControlStatus();
+            getExcelData();
         }
 
         private void btnSelectAll_Click(object sender, EventArgs e)
@@ -51,7 +52,7 @@ namespace MyBatisCodeGenerator
             {
                 chklTemplate.SetItemChecked(i, true);
             }
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void btnSelectNone_Click(object sender, EventArgs e)
@@ -60,7 +61,7 @@ namespace MyBatisCodeGenerator
             {
                 chklTemplate.SetItemChecked(i, false);
             }
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void btnSelectReverse_Click(object sender, EventArgs e)
@@ -69,7 +70,7 @@ namespace MyBatisCodeGenerator
             {
                 chklTemplate.SetItemChecked(i, chklTemplate.GetItemChecked(i) ? false : true);
             }
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void btnSourceCodeRoot_Click(object sender, EventArgs e)
@@ -79,7 +80,7 @@ namespace MyBatisCodeGenerator
             {
                 txtSourceCodeRoot.Text = dlgFolderBrowser.SelectedPath;
             }
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void btnScriptSavePath_Click(object sender, EventArgs e)
@@ -89,7 +90,7 @@ namespace MyBatisCodeGenerator
             {
                 txtScriptSavePath.Text = dlgFolderBrowser.SelectedPath;
             }
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void btnEntityTpl_Click(object sender, EventArgs e)
@@ -147,7 +148,7 @@ namespace MyBatisCodeGenerator
             }
         }
 
-        private void refreshControlStatus()
+        private void RefreshControlStatus()
         {
             if (chklTemplate.CheckedItems.Count == 0)
             {
@@ -208,6 +209,8 @@ namespace MyBatisCodeGenerator
             chkOverwrite.Enabled = false;
             chkCreatePath.Enabled = false;
             chkStopOnError.Enabled = false;
+
+            btnRefreshTemplate.Enabled = false;
         }
 
         private void EnableAllOnStop()
@@ -237,11 +240,13 @@ namespace MyBatisCodeGenerator
             chkOverwrite.Enabled = true;
             chkCreatePath.Enabled = true;
             chkStopOnError.Enabled = true;
+
+            btnRefreshTemplate.Enabled = true;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void btnRun_Click(object sender, EventArgs e)
@@ -334,7 +339,23 @@ namespace MyBatisCodeGenerator
 
             //Load Design File
             tstrsStatus.Text = "Loading design file ...";
-            Dictionary<string, DataTable> excelTables = ExcelUtils.GetExcelTableByOleDB(txtDesignFile.Text);
+            Dictionary<string, DataTable> excelTables = null;
+            int sleepTime = 0;
+            while (excelTables == null && sleepTime < 5)
+            {
+                excelTables = getExcelData();
+
+                if (excelTables == null)
+                {
+                    Thread.Sleep(3000);
+                    sleepTime++;
+                }
+            }
+
+            if(excelTables == null && sleepTime >= 5)
+            {
+                throw new Exception("Reading faild.");
+            }
 
             //int stepCount = GetStepCount(excelTables);
 
@@ -393,7 +414,7 @@ namespace MyBatisCodeGenerator
                     //Entity
                     if (chklTemplate.GetItemChecked(((int)TemplateUtils.TemplateTypeEnum.Entity)))
                     {
-                        DoGenerate(kv.Value, rtbEntityTpl.Text, TemplateUtils.TemplateTypeEnum.Entity);
+                        DoGenerate(excelTables, kv.Value, rtbEntityTpl.Text, TemplateUtils.TemplateTypeEnum.Entity);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -403,7 +424,7 @@ namespace MyBatisCodeGenerator
                     //SqlProvider
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.SqlProvider))
                     {
-                        DoGenerate(kv.Value, rtbSqlProviderTpl.Text, TemplateUtils.TemplateTypeEnum.SqlProvider);
+                        DoGenerate(excelTables, kv.Value, rtbSqlProviderTpl.Text, TemplateUtils.TemplateTypeEnum.SqlProvider);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -413,7 +434,7 @@ namespace MyBatisCodeGenerator
                     //Mapper
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.Mapper))
                     {
-                        DoGenerate(kv.Value, rtbMapperTpl.Text, TemplateUtils.TemplateTypeEnum.Mapper);
+                        DoGenerate(excelTables, kv.Value, rtbMapperTpl.Text, TemplateUtils.TemplateTypeEnum.Mapper);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -424,7 +445,7 @@ namespace MyBatisCodeGenerator
                     //MapperExtends
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.MapperExtend))
                     {
-                        DoGenerate(kv.Value, rtbMapperExtendTpl.Text, TemplateUtils.TemplateTypeEnum.MapperExtend);
+                        DoGenerate(excelTables, kv.Value, rtbMapperExtendTpl.Text, TemplateUtils.TemplateTypeEnum.MapperExtend);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -435,7 +456,7 @@ namespace MyBatisCodeGenerator
                     //VO
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.VO))
                     {
-                        DoGenerate(kv.Value, rtbVOTpl.Text, TemplateUtils.TemplateTypeEnum.VO);
+                        DoGenerate(excelTables, kv.Value, rtbVOTpl.Text, TemplateUtils.TemplateTypeEnum.VO);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -446,7 +467,7 @@ namespace MyBatisCodeGenerator
                     //AggVO
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.AggVO))
                     {
-                        DoGenerate(kv.Value, rtbAggVO.Text, TemplateUtils.TemplateTypeEnum.AggVO);
+                        DoGenerate(excelTables, kv.Value, rtbAggVO.Text, TemplateUtils.TemplateTypeEnum.AggVO);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -457,7 +478,7 @@ namespace MyBatisCodeGenerator
                     //Rest
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.Rest))
                     {
-                        DoGenerate(kv.Value, rtbRestTpl.Text, TemplateUtils.TemplateTypeEnum.Rest);
+                        DoGenerate(excelTables, kv.Value, rtbRestTpl.Text, TemplateUtils.TemplateTypeEnum.Rest);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -468,7 +489,7 @@ namespace MyBatisCodeGenerator
                     //Service
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.Service))
                     {
-                        DoGenerate(kv.Value, rtbServiceTpl.Text, TemplateUtils.TemplateTypeEnum.Service);
+                        DoGenerate(excelTables, kv.Value, rtbServiceTpl.Text, TemplateUtils.TemplateTypeEnum.Service);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -479,7 +500,7 @@ namespace MyBatisCodeGenerator
                     //ServiceImpl
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.ServiceImpl))
                     {
-                        DoGenerate(kv.Value, rtbServiceImplTpl.Text, TemplateUtils.TemplateTypeEnum.ServiceImpl);
+                        DoGenerate(excelTables, kv.Value, rtbServiceImplTpl.Text, TemplateUtils.TemplateTypeEnum.ServiceImpl);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -487,10 +508,32 @@ namespace MyBatisCodeGenerator
                         return;
                     }
 
-                    //AggVORequest
-                    if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.AggVORequest))
+                    //Handler
+                    if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.Handler))
                     {
-                        DoGenerate(kv.Value, rtbAggVORequestTpl.Text, TemplateUtils.TemplateTypeEnum.AggVORequest);
+                        DoGenerate(excelTables, kv.Value, rtbHandlerTpl.Text, TemplateUtils.TemplateTypeEnum.Handler);
+                    }
+
+                    if (runStatus.Equals(RunStatusEnum.Stopped))
+                    {
+                        return;
+                    }
+
+                    //DTO
+                    if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.DTO))
+                    {
+                        DoGenerate(excelTables, kv.Value, rtbDTOTpl.Text, TemplateUtils.TemplateTypeEnum.DTO);
+                    }
+
+                    if (runStatus.Equals(RunStatusEnum.Stopped))
+                    {
+                        return;
+                    }
+
+                    //AggDTO
+                    if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.AggDTO))
+                    {
+                        DoGenerate(excelTables, kv.Value, rtbAggVORequestTpl.Text, TemplateUtils.TemplateTypeEnum.AggDTO);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -509,7 +552,7 @@ namespace MyBatisCodeGenerator
                         //Entity
                         if (chklTemplate.GetItemChecked(((int)TemplateUtils.TemplateTypeEnum.Entity)))
                         {
-                            DoGenerate(kv.Value, rtbMultiLangEntity.Text, TemplateUtils.TemplateTypeEnum.MultiLangEntity);
+                            DoGenerate(excelTables, kv.Value, rtbMultiLangEntity.Text, TemplateUtils.TemplateTypeEnum.MultiLangEntity);
                         }
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -520,7 +563,7 @@ namespace MyBatisCodeGenerator
                         //Mapper
                         if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.Mapper))
                         {
-                            DoGenerate(kv.Value, rtbMultiLangMapper.Text, TemplateUtils.TemplateTypeEnum.MultiLangMapper);
+                            DoGenerate(excelTables, kv.Value, rtbMultiLangMapper.Text, TemplateUtils.TemplateTypeEnum.MultiLangMapper);
                         }
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -531,7 +574,7 @@ namespace MyBatisCodeGenerator
                         //MapperExtends
                         if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.MapperExtend))
                         {
-                            DoGenerate(kv.Value, rtbMultiLangMapperExtend.Text, TemplateUtils.TemplateTypeEnum.MultiLangMapperExtend);
+                            DoGenerate(excelTables, kv.Value, rtbMultiLangMapperExtend.Text, TemplateUtils.TemplateTypeEnum.MultiLangMapperExtend);
                         }
 
                         if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -542,7 +585,7 @@ namespace MyBatisCodeGenerator
                         //SqlProvider
                         if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.SqlProvider))
                         {
-                            DoGenerate(kv.Value, rtbMultiLangSqlProvider.Text, TemplateUtils.TemplateTypeEnum.MultiLangSqlProvider);
+                            DoGenerate(excelTables, kv.Value, rtbMultiLangSqlProvider.Text, TemplateUtils.TemplateTypeEnum.MultiLangSqlProvider);
                         }
                     }
                 }
@@ -555,7 +598,7 @@ namespace MyBatisCodeGenerator
                 //Create Table
                 if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.CreateTable))
                 {
-                    DoGenerate(kv.Value, rtbCreateTableTpl.Text, TemplateUtils.TemplateTypeEnum.CreateTable);
+                    DoGenerate(excelTables, kv.Value, rtbCreateTableTpl.Text, TemplateUtils.TemplateTypeEnum.CreateTable);
                 }
 
                 if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -568,7 +611,7 @@ namespace MyBatisCodeGenerator
                     //Create Table
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.CreateTable))
                     {
-                        DoGenerate(kv.Value, rtbMultiLangCreateTable.Text, TemplateUtils.TemplateTypeEnum.MultiLangCreateTable);
+                        DoGenerate(excelTables, kv.Value, rtbMultiLangCreateTable.Text, TemplateUtils.TemplateTypeEnum.MultiLangCreateTable);
                     }
                 }
 
@@ -581,7 +624,7 @@ namespace MyBatisCodeGenerator
                     //Insert Data
                     if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.InsertData))
                     {
-                        DoGenerate(kv.Value, rtbInsertDataTpl.Text, TemplateUtils.TemplateTypeEnum.InsertData);
+                        DoGenerate(excelTables, kv.Value, rtbInsertDataTpl.Text, TemplateUtils.TemplateTypeEnum.InsertData);
                     }
 
                     if (runStatus.Equals(RunStatusEnum.Stopped))
@@ -594,7 +637,7 @@ namespace MyBatisCodeGenerator
                         //Insert Data
                         if (chklTemplate.GetItemChecked((int)TemplateUtils.TemplateTypeEnum.InsertData))
                         {
-                            DoGenerate(kv.Value, rtbMultiLangInsertData.Text, TemplateUtils.TemplateTypeEnum.MultiLangInsertData);
+                            DoGenerate(excelTables, kv.Value, rtbMultiLangInsertData.Text, TemplateUtils.TemplateTypeEnum.MultiLangInsertData);
                         }
                     }
                 }
@@ -603,6 +646,29 @@ namespace MyBatisCodeGenerator
                 ((DataGridViewImageCell)dtgStepLog.Rows[rowNoAdded].Cells[0]).Value = imgList.Images["success.gif"];
                 dtgStepLog.Refresh();
                 Application.DoEvents();
+            }
+        }
+
+        Dictionary<string, DataTable> excelReadData = null;
+        bool isReading = false;
+        private Dictionary<string, DataTable> getExcelData()
+        {
+            if (excelReadData == null && isReading == false)
+            {
+                isReading = true;
+                Thread t = new Thread(ReadExcel);
+                t.Start();
+            }
+
+            return excelReadData;
+        }
+
+        private void ReadExcel()
+        {
+            if (!String.IsNullOrEmpty(txtDesignFile.Text))
+            {
+                excelReadData = ExcelUtils.GetExcelTableByOleDB(txtDesignFile.Text);
+                isReading = false;
             }
         }
 
@@ -654,7 +720,7 @@ namespace MyBatisCodeGenerator
             }
             else
             {
-                tstrsStatus.Text = "Generating finished."; 
+                tstrsStatus.Text = "Generating finished.";
             }
 
             runStatus = RunStatusEnum.Stopped;
@@ -662,7 +728,7 @@ namespace MyBatisCodeGenerator
             EnableAllOnStop();
         }
 
-        private void DoGenerate(DataTable table, string templateText, TemplateUtils.TemplateTypeEnum tmpType)
+        private void DoGenerate(Dictionary<string, DataTable> excelData, DataTable table, string templateText, TemplateUtils.TemplateTypeEnum tmpType)
         {
             int newTaskRowNo = dtgStepLog.Rows.Add("Generating: [" + tmpType.ToString() + "]");
 
@@ -680,7 +746,7 @@ namespace MyBatisCodeGenerator
 
             try
             {
-                string savedFileName = TranslateTemplate(table, templateText, tmpType);
+                string savedFileName = TranslateTemplate(excelData, table, templateText, tmpType);
 
                 if (string.IsNullOrEmpty(savedFileName))
                 {
@@ -699,7 +765,7 @@ namespace MyBatisCodeGenerator
             {
                 CommonUtils.Log(ex.StackTrace);
 
-                dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "  Error on generating "+tmpType.ToString()+" file:" + ex.Message;
+                dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "  Error on generating " + tmpType.ToString() + " file:" + ex.Message;
                 ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Style.ForeColor = Color.Red;
                 ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["error.gif"];
 
@@ -717,13 +783,13 @@ namespace MyBatisCodeGenerator
         /// </summary>
         public Dictionary<string, Dictionary<string, string[]>> MultiLangRefInfo { get; set; }
 
-        private string TranslateTemplate(DataTable table, string templateText, TemplateUtils.TemplateTypeEnum templateType)
+        private string TranslateTemplate(Dictionary<string, DataTable> excelData, DataTable table, string templateText, TemplateUtils.TemplateTypeEnum templateType)
         {
             AbstractGenerator generator = GeneratorFactory.CreateGenerator(templateType);
             generator.CreateTablePrefix = txtCreateTablePrefix.Text;
             generator.InsertDataPrefix = txtInsertDataPrefix.Text;
 
-            if(generator == null)
+            if (generator == null)
             {
                 throw new Exception("No generator defined.");
             }
@@ -739,22 +805,24 @@ namespace MyBatisCodeGenerator
                 generator.BaseSourcePath = txtSourceCodeRoot.Text;
                 generator.BaseScriptPath = txtScriptSavePath.Text;
                 generator.IsVO = templateType.Equals(TemplateUtils.TemplateTypeEnum.VO);
+                generator.ExcelData = excelData;
                 generator.DesignData = table;
                 generator.DefRefs = defRefs;
                 generator.DefaultTransformers = GetDefinedTransformer();
                 string savedFilename = generator.Run(templateText);
                 Application.DoEvents();
-                
+
                 if (generator.MultiLangRefInfo != null && generator.MultiLangRefInfo.Count > 0)
                 {
-                    if(MultiLangRefInfo == null)
+                    if (MultiLangRefInfo == null)
                     {
                         MultiLangRefInfo = new Dictionary<string, Dictionary<string, string[]>>();
                     }
                     TemplateUtils.RegisterMultiLangRefInfo(MultiLangRefInfo, generator.MultiLangRefInfo);
                 }
                 return savedFilename;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 if (ex.Message.Contains("No file"))
                 {
@@ -846,17 +914,17 @@ namespace MyBatisCodeGenerator
 
         private void chklTemplate_SelectedValueChanged(object sender, EventArgs e)
         {
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void chklTemplate_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void chklTemplate_SelectedValueChanged_1(object sender, EventArgs e)
         {
-            refreshControlStatus();
+            RefreshControlStatus();
         }
 
         private void chkGenerateAuthor_CheckedChanged(object sender, EventArgs e)
@@ -982,10 +1050,12 @@ namespace MyBatisCodeGenerator
                         InjectSettingsToControls(this);
                     }
 
-                    refreshControlStatus();
+                    RefreshControlStatus();
                 }
 
                 initialized = true;
+
+                getExcelData();
             }
         }
 
@@ -993,35 +1063,68 @@ namespace MyBatisCodeGenerator
         {
             rtbInsertDataTpl.Text = CommonUtils.ReadTextFile(txtInsertDataTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbInsertDataTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtInsertDataTpl.Text))
+            {
+                registerRefreshItem(txtInsertDataTpl, rtbInsertDataTpl);
+            }
+        }
+
+        private void registerRefreshItem(TextBox txtObj, RichTextBox rtbObj)
+        {
+            if (!freshDic.ContainsKey(txtObj))
+            {
+                freshDic.Add(txtObj, rtbObj);
+            }
         }
 
         private void txtCreateTableTpl_TextChanged(object sender, EventArgs e)
         {
             rtbCreateTableTpl.Text = CommonUtils.ReadTextFile(txtCreateTableTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbCreateTableTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtCreateTableTpl.Text))
+            {
+                registerRefreshItem(txtCreateTableTpl, rtbCreateTableTpl);
+            }
         }
 
         private void txtMapperTpl_TextChanged(object sender, EventArgs e)
         {
             rtbMapperTpl.Text = CommonUtils.ReadTextFile(txtMapperTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbMapperTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtMapperTpl.Text))
+            {
+                registerRefreshItem(txtMapperTpl, rtbMapperTpl);
+            }
         }
 
         private void txtSqlProviderTpl_TextChanged(object sender, EventArgs e)
         {
             rtbSqlProviderTpl.Text = CommonUtils.ReadTextFile(txtSqlProviderTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbSqlProviderTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtSqlProviderTpl.Text))
+            {
+                registerRefreshItem(txtSqlProviderTpl, rtbSqlProviderTpl);
+            }
         }
 
         private void txtEntityTpl_TextChanged(object sender, EventArgs e)
         {
             rtbEntityTpl.Text = CommonUtils.ReadTextFile(txtEntityTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbEntityTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtEntityTpl.Text))
+            {
+                registerRefreshItem(txtEntityTpl, rtbEntityTpl);
+            }
         }
 
         private void btnChangeColor_Click(object sender, EventArgs e)
         {
-            ColorDialog dlg= new ColorDialog();
+            ColorDialog dlg = new ColorDialog();
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Color colorChoosed = dlg.Color;
@@ -1040,6 +1143,11 @@ namespace MyBatisCodeGenerator
                 CommonUtils.SetRichTextBoxTextColor(rtbMultiLangInsertData, txtTagColor.ForeColor);
                 CommonUtils.SetRichTextBoxTextColor(rtbVOTpl, txtTagColor.ForeColor);
                 CommonUtils.SetRichTextBoxTextColor(rtbAggVO, txtTagColor.ForeColor);
+                CommonUtils.SetRichTextBoxTextColor(rtbRestTpl, txtTagColor.ForeColor);
+                CommonUtils.SetRichTextBoxTextColor(rtbServiceTpl, txtTagColor.ForeColor);
+                CommonUtils.SetRichTextBoxTextColor(rtbServiceImplTpl, txtTagColor.ForeColor);
+                CommonUtils.SetRichTextBoxTextColor(rtbAggVORequestTpl, txtTagColor.ForeColor);
+                CommonUtils.SetRichTextBoxTextColor(rtbDTOTpl, txtTagColor.ForeColor);
             }
         }
 
@@ -1102,6 +1210,11 @@ namespace MyBatisCodeGenerator
         {
             rtbMapperExtendTpl.Text = CommonUtils.ReadTextFile(txtMapperExtendTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbMapperExtendTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtMapperExtendTpl.Text))
+            {
+                registerRefreshItem(txtMapperExtendTpl, rtbMapperExtendTpl);
+            }
         }
 
         private void btnMultiLang_Click(object sender, EventArgs e)
@@ -1119,6 +1232,11 @@ namespace MyBatisCodeGenerator
         {
             rtbMultiLangEntity.Text = CommonUtils.ReadTextFile(txtMultiLangEntity.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbMultiLangEntity, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtMultiLangEntity.Text))
+            {
+                registerRefreshItem(txtMultiLangEntity, rtbMultiLangEntity);
+            }
         }
 
         private void btnMultiLangSqlProvider_Click(object sender, EventArgs e)
@@ -1136,6 +1254,11 @@ namespace MyBatisCodeGenerator
         {
             rtbMultiLangSqlProvider.Text = CommonUtils.ReadTextFile(txtMultiLangSqlProvider.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbMultiLangSqlProvider, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtMultiLangSqlProvider.Text))
+            {
+                registerRefreshItem(txtMultiLangSqlProvider, rtbMultiLangSqlProvider);
+            }
         }
 
         private void btnMultiLangMapper_Click(object sender, EventArgs e)
@@ -1153,12 +1276,22 @@ namespace MyBatisCodeGenerator
         {
             rtbMultiLangMapper.Text = CommonUtils.ReadTextFile(txtMultiLangMapper.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbMultiLangMapper, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtMultiLangMapper.Text))
+            {
+                registerRefreshItem(txtMultiLangMapper, rtbMultiLangMapper);
+            }
         }
 
         private void txtMultiLangMapperExtend_TextChanged(object sender, EventArgs e)
         {
             rtbMultiLangMapperExtend.Text = CommonUtils.ReadTextFile(txtMultiLangMapperExtend.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbMultiLangMapperExtend, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtMultiLangMapperExtend.Text))
+            {
+                registerRefreshItem(txtMultiLangMapperExtend, rtbMultiLangMapperExtend);
+            }
         }
 
         private void btnMultiLangMapperExtend_Click(object sender, EventArgs e)
@@ -1176,6 +1309,11 @@ namespace MyBatisCodeGenerator
         {
             rtbMultiLangCreateTable.Text = CommonUtils.ReadTextFile(txtMultiLangCreateTable.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbMultiLangCreateTable, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtMultiLangCreateTable.Text))
+            {
+                registerRefreshItem(txtMultiLangCreateTable, rtbMultiLangCreateTable);
+            }
         }
 
         private void btnMultiLangCreateTable_Click(object sender, EventArgs e)
@@ -1193,6 +1331,11 @@ namespace MyBatisCodeGenerator
         {
             rtbMultiLangInsertData.Text = CommonUtils.ReadTextFile(txtMultiLangInsertData.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbMultiLangInsertData, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtMultiLangInsertData.Text))
+            {
+                registerRefreshItem(txtMultiLangInsertData, rtbMultiLangInsertData);
+            }
         }
 
         private void btnMultiLangInsertData_Click(object sender, EventArgs e)
@@ -1210,6 +1353,11 @@ namespace MyBatisCodeGenerator
         {
             rtbVOTpl.Text = CommonUtils.ReadTextFile(txtVO.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbVOTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtVO.Text))
+            {
+                registerRefreshItem(txtVO, rtbVOTpl);
+            }
         }
 
         private void btnVO_Click(object sender, EventArgs e)
@@ -1238,6 +1386,11 @@ namespace MyBatisCodeGenerator
         {
             rtbAggVO.Text = CommonUtils.ReadTextFile(txtAggVO.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbAggVO, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtAggVO.Text))
+            {
+                registerRefreshItem(txtAggVO, rtbAggVO);
+            }
         }
 
         private List<string> executedScripts = new List<string>();
@@ -1323,14 +1476,14 @@ namespace MyBatisCodeGenerator
 
         private Dictionary<string, StringBuilder> ReadSpecificCreateTableScript(string prefix, string tableNameStr)
         {
-            char[] splitter= new char[]{',', ' '};
+            char[] splitter = new char[] { ',', ' ' };
             Dictionary<string, StringBuilder> rtn = new Dictionary<string, StringBuilder>();
             String[] tableNames = tableNameStr.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
-            foreach(String tablename in tableNames)
+            foreach (String tablename in tableNames)
             {
                 string fileName = $"{prefix}{tablename}{".sql"}";
                 Dictionary<string, StringBuilder> scripts = ReadScript(fileName);
-                foreach(string key in scripts.Keys)
+                foreach (string key in scripts.Keys)
                 {
                     rtn.Add(key, scripts[key]);
                 }
@@ -1457,24 +1610,39 @@ namespace MyBatisCodeGenerator
         {
             rtbServiceImplTpl.Text = CommonUtils.ReadTextFile(txtServiceImplTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbServiceImplTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtServiceImplTpl.Text))
+            {
+                registerRefreshItem(txtServiceImplTpl, rtbServiceImplTpl);
+            }
         }
 
         private void txtServiceTpl_TextChanged(object sender, EventArgs e)
         {
             rtbServiceTpl.Text = CommonUtils.ReadTextFile(txtServiceTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbServiceTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtServiceTpl.Text))
+            {
+                registerRefreshItem(txtServiceTpl, rtbServiceTpl);
+            }
         }
 
         private void txtRestTpl_TextChanged(object sender, EventArgs e)
         {
             rtbRestTpl.Text = CommonUtils.ReadTextFile(txtRestTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbRestTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtRestTpl.Text))
+            {
+                registerRefreshItem(txtRestTpl, rtbRestTpl);
+            }
         }
 
         private void btnAggVORequestTpl_Click(object sender, EventArgs e)
         {
             dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "AggVORequest.Tpl";
+            dlgOpenFile.FileName = "AggDTO.Tpl";
             DialogResult result = dlgOpenFile.ShowDialog();
             if (result.Equals(DialogResult.OK))
             {
@@ -1486,6 +1654,82 @@ namespace MyBatisCodeGenerator
         {
             rtbAggVORequestTpl.Text = CommonUtils.ReadTextFile(txtAggVORequestTpl.Text);
             CommonUtils.SetRichTextBoxTextColor(rtbAggVORequestTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtAggVORequestTpl.Text))
+            {
+                registerRefreshItem(txtAggVORequestTpl, rtbAggVORequestTpl);
+            }
+        }
+
+        private void btnDTOTpl_Click(object sender, EventArgs e)
+        {
+            dlgOpenFile.Filter = "Template File | *.Tpl";
+            dlgOpenFile.FileName = "DTO.Tpl";
+            DialogResult result = dlgOpenFile.ShowDialog();
+            if (result.Equals(DialogResult.OK))
+            {
+                txtDTOTpl.Text = dlgOpenFile.FileName;
+            }
+        }
+
+        private void txtDTOTpl_TextChanged(object sender, EventArgs e)
+        {
+            rtbDTOTpl.Text = CommonUtils.ReadTextFile(txtDTOTpl.Text);
+            CommonUtils.SetRichTextBoxTextColor(rtbDTOTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtDTOTpl.Text))
+            {
+                registerRefreshItem(txtDTOTpl, rtbDTOTpl);
+            }
+        }
+
+        Dictionary<TextBox, RichTextBox> freshDic = new Dictionary<TextBox, RichTextBox>();
+        private void btnRefreshTemplate_Click(object sender, EventArgs e)
+        {
+            if (freshDic.Count > 0)
+            {
+                foreach (KeyValuePair<TextBox, RichTextBox> keyValuePair in freshDic)
+                {
+                    keyValuePair.Value.Text = CommonUtils.ReadTextFile(keyValuePair.Key.Text);
+                    CommonUtils.SetRichTextBoxTextColor(keyValuePair.Value, txtTagColor.ForeColor);
+                }
+            }
+        }
+
+        private void btnRun_MouseHover(object sender, EventArgs e)
+        {
+            if(excelReadData != null)
+            {
+                if (runStatus != RunStatusEnum.Running)
+                {
+                    if(btnRun.Enabled == false)
+                    {
+                        btnRun.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void txtHandlerTpl_TextChanged(object sender, EventArgs e)
+        {
+            rtbHandlerTpl.Text = CommonUtils.ReadTextFile(txtHandlerTpl.Text);
+            CommonUtils.SetRichTextBoxTextColor(rtbHandlerTpl, txtTagColor.ForeColor);
+
+            if (!string.IsNullOrEmpty(txtHandlerTpl.Text))
+            {
+                registerRefreshItem(txtHandlerTpl, rtbHandlerTpl);
+            }
+        }
+
+        private void btnHandlerTpl_Click(object sender, EventArgs e)
+        {
+            dlgOpenFile.Filter = "Template File | *.Tpl";
+            dlgOpenFile.FileName = "Handler.Tpl";
+            DialogResult result = dlgOpenFile.ShowDialog();
+            if (result.Equals(DialogResult.OK))
+            {
+                txtHandlerTpl.Text = dlgOpenFile.FileName;
+            }
         }
     }
 }

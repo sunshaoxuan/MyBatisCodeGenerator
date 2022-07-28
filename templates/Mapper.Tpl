@@ -1,7 +1,7 @@
 package $CLASSROOT$.dao;
 
-import $CLASSROOT$.dao.provider.$ENTITYNAME$EntitySqlProvider;
-import $CLASSROOT$.entity.$ENTITYNAME$Entity;
+$SKIP BEGIN$import $CLASSROOT$.dao.provider.$ENTITYNAME$EntitySqlProvider;
+$SKIP END$import $CLASSROOT$.entity.$ENTITYNAME$Entity;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
@@ -33,9 +33,6 @@ public interface $ENTITYNAME$EntityMapper {
 		")"
     })
     int insert($ENTITYNAME$Entity record);
-
-    @InsertProvider(type=$ENTITYNAME$EntitySqlProvider.class, method="insertSelective")
-    int insertSelective($ENTITYNAME$Entity record);
 
     @Select({
         "select",$FOREACH FIELD BEGIN$
@@ -89,9 +86,6 @@ $ELSE$
     })
     List<$ENTITYNAME$Entity> selectByBizKey($BIZKEYFIELDJAVATYPE$ bizKeyValue);$END IF$
 $HASBIZKEY END$
-    @UpdateProvider(type=$ENTITYNAME$EntitySqlProvider.class, method="updateByPrimaryKeySelective")
-    int updateByPrimaryKeySelective($ENTITYNAME$Entity record);
-
     @Update({
         "update $TABLENAME$",
         "set",$FOREACH FIELD EXCEPT PK BEGIN$

@@ -4,15 +4,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jp.co.gutingjun.common.util.BaseRest;
 import jp.co.gutingjun.common.util.R;
-import $CLASSROOT$.rest.request.IDRequest;
+import $CLASSROOT$.rest.dto.*;
 import $CLASSROOT$.vo.$ENTITYNAME$VO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import $CLASSROOT$.service.*;
 $HASAGGVO BEGIN$
-import jp.co.gutingjun.pms.vo.AggVO;
-import $CLASSROOT$.rest.request.$ENTITYNAME$AggVORequest;
+import $CLASSROOT$.vo.AggVO;
+import $CLASSROOT$.rest.dto.$ENTITYNAME$AggDTO;
 import $CLASSROOT$.vo.$ENTITYNAME$AggVO;$HASAGGVO END$
 
 /**
@@ -30,47 +30,56 @@ import $CLASSROOT$.vo.$ENTITYNAME$AggVO;$HASAGGVO END$
 public class $ENTITYNAME$Rest extends BaseRest {
   @Autowired $ENTITYNAME$Service $LOWER_ENTITYNAME$Service;
 
-  @ApiOperation(value = "/$ENTITYNAME_LOWER$", notes = "$ENTITYDESC$数据加载")
+  @ApiOperation(value = "$ENTITYDESC$数据加载", notes = "$ENTITYDESC$数据加载")
   @PostMapping(value = "/$ENTITYNAME_LOWER$")
   @ResponseBody
   public R<$ENTITYNAME$VO[]> load$ENTITYNAME$() {
     return R.responseBySuccess($LOWER_ENTITYNAME$Service.getAll$ENTITYNAME$());
   }
 $IF HASAGGVO$
-  @ApiOperation(value = "/$ENTITYNAME_LOWER$byparentid", notes = "指定$ENTITYDESC$聚合数据加载")
+$SKIP BEGIN$
+  @ApiOperation(value = "指定$ENTITYDESC$聚合数据加载", notes = "指定$ENTITYDESC$聚合数据加载")
   @PostMapping(value = "/$ENTITYNAME_LOWER$byparentid")
   @ResponseBody
-  public R<AggVO> load$ENTITYNAME$AggVOByID(@RequestBody IDRequest request) {
+  public R<AggVO> load$ENTITYNAME$AggVOByID(@RequestBody IDDTO request) {
     return R.responseBySuccess($LOWER_ENTITYNAME$Service.get$ENTITYNAME$AggVOByID(request.getId()));
   }
+$SKIP END$
+  @ApiOperation(value = "指定$ENTITYDESC$聚合数据加载（可选语言）", notes = "指定$ENTITYDESC$聚合数据加载（可选语言，语种留空则为全语言）")
+  @PostMapping(value = "/$ENTITYNAME_LOWER$byparentid")
+  @ResponseBody
+  public R<AggVO> load$ENTITYNAME$AggVOByID(@RequestBody LanguageDTO request) {
+    return R.responseBySuccess($LOWER_ENTITYNAME$Service.get$ENTITYNAME$AggVOByIDLang(request.getId(), request.getLang()));
+  }
 
-  @ApiOperation(value = "/$ENTITYNAME_LOWER$aggsave", notes = "$ENTITYDESC$数据保存")
+  @ApiOperation(value = "$ENTITYDESC$数据保存", notes = "$ENTITYDESC$数据保存")
   @PostMapping(value = "/$ENTITYNAME_LOWER$aggsave")
   @ResponseBody
-  public R<Long> save(@RequestBody $ENTITYNAME$AggVORequest request) {
+  public R<Long> save(@RequestBody $ENTITYNAME$AggDTO request) {
     $ENTITYNAME$AggVO aggVO = new $ENTITYNAME$AggVO();
-    aggVO.setParent(request.getParent());$FOREACH AGG VO BEGIN$
-    aggVO.set$PROPERTYVODATATYPE$(request.get$PROPERTYVODATATYPE$());$FOREACH AGG VO END$
+    DTOUtils.transfer(request, aggVO);
     try{
-      Long rtn = $LOWER_ENTITYNAME$Service.save(aggVO);
-      return R.responseBySuccess(rtn);
+      $ENTITYNAME$AggVO rtn = $LOWER_ENTITYNAME$Service.save(aggVO);
+      return R.responseBySuccess(rtn.pickParentID());
     }catch (Exception ex){
       return R.responseByError(0, ex.getMessage());
     }
   }
 $ELSE$
-  @ApiOperation(value = "/$ENTITYNAME_LOWER$byid", notes = "指定$ENTITYDESC$数据加载")
+  @ApiOperation(value = "指定$ENTITYDESC$数据加载", notes = "指定$ENTITYDESC$数据加载")
   @PostMapping(value = "/$ENTITYNAME_LOWER$byid")
   @ResponseBody
-  public R<$ENTITYNAME$VO> load$ENTITYNAME$ByID(@RequestBody IDRequest request) {
+  public R<$ENTITYNAME$VO> load$ENTITYNAME$ByID(@RequestBody IDDTO request) {
     return R.responseBySuccess($LOWER_ENTITYNAME$Service.get$ENTITYNAME$ByID(request.getId()));
   }
 
-  @ApiOperation(value = "/$ENTITYNAME_LOWER$save", notes = "$ENTITYDESC$数据保存")
+  @ApiOperation(value = "$ENTITYDESC$数据保存", notes = "$ENTITYDESC$数据保存")
   @PostMapping(value = "/$ENTITYNAME_LOWER$save")
   @ResponseBody
-  public R<Long> save(@RequestBody $ENTITYNAME$VO request) {
-    return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(request));
+  public R<Long> save(@RequestBody $ENTITYNAME$DTO request) {
+   $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
+    DTOUtils.transfer(request, newVO);
+    return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(newVO));
   }
 $END IF$
 }

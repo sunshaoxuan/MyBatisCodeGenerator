@@ -2,7 +2,7 @@ package $CLASSROOT$.service;
 
 import $CLASSROOT$.vo.$ENTITYNAME$VO;
 $HASAGGVO BEGIN$
-import jp.co.gutingjun.pms.vo.AggVO;
+import $CLASSROOT$.vo.AggVO;
 import $CLASSROOT$.vo.$ENTITYNAME$AggVO;$HASAGGVO END$
 
 public interface $ENTITYNAME$Service {
@@ -28,12 +28,20 @@ $IF HASAGGVO$
     public AggVO get$ENTITYNAME$AggVOByID(Long id);
 
     /**
+     * 获取指定$ENTITYDESC$及语言的聚合VO对象
+     *
+     * @param id $ENTITYDESC$ID
+     * @param lang 语言
+     * @return $ENTITYDESC$聚合VO
+     */
+    public AggVO get$ENTITYNAME$AggVOByIDLang(Long id, String lang);
+    /**
     * 保存$ENTITYDESC$全档案
     *
     * @param aggVO $ENTITYDESC$聚合VO
     * @return
     */
-    public Long save($ENTITYNAME$AggVO aggVO) throws Exception;
+    public $ENTITYNAME$AggVO save($ENTITYNAME$AggVO aggVO) throws Exception;
 $ELSE$
     /**
      * 保存$ENTITYDESC$数据
