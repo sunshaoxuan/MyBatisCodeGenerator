@@ -15,11 +15,11 @@ import java.util.List;
  */
 @Mapper
 public interface $ENTITYNAME$ResEntityMapper {
-  @Delete({
-    "delete from $TABLENAME$_res",
+  @Update({
+    "update $TABLENAME$_res set dr=1",
     "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=BIGINT} and lang =  #{lang,jdbcType=VARCHAR}"
   })
-  int deleteByPrimaryKey(Long $PKFIELDNAME$, String lang);
+  int deleteByPrimaryKey(@Param("$PKFIELDNAME$") Long $PKFIELDNAME$, @Param("lang") String lang);
 
   @Insert({
     "insert into $TABLENAME$_res (",
@@ -57,7 +57,7 @@ $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
     "updated_time",
     "from $TABLENAME$_res",
-    "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=VARCHAR}"
+    "where dr=0 and $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} and lang = #{lang,jdbcType=VARCHAR}"
   })
   @Results({
     /** 主键 */
@@ -84,7 +84,7 @@ $FOREACH MULTILANG PROPERTY END$
     /** 更新时间 */
     "updated_time",
     "from $TABLENAME$_res",
-    "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} "
+    "where dr=0 and $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$} "
   })
   @Results({
     /** 主键 */

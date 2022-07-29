@@ -21,7 +21,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class $ENTITYNAME$ResEntity {
+public class $ENTITYNAME$ResEntity implements java.io.Serializable{
   /** 主键 */
   @ApiModelProperty(value = "id", name = "主键", example = "")
   @MultiLangResource(catelog = "common", resourceid = "bd0001")

@@ -62,12 +62,17 @@ import java.util.List;
   }
 
     @Override
-    public List pickSubVOList(Class subVOClazz) {$FOREACH AGG VO BEGIN$
-      if(subVOClazz.equals($PROPERTYVODATATYPE$.class)){
-          return new ArrayList<$PROPERTYVODATATYPE$>(Arrays.asList(get$PROPERTYVODATATYPE$()));
-      } $FOREACH AGG VO END$
-      return null;
-    }
+  public List pickSubVOList(Class subVOClazz) {$FOREACH AGG VO BEGIN$
+    if (subVOClazz.equals($PROPERTYVODATATYPE$.class)) {
+      $PROPERTYVODATATYPE$[] subVOs = get$PROPERTYVODATATYPE$();
+      if (subVOs == null) {
+        return null;
+      } else {
+        return new ArrayList<>(Arrays.asList(subVOs));
+      }
+    } $FOREACH AGG VO END$
+    return null;
+  }
 
 }
 

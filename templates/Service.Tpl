@@ -49,7 +49,7 @@ $ELSE$
      * @param vo $ENTITYDESC$VO
      * @return $ENTITYDESC$ID
      */
-    public Long save($ENTITYNAME$VO vo);$END IF$
+    public Long save($ENTITYNAME$VO vo) throws Exception;$END IF$
 $HASBIZKEY BEGIN$
 $IF BIZKEYCONTAINVARCHAR$
     /**
@@ -67,4 +67,12 @@ $ELSE$
     * @return
     */
     public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(Long bizKey);$END IF$ $HASBIZKEY END$
+
+    /**
+     * 删除指定$ENTITYDESC$记录
+     *
+     * @param vo $ENTITYDESC$VO
+     * @return 成功标记，0不成功，1成功
+     */
+    public Integer delete($ENTITYNAME$VO vo) throws Exception;
 }

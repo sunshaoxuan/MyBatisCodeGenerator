@@ -65,6 +65,20 @@ $SKIP END$
       return R.responseByError(0, ex.getMessage());
     }
   }
+
+  @ApiOperation(value = "$ENTITYDESC$数据删除", notes = "$ENTITYDESC$数据删除")
+  @PostMapping(value = "/$ENTITYNAME_LOWER$aggdelete")
+  @ResponseBody
+  public R<Integer> delete(@RequestBody IDDTO request){
+    $ENTITYNAME$AggVO aggVO = new $ENTITYNAME$AggVO();
+
+    try{
+      aggVO.loadByParentID(request.getId());
+      return R.responseBySuccess(aggVO.delete());
+    }catch (Exception ex){
+      return R.responseByError(0, ex.getMessage());
+    }
+  }
 $ELSE$
   @ApiOperation(value = "指定$ENTITYDESC$数据加载", notes = "指定$ENTITYDESC$数据加载")
   @PostMapping(value = "/$ENTITYNAME_LOWER$byid")
@@ -79,7 +93,23 @@ $ELSE$
   public R<Long> save(@RequestBody $ENTITYNAME$DTO request) {
    $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
     DTOUtils.transfer(request, newVO);
-    return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(newVO));
+    try {
+      return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(newVO));
+    } catch (Exception ex) {
+      return R.responseByError(0, ex.getMessage());
+    }
+  }
+
+  @ApiOperation(value = "$ENTITYDESC$数据删除", notes = "$ENTITYDESC$数据删除")
+  @PostMapping(value = "/$ENTITYNAME_LOWER$delete")
+  @ResponseBody
+  public R<Integer> delete(@RequestBody IDDTO request) {
+    try {
+      $ENTITYNAME$VO vo = new $ENTITYNAME$VO(request.getId());
+      return R.responseBySuccess(vo.delete());
+    } catch (Exception ex) {
+      return R.responseByError(0, ex.getMessage());
+    }
   }
 $END IF$
 }

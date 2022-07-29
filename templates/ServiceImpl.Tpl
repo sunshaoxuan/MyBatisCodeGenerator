@@ -4,6 +4,7 @@ import $CLASSROOT$.entity.$ENTITYNAME$Entity;
 import $CLASSROOT$.service.$ENTITYNAME$Service;
 import org.springframework.stereotype.Service;
 import $CLASSROOT$.vo.$ENTITYNAME$VO;
+import $CLASSROOT$.common.CommonUtils;
 $HASAGGVO BEGIN$
 import $CLASSROOT$.vo.AggVO;
 import $CLASSROOT$.vo.$ENTITYNAME$AggVO; $HASAGGVO END$
@@ -17,7 +18,7 @@ import java.util.List;
 public class $ENTITYNAME$ServiceImpl implements $ENTITYNAME$Service {
   @Override
   public $ENTITYNAME$VO[] getAll$ENTITYNAME$() {
-    List<$ENTITYNAME$Entity> entityList = EntityUtils.getEntityList($ENTITYNAME$Entity.class);
+    List<$ENTITYNAME$Entity> entityList = CommonUtils.getAllEntityList($ENTITYNAME$Entity.class);
     if (entityList != null && entityList.size() > 0) {
       List<$ENTITYNAME$VO> $LOWER_ENTITYNAME$VOList = new ArrayList<$ENTITYNAME$VO>();
       for ($ENTITYNAME$Entity entity : entityList) {
@@ -64,13 +65,13 @@ $IF HASAGGVO$
 $ELSE$
   @Transactional(rollbackFor=Exception.class)
   @Override
-  public Long save($ENTITYNAME$VO vo) {
+  public Long save($ENTITYNAME$VO vo) throws Exception {
     return vo.save();
   }$END IF$ $HASBIZKEY BEGIN$ $IF BIZKEYCONTAINVARCHAR$
     @Override
     public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(String bizKey) {
         List<$ENTITYNAME$VO> rtn = new ArrayList<$ENTITYNAME$VO>();
-        List<$ENTITYNAME$Entity> result = EntityUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
+        List<$ENTITYNAME$Entity> result = CommonUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
         if(result != null && result.size() > 0){
           for ($ENTITYNAME$Entity entity : result) {
               $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
@@ -83,7 +84,7 @@ $ELSE$
   @Override
   public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(Long bizKey) {
     List<$ENTITYNAME$VO> rtn = new ArrayList<$ENTITYNAME$VO>();
-    List<$ENTITYNAME$Entity> result = EntityUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
+    List<$ENTITYNAME$Entity> result = CommonUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
     if(result != null && result.size() > 0){
         for ($ENTITYNAME$Entity entity : result) {
             $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
@@ -93,4 +94,10 @@ $ELSE$
     }
     return result == null ? null : rtn.toArray(new $ENTITYNAME$VO[0]); 
   }$END IF$ $HASBIZKEY END$
+
+    @Transactional(rollbackFor=Exception.class)
+  @Override
+  public Integer delete($ENTITYNAME$VO vo) throws Exception{
+    return vo.delete();
+  }
 }

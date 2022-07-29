@@ -110,17 +110,24 @@ namespace MyBatisCodeGenerator.Utils
         {
             int startPos = 0;
             int findPos = 0;
+            int lastFindPos = 0;
             while (findPos >= 0)
             {
                 findPos = rtbControl.Find("$", startPos, RichTextBoxFinds.MatchCase);
                 if (findPos >= 0)
                 {
+                    if (findPos < lastFindPos)
+                    {
+                        break;
+                    }
                     int closePos = rtbControl.Find("$", findPos + 1, RichTextBoxFinds.MatchCase);
                     rtbControl.SelectionStart = findPos;
                     rtbControl.SelectionLength = closePos - findPos + 1;
                     rtbControl.SelectionColor = customColor;
                     startPos = closePos + 1;
+                    Application.DoEvents();
                 }
+                lastFindPos = findPos;
             }
         }
 

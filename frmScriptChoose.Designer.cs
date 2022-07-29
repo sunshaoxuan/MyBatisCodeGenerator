@@ -34,6 +34,11 @@
             this.lblFilter = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnExecute = new System.Windows.Forms.Button();
+            this.llbSelectAll = new System.Windows.Forms.LinkLabel();
+            this.llbSelectNone = new System.Windows.Forms.LinkLabel();
+            this.llbSelectReverse = new System.Windows.Forms.LinkLabel();
+            this.llbSelectCreateTable = new System.Windows.Forms.LinkLabel();
+            this.llbAllInsert = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // chklScripts
@@ -87,11 +92,76 @@
             this.btnExecute.UseVisualStyleBackColor = true;
             this.btnExecute.Click += new System.EventHandler(this.btnExecute_Click);
             // 
+            // llbSelectAll
+            // 
+            this.llbSelectAll.AutoSize = true;
+            this.llbSelectAll.Font = new System.Drawing.Font("Calibri", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llbSelectAll.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.llbSelectAll.Location = new System.Drawing.Point(12, 419);
+            this.llbSelectAll.Name = "llbSelectAll";
+            this.llbSelectAll.Size = new System.Drawing.Size(28, 17);
+            this.llbSelectAll.TabIndex = 13;
+            this.llbSelectAll.TabStop = true;
+            this.llbSelectAll.Text = "ALL";
+            // 
+            // llbSelectNone
+            // 
+            this.llbSelectNone.AutoSize = true;
+            this.llbSelectNone.Font = new System.Drawing.Font("Calibri", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llbSelectNone.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.llbSelectNone.Location = new System.Drawing.Point(53, 419);
+            this.llbSelectNone.Name = "llbSelectNone";
+            this.llbSelectNone.Size = new System.Drawing.Size(38, 17);
+            this.llbSelectNone.TabIndex = 13;
+            this.llbSelectNone.TabStop = true;
+            this.llbSelectNone.Text = "None";
+            // 
+            // llbSelectReverse
+            // 
+            this.llbSelectReverse.AutoSize = true;
+            this.llbSelectReverse.Font = new System.Drawing.Font("Calibri", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llbSelectReverse.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.llbSelectReverse.Location = new System.Drawing.Point(100, 419);
+            this.llbSelectReverse.Name = "llbSelectReverse";
+            this.llbSelectReverse.Size = new System.Drawing.Size(53, 17);
+            this.llbSelectReverse.TabIndex = 13;
+            this.llbSelectReverse.TabStop = true;
+            this.llbSelectReverse.Text = "Reverse";
+            // 
+            // llbSelectCreateTable
+            // 
+            this.llbSelectCreateTable.AutoSize = true;
+            this.llbSelectCreateTable.Font = new System.Drawing.Font("Calibri", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llbSelectCreateTable.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.llbSelectCreateTable.Location = new System.Drawing.Point(163, 419);
+            this.llbSelectCreateTable.Name = "llbSelectCreateTable";
+            this.llbSelectCreateTable.Size = new System.Drawing.Size(63, 17);
+            this.llbSelectCreateTable.TabIndex = 13;
+            this.llbSelectCreateTable.TabStop = true;
+            this.llbSelectCreateTable.Text = "All Create";
+            // 
+            // llbAllInsert
+            // 
+            this.llbAllInsert.AutoSize = true;
+            this.llbAllInsert.Font = new System.Drawing.Font("Calibri", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llbAllInsert.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.llbAllInsert.Location = new System.Drawing.Point(236, 419);
+            this.llbAllInsert.Name = "llbAllInsert";
+            this.llbAllInsert.Size = new System.Drawing.Size(58, 17);
+            this.llbAllInsert.TabIndex = 13;
+            this.llbAllInsert.TabStop = true;
+            this.llbAllInsert.Text = "All Insert";
+            // 
             // frmScriptChoose
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.llbAllInsert);
+            this.Controls.Add(this.llbSelectCreateTable);
+            this.Controls.Add(this.llbSelectReverse);
+            this.Controls.Add(this.llbSelectNone);
+            this.Controls.Add(this.llbSelectAll);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.lblFilter);
@@ -100,6 +170,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmScriptChoose";
             this.Text = "Choose Script File to Publish";
+            this.Load += new System.EventHandler(this.frmScriptChoose_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -112,5 +183,10 @@
         private System.Windows.Forms.Label lblFilter;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnExecute;
+        private System.Windows.Forms.LinkLabel llbSelectAll;
+        private System.Windows.Forms.LinkLabel llbSelectNone;
+        private System.Windows.Forms.LinkLabel llbSelectReverse;
+        private System.Windows.Forms.LinkLabel llbSelectCreateTable;
+        private System.Windows.Forms.LinkLabel llbAllInsert;
     }
 }

@@ -17,11 +17,12 @@ $HASBIZKEY BEGIN$import java.util.List;$HASBIZKEY END$
  */
 @Mapper
 public interface $ENTITYNAME$EntityMapper {
-    @Delete({
-        "delete from $TABLENAME$",
-        "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$}"
+    @Update({
+        "update $TABLENAME$ set dr=1 ",
+        "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$}"$HASVERSION BEGIN$,
+        " and version = #{version,jdbcType=INTEGER}"$HASVERSION END$
     })
-    int deleteByPrimaryKey($PKFIELDJAVATYPE$ $PKFIELDNAME$); 
+    int deleteByPrimaryKey(@Param("$PKFIELDNAME$") $PKFIELDJAVATYPE$ $PKFIELDNAME$$HASVERSION BEGIN$,@Param("version") Integer version$HASVERSION END$); 
 
     @Insert({
         "insert into $TABLENAME$ (",$FOREACH FIELD BEGIN$
@@ -39,7 +40,7 @@ public interface $ENTITYNAME$EntityMapper {
         /** $PROPERTYDESC$ */
         "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
         "from $TABLENAME$",
-        "where $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$}"
+        "where dr=0 and $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$}"
     })
     @Results({$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
@@ -51,7 +52,8 @@ public interface $ENTITYNAME$EntityMapper {
         "select",$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
         "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
-        "from $TABLENAME$"
+        "from $TABLENAME$",
+        "where dr=0"
     })
     @Results({$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
@@ -65,7 +67,7 @@ $IF BIZKEYCONTAINVARCHAR$
         /** $PROPERTYDESC$ */
         "$FIELDNAME$ $COMMAEXCEPTLAST$",$FOREACH FIELD END$
         "from $TABLENAME$",
-        "where (1=2$BIZKEYWHERECONDITION$)"
+        "where dr=0 and (1=2$BIZKEYWHERECONDITION$)"
     })
     @Results({$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */
@@ -78,7 +80,7 @@ $ELSE$
         /** $PROPERTYDESC$ */
         "$FIELDNAME$ $COMMAEXCEPTLAST$",$FOREACH FIELD END$
         "from $TABLENAME$",
-        "where (1=2$BIZKEYWHERECONDITION$)"
+        "where dr=0 and (1=2$BIZKEYWHERECONDITION$)"
     })
     @Results({$FOREACH FIELD BEGIN$
         /** $PROPERTYDESC$ */

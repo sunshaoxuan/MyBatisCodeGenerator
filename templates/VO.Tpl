@@ -2,7 +2,7 @@ package $CLASSROOT$.vo;
 
 import $CLASSROOT$.entity.$ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
 import $CLASSROOT$.entity.$ENTITYNAME$ResEntity;$HASMULTILANGPROPERTY END$
-import $CLASSROOT$.service.impl.EntityUtils;
+import $CLASSROOT$.common.CommonUtils;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -45,18 +45,18 @@ public class $ENTITYNAME$VO extends ValueObject{
   }$HASMULTILANGPROPERTY END$
 
   public $ENTITYNAME$VO(Long id) {
-    set$ENTITYNAME$Entity(EntityUtils.getEntityByPK($ENTITYNAME$Entity.class, id));$HASMULTILANGPROPERTY BEGIN$
+    set$ENTITYNAME$Entity(CommonUtils.getEntityByPK($ENTITYNAME$Entity.class, id));$HASMULTILANGPROPERTY BEGIN$
     loadResByID(id);$HASMULTILANGPROPERTY END$
   }
   
   public $ENTITYNAME$VO(Long id, String lang){
-    set$ENTITYNAME$Entity(EntityUtils.getEntityByPK($ENTITYNAME$Entity.class, id));$HASMULTILANGPROPERTY BEGIN$
+    set$ENTITYNAME$Entity(CommonUtils.getEntityByPK($ENTITYNAME$Entity.class, id));$HASMULTILANGPROPERTY BEGIN$
     loadResByID(id, lang);$HASMULTILANGPROPERTY END$
   }$HASMULTILANGPROPERTY BEGIN$
     private void loadResByID(Long id) {
     if (id != null && id > 0L) {
       List<$ENTITYNAME$ResEntity> resEntities =
-          EntityUtils.getResEntityByPK($ENTITYNAME$ResEntity.class, id);
+          CommonUtils.getResEntityByPK($ENTITYNAME$ResEntity.class, id);
       if (resEntities != null) {
         set$ENTITYNAME$ResEntity(resEntities.toArray(new $ENTITYNAME$ResEntity[0]));
       }
@@ -72,14 +72,14 @@ public class $ENTITYNAME$VO extends ValueObject{
   }
 
   private void loadResByID(Long id, String lang) {
-    $ENTITYNAME$ResEntity resEntity = EntityUtils.getResEntityByPK($ENTITYNAME$ResEntity.class, id, lang);
+    $ENTITYNAME$ResEntity resEntity = CommonUtils.getResEntityByPK($ENTITYNAME$ResEntity.class, id, lang);
     if (resEntity != null) {
       set$ENTITYNAME$ResEntity(new $ENTITYNAME$ResEntity[] {resEntity});
     }
   }$HASMULTILANGPROPERTY END$
 
   public static List<$ENTITYNAME$Entity> getListByBizKey(Long bizKey) {
-    return EntityUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
+    return CommonUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
   }
 
   @Override
@@ -95,5 +95,9 @@ public class $ENTITYNAME$VO extends ValueObject{
   @Override
   public void putEntity(Object entity, String lang) {
     $IF HASMULTILANGPROPERTY$ set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity, lang); $ELSE$ $END IF$
+  }
+
+  public static $ENTITYNAME$VO[] getAll(){
+    return ($ENTITYNAME$VO[]) getAllEntity($ENTITYNAME$VO.class, $ENTITYNAME$Entity.class);
   }
 }

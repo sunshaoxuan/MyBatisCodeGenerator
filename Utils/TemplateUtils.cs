@@ -379,7 +379,7 @@ namespace MyBatisCodeGenerator.Utils
             {
                 try
                 {
-                    MySqlConnection conn = new MySqlConnection(connectionString);
+                    MySqlConnection conn = getNewConntection(connectionString);
                     conn.Open();
 
                     try
@@ -413,6 +413,17 @@ namespace MyBatisCodeGenerator.Utils
             }
 
             return commonMultiLangInfo;
+        }
+
+        private static MySqlConnection mySqlConnection = null;
+
+        internal static MySqlConnection getNewConntection(string connectionString)
+        {
+            if(mySqlConnection == null)
+            {
+                mySqlConnection = new MySqlConnection(connectionString);
+            }
+            return mySqlConnection;
         }
 
         public static List<Dictionary<string, string>> GetInsertDataDetail(DataTable designData)
@@ -717,6 +728,9 @@ namespace MyBatisCodeGenerator.Utils
             
             //$TABLENAME$
             ReplaceTag(table, sb, "$TABLENAME$", "TABLENAME", "", "", defRefs);
+
+            //$DATABASENAME$
+            ReplaceTag(table, sb, "$DATABASENAME$", "DATABASENAME", "", "", defRefs);
 
             //$PARENT$
             ReplaceTag(table, sb, "$PARENTCLASS$", "PARENTCLASS", " extends ", "", defRefs);

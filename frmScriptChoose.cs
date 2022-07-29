@@ -41,5 +41,10 @@ namespace MyBatisCodeGenerator
                 chklScripts.Items.Add(script);  
             }
         }
+
+        private void frmScriptChoose_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

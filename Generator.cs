@@ -798,6 +798,8 @@ namespace MyBatisCodeGenerator
             {
                 Dictionary<String, String> defRefs = new Dictionary<string, string>();
                 defRefs.Add("CLASSROOT", txtClassRoot.Text);
+                MySql.Data.MySqlClient.MySqlConnection conn = TemplateUtils.getNewConntection(txtDBConnStr.Text);
+                defRefs.Add("DATABASENAME", conn.Database);
 
                 generator.Author = chkGenerateAuthor.Checked ? txtAuthor.Text : "";
                 generator.IsCreatePath = chkCreatePath.Checked;
@@ -1434,21 +1436,21 @@ namespace MyBatisCodeGenerator
 
                             Dictionary<string, StringBuilder> scriptSB = null;
 
-                            scriptSB = ReadSpecificCreateTableScript(txtCreateTablePrefix.Text, txtBaseExecutive.Text);
+                            scriptSB = ReadSpecificCreateTableScript(txtCreateTablePrefix.Text, txtBaseExecutive.Text, checkedScripts);
                             RunScripts(scriptSB, conn, "Pre-execute scripts");
 
-                            scriptSB = ReadSpecificCreateTableScript(txtInsertDataPrefix.Text, txtBaseExecutive.Text);
+                            scriptSB = ReadSpecificCreateTableScript(txtInsertDataPrefix.Text, txtBaseExecutive.Text, checkedScripts);
                             RunScripts(scriptSB, conn, "Pre-insert data scripts");
 
-                            scriptSB = ReadCreateTableScripts();
+                            scriptSB = ReadCreateTableScripts(checkedScripts);
                             RunScripts(scriptSB, conn, "Create table scripts");
 
-                            scriptSB = ReadInsertDataScripts();
+                            scriptSB = ReadInsertDataScripts(checkedScripts);
                             RunScripts(scriptSB, conn, "Metadata Insert Scripts");
 
                             if (chkExecuteMultiLang.Checked)
                             {
-                                scriptSB = ReadMultiLangInsertDataScripts();
+                                scriptSB = ReadMultiLangInsertDataScripts(checkedScripts);
                                 RunScripts(scriptSB, conn, "Multi Language Data Insert Scripts");
                             }
                         }
@@ -1474,7 +1476,7 @@ namespace MyBatisCodeGenerator
             }
         }
 
-        private Dictionary<string, StringBuilder> ReadSpecificCreateTableScript(string prefix, string tableNameStr)
+        private Dictionary<string, StringBuilder> ReadSpecificCreateTableScript(string prefix, string tableNameStr, List<string> scopeList)
         {
             char[] splitter = new char[] { ',', ' ' };
             Dictionary<string, StringBuilder> rtn = new Dictionary<string, StringBuilder>();
@@ -1482,10 +1484,13 @@ namespace MyBatisCodeGenerator
             foreach (String tablename in tableNames)
             {
                 string fileName = $"{prefix}{tablename}{".sql"}";
-                Dictionary<string, StringBuilder> scripts = ReadScript(fileName);
-                foreach (string key in scripts.Keys)
+                if (scopeList.Contains("fileName"))
                 {
-                    rtn.Add(key, scripts[key]);
+                    Dictionary<string, StringBuilder> scripts = ReadScript(fileName, scopeList);
+                    foreach (string key in scripts.Keys)
+                    {
+                        rtn.Add(key, scripts[key]);
+                    }
                 }
             }
             return rtn;
@@ -1541,36 +1546,39 @@ namespace MyBatisCodeGenerator
             }
         }
 
-        private Dictionary<string, StringBuilder> ReadMultiLangInsertDataScripts()
+        private Dictionary<string, StringBuilder> ReadMultiLangInsertDataScripts(List<string> scope)
         {
-            return ReadScript("InsertData*_res.sql");
+            return ReadScript("InsertData*_res.sql", scope);
         }
 
-        private Dictionary<string, StringBuilder> ReadScript(string filter)
+        private Dictionary<string, StringBuilder> ReadScript(string filter, List<string> scope)
         {
             string[] filenames = Directory.GetFiles(txtScriptSavePath.Text, filter);
             Dictionary<string, StringBuilder> scripts = new Dictionary<string, StringBuilder>();
             foreach (string filename in filenames)
             {
-                if (!executedScripts.Contains(filename))
+                if (scope.Contains(filename))
                 {
-                    StringBuilder script = new StringBuilder();
-                    script.Append(CommonUtils.ReadTextFile(filename));
-                    scripts.Add(filename, script);
-                    executedScripts.Add(filename);
+                    if (!executedScripts.Contains(filename))
+                    {
+                        StringBuilder script = new StringBuilder();
+                        script.Append(CommonUtils.ReadTextFile(filename));
+                        scripts.Add(filename, script);
+                        executedScripts.Add(filename);
+                    }
                 }
             }
             return scripts;
         }
 
-        private Dictionary<string, StringBuilder> ReadInsertDataScripts()
+        private Dictionary<string, StringBuilder> ReadInsertDataScripts(List<string> scope)
         {
-            return ReadScript("InsertData*.sql");
+            return ReadScript("InsertData*.sql", scope);
         }
 
-        private Dictionary<string, StringBuilder> ReadCreateTableScripts()
+        private Dictionary<string, StringBuilder> ReadCreateTableScripts(List<string> scope)
         {
-            return ReadScript("CreateTable*.sql");
+            return ReadScript("CreateTable*.sql", scope);
         }
 
         private void btnRestTpl_Click(object sender, EventArgs e)

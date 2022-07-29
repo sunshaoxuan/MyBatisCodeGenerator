@@ -156,6 +156,11 @@
             this.btnDTOTpl = new System.Windows.Forms.Button();
             this.txtDTOTpl = new System.Windows.Forms.TextBox();
             this.lblDTOTpl = new System.Windows.Forms.Label();
+            this.tabHandler = new System.Windows.Forms.TabPage();
+            this.rtbHandlerTpl = new System.Windows.Forms.RichTextBox();
+            this.btnHandlerTpl = new System.Windows.Forms.Button();
+            this.txtHandlerTpl = new System.Windows.Forms.TextBox();
+            this.lblHandlerTpl = new System.Windows.Forms.Label();
             this.tabSetting = new System.Windows.Forms.TabPage();
             this.grpPublish = new System.Windows.Forms.GroupBox();
             this.lblBaseExecutive = new System.Windows.Forms.Label();
@@ -179,11 +184,6 @@
             this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.dlgFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
-            this.tabHandler = new System.Windows.Forms.TabPage();
-            this.rtbHandlerTpl = new System.Windows.Forms.RichTextBox();
-            this.btnHandlerTpl = new System.Windows.Forms.Button();
-            this.txtHandlerTpl = new System.Windows.Forms.TextBox();
-            this.lblHandlerTpl = new System.Windows.Forms.Label();
             this.tabcMain.SuspendLayout();
             this.tabGenerator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgStepLog)).BeginInit();
@@ -209,10 +209,10 @@
             this.tabServiceImpl.SuspendLayout();
             this.tabAggDTO.SuspendLayout();
             this.tabDTO.SuspendLayout();
+            this.tabHandler.SuspendLayout();
             this.tabSetting.SuspendLayout();
             this.grpPublish.SuspendLayout();
             this.grpGenerate.SuspendLayout();
-            this.tabHandler.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabcMain
@@ -595,6 +595,7 @@
             // 
             // tabcTemplates
             // 
+            this.tabcTemplates.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tabcTemplates.Controls.Add(this.tabEntities);
             this.tabcTemplates.Controls.Add(this.tabEntityExtends);
             this.tabcTemplates.Controls.Add(this.tabMappers);
@@ -617,6 +618,7 @@
             this.tabcTemplates.Controls.Add(this.tabHandler);
             this.tabcTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabcTemplates.Location = new System.Drawing.Point(3, 3);
+            this.tabcTemplates.Multiline = true;
             this.tabcTemplates.Name = "tabcTemplates";
             this.tabcTemplates.SelectedIndex = 0;
             this.tabcTemplates.Size = new System.Drawing.Size(770, 529);
@@ -628,10 +630,10 @@
             this.tabEntities.Controls.Add(this.btnEntityTpl);
             this.tabEntities.Controls.Add(this.txtEntityTpl);
             this.tabEntities.Controls.Add(this.lblEntityTpl);
-            this.tabEntities.Location = new System.Drawing.Point(4, 22);
+            this.tabEntities.Location = new System.Drawing.Point(4, 73);
             this.tabEntities.Name = "tabEntities";
             this.tabEntities.Padding = new System.Windows.Forms.Padding(3);
-            this.tabEntities.Size = new System.Drawing.Size(762, 503);
+            this.tabEntities.Size = new System.Drawing.Size(762, 452);
             this.tabEntities.TabIndex = 0;
             this.tabEntities.Text = "Entities";
             this.tabEntities.UseVisualStyleBackColor = true;
@@ -645,7 +647,7 @@
             this.rtbEntityTpl.Location = new System.Drawing.Point(0, 32);
             this.rtbEntityTpl.Name = "rtbEntityTpl";
             this.rtbEntityTpl.ReadOnly = true;
-            this.rtbEntityTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbEntityTpl.Size = new System.Drawing.Size(762, 420);
             this.rtbEntityTpl.TabIndex = 4;
             this.rtbEntityTpl.Text = "";
             // 
@@ -685,10 +687,10 @@
             this.tabEntityExtends.Controls.Add(this.btnSqlProviderTpl);
             this.tabEntityExtends.Controls.Add(this.txtSqlProviderTpl);
             this.tabEntityExtends.Controls.Add(this.lblSqlProviderTpl);
-            this.tabEntityExtends.Location = new System.Drawing.Point(4, 22);
+            this.tabEntityExtends.Location = new System.Drawing.Point(4, 25);
             this.tabEntityExtends.Name = "tabEntityExtends";
             this.tabEntityExtends.Padding = new System.Windows.Forms.Padding(3);
-            this.tabEntityExtends.Size = new System.Drawing.Size(762, 503);
+            this.tabEntityExtends.Size = new System.Drawing.Size(762, 500);
             this.tabEntityExtends.TabIndex = 1;
             this.tabEntityExtends.Text = "SqlProviders";
             this.tabEntityExtends.UseVisualStyleBackColor = true;
@@ -702,7 +704,7 @@
             this.rtbSqlProviderTpl.Location = new System.Drawing.Point(0, 29);
             this.rtbSqlProviderTpl.Name = "rtbSqlProviderTpl";
             this.rtbSqlProviderTpl.ReadOnly = true;
-            this.rtbSqlProviderTpl.Size = new System.Drawing.Size(762, 474);
+            this.rtbSqlProviderTpl.Size = new System.Drawing.Size(762, 471);
             this.rtbSqlProviderTpl.TabIndex = 8;
             this.rtbSqlProviderTpl.Text = "";
             // 
@@ -742,10 +744,10 @@
             this.tabMappers.Controls.Add(this.btnMapperTpl);
             this.tabMappers.Controls.Add(this.txtMapperTpl);
             this.tabMappers.Controls.Add(this.lblMapperTpl);
-            this.tabMappers.Location = new System.Drawing.Point(4, 22);
+            this.tabMappers.Location = new System.Drawing.Point(4, 25);
             this.tabMappers.Name = "tabMappers";
             this.tabMappers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMappers.Size = new System.Drawing.Size(762, 503);
+            this.tabMappers.Size = new System.Drawing.Size(762, 500);
             this.tabMappers.TabIndex = 2;
             this.tabMappers.Text = "Mappers";
             this.tabMappers.UseVisualStyleBackColor = true;
@@ -759,7 +761,7 @@
             this.rtbMapperTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbMapperTpl.Name = "rtbMapperTpl";
             this.rtbMapperTpl.ReadOnly = true;
-            this.rtbMapperTpl.Size = new System.Drawing.Size(761, 471);
+            this.rtbMapperTpl.Size = new System.Drawing.Size(761, 468);
             this.rtbMapperTpl.TabIndex = 8;
             this.rtbMapperTpl.Text = "";
             // 
@@ -799,10 +801,10 @@
             this.tabMapperExtend.Controls.Add(this.btnMapperExtendTpl);
             this.tabMapperExtend.Controls.Add(this.txtMapperExtendTpl);
             this.tabMapperExtend.Controls.Add(this.lblMapperExtendTpl);
-            this.tabMapperExtend.Location = new System.Drawing.Point(4, 22);
+            this.tabMapperExtend.Location = new System.Drawing.Point(4, 25);
             this.tabMapperExtend.Name = "tabMapperExtend";
             this.tabMapperExtend.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMapperExtend.Size = new System.Drawing.Size(762, 503);
+            this.tabMapperExtend.Size = new System.Drawing.Size(762, 500);
             this.tabMapperExtend.TabIndex = 6;
             this.tabMapperExtend.Text = "MapperExtend";
             this.tabMapperExtend.UseVisualStyleBackColor = true;
@@ -817,7 +819,7 @@
             this.rtbMapperExtendTpl.Location = new System.Drawing.Point(0, 30);
             this.rtbMapperExtendTpl.Name = "rtbMapperExtendTpl";
             this.rtbMapperExtendTpl.ReadOnly = true;
-            this.rtbMapperExtendTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbMapperExtendTpl.Size = new System.Drawing.Size(762, 468);
             this.rtbMapperExtendTpl.TabIndex = 8;
             this.rtbMapperExtendTpl.Text = "";
             // 
@@ -857,10 +859,10 @@
             this.tabCreateTableScripts.Controls.Add(this.btnCreateTableTpl);
             this.tabCreateTableScripts.Controls.Add(this.txtCreateTableTpl);
             this.tabCreateTableScripts.Controls.Add(this.lblCreateTableTpl);
-            this.tabCreateTableScripts.Location = new System.Drawing.Point(4, 22);
+            this.tabCreateTableScripts.Location = new System.Drawing.Point(4, 25);
             this.tabCreateTableScripts.Name = "tabCreateTableScripts";
             this.tabCreateTableScripts.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCreateTableScripts.Size = new System.Drawing.Size(762, 503);
+            this.tabCreateTableScripts.Size = new System.Drawing.Size(762, 500);
             this.tabCreateTableScripts.TabIndex = 4;
             this.tabCreateTableScripts.Text = "Create Table Script";
             this.tabCreateTableScripts.UseVisualStyleBackColor = true;
@@ -874,7 +876,7 @@
             this.rtbCreateTableTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbCreateTableTpl.Name = "rtbCreateTableTpl";
             this.rtbCreateTableTpl.ReadOnly = true;
-            this.rtbCreateTableTpl.Size = new System.Drawing.Size(761, 471);
+            this.rtbCreateTableTpl.Size = new System.Drawing.Size(761, 468);
             this.rtbCreateTableTpl.TabIndex = 8;
             this.rtbCreateTableTpl.Text = "";
             // 
@@ -914,10 +916,10 @@
             this.tabInsertDataScripts.Controls.Add(this.btnInsertDataTpl);
             this.tabInsertDataScripts.Controls.Add(this.txtInsertDataTpl);
             this.tabInsertDataScripts.Controls.Add(this.lblInsertDataTpl);
-            this.tabInsertDataScripts.Location = new System.Drawing.Point(4, 22);
+            this.tabInsertDataScripts.Location = new System.Drawing.Point(4, 25);
             this.tabInsertDataScripts.Name = "tabInsertDataScripts";
             this.tabInsertDataScripts.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInsertDataScripts.Size = new System.Drawing.Size(762, 503);
+            this.tabInsertDataScripts.Size = new System.Drawing.Size(762, 500);
             this.tabInsertDataScripts.TabIndex = 5;
             this.tabInsertDataScripts.Text = "Insert Data Scripts";
             this.tabInsertDataScripts.UseVisualStyleBackColor = true;
@@ -931,7 +933,7 @@
             this.rtbInsertDataTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbInsertDataTpl.Name = "rtbInsertDataTpl";
             this.rtbInsertDataTpl.ReadOnly = true;
-            this.rtbInsertDataTpl.Size = new System.Drawing.Size(761, 471);
+            this.rtbInsertDataTpl.Size = new System.Drawing.Size(761, 468);
             this.rtbInsertDataTpl.TabIndex = 8;
             this.rtbInsertDataTpl.Text = "";
             // 
@@ -971,10 +973,10 @@
             this.tabMultiLangEntity.Controls.Add(this.btnMultiLangEntity);
             this.tabMultiLangEntity.Controls.Add(this.txtMultiLangEntity);
             this.tabMultiLangEntity.Controls.Add(this.lblMultiLangEntity);
-            this.tabMultiLangEntity.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangEntity.Location = new System.Drawing.Point(4, 25);
             this.tabMultiLangEntity.Name = "tabMultiLangEntity";
             this.tabMultiLangEntity.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangEntity.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangEntity.Size = new System.Drawing.Size(762, 500);
             this.tabMultiLangEntity.TabIndex = 7;
             this.tabMultiLangEntity.Text = "MultiLangEntity";
             this.tabMultiLangEntity.UseVisualStyleBackColor = true;
@@ -988,7 +990,7 @@
             this.rtbMultiLangEntity.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangEntity.Name = "rtbMultiLangEntity";
             this.rtbMultiLangEntity.ReadOnly = true;
-            this.rtbMultiLangEntity.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangEntity.Size = new System.Drawing.Size(762, 468);
             this.rtbMultiLangEntity.TabIndex = 8;
             this.rtbMultiLangEntity.Text = "";
             // 
@@ -1028,10 +1030,10 @@
             this.tabMultiLangSqlProvider.Controls.Add(this.btnMultiLangSqlProvider);
             this.tabMultiLangSqlProvider.Controls.Add(this.txtMultiLangSqlProvider);
             this.tabMultiLangSqlProvider.Controls.Add(this.lblMultiLangSqlProvider);
-            this.tabMultiLangSqlProvider.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangSqlProvider.Location = new System.Drawing.Point(4, 25);
             this.tabMultiLangSqlProvider.Name = "tabMultiLangSqlProvider";
             this.tabMultiLangSqlProvider.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangSqlProvider.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangSqlProvider.Size = new System.Drawing.Size(762, 500);
             this.tabMultiLangSqlProvider.TabIndex = 8;
             this.tabMultiLangSqlProvider.Text = "MultiLangSqlProvider";
             this.tabMultiLangSqlProvider.UseVisualStyleBackColor = true;
@@ -1045,7 +1047,7 @@
             this.rtbMultiLangSqlProvider.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangSqlProvider.Name = "rtbMultiLangSqlProvider";
             this.rtbMultiLangSqlProvider.ReadOnly = true;
-            this.rtbMultiLangSqlProvider.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangSqlProvider.Size = new System.Drawing.Size(762, 468);
             this.rtbMultiLangSqlProvider.TabIndex = 12;
             this.rtbMultiLangSqlProvider.Text = "";
             // 
@@ -1085,10 +1087,10 @@
             this.tabMultiLangMapper.Controls.Add(this.btnMultiLangMapper);
             this.tabMultiLangMapper.Controls.Add(this.txtMultiLangMapper);
             this.tabMultiLangMapper.Controls.Add(this.lblMultiLangMapper);
-            this.tabMultiLangMapper.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangMapper.Location = new System.Drawing.Point(4, 49);
             this.tabMultiLangMapper.Name = "tabMultiLangMapper";
             this.tabMultiLangMapper.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangMapper.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangMapper.Size = new System.Drawing.Size(762, 476);
             this.tabMultiLangMapper.TabIndex = 9;
             this.tabMultiLangMapper.Text = "MultiLangMapper";
             this.tabMultiLangMapper.UseVisualStyleBackColor = true;
@@ -1102,7 +1104,7 @@
             this.rtbMultiLangMapper.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangMapper.Name = "rtbMultiLangMapper";
             this.rtbMultiLangMapper.ReadOnly = true;
-            this.rtbMultiLangMapper.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangMapper.Size = new System.Drawing.Size(762, 444);
             this.rtbMultiLangMapper.TabIndex = 16;
             this.rtbMultiLangMapper.Text = "";
             // 
@@ -1142,10 +1144,10 @@
             this.tabMultiLangMapperExtend.Controls.Add(this.btnMultiLangMapperExtend);
             this.tabMultiLangMapperExtend.Controls.Add(this.txtMultiLangMapperExtend);
             this.tabMultiLangMapperExtend.Controls.Add(this.lblMultiLangMapperExtend);
-            this.tabMultiLangMapperExtend.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangMapperExtend.Location = new System.Drawing.Point(4, 49);
             this.tabMultiLangMapperExtend.Name = "tabMultiLangMapperExtend";
             this.tabMultiLangMapperExtend.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangMapperExtend.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangMapperExtend.Size = new System.Drawing.Size(762, 476);
             this.tabMultiLangMapperExtend.TabIndex = 10;
             this.tabMultiLangMapperExtend.Text = "MultiLangMapperExtend";
             this.tabMultiLangMapperExtend.UseVisualStyleBackColor = true;
@@ -1159,7 +1161,7 @@
             this.rtbMultiLangMapperExtend.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangMapperExtend.Name = "rtbMultiLangMapperExtend";
             this.rtbMultiLangMapperExtend.ReadOnly = true;
-            this.rtbMultiLangMapperExtend.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangMapperExtend.Size = new System.Drawing.Size(762, 444);
             this.rtbMultiLangMapperExtend.TabIndex = 20;
             this.rtbMultiLangMapperExtend.Text = "";
             // 
@@ -1199,10 +1201,10 @@
             this.tabMultiLangCreateTable.Controls.Add(this.btnMultiLangCreateTable);
             this.tabMultiLangCreateTable.Controls.Add(this.txtMultiLangCreateTable);
             this.tabMultiLangCreateTable.Controls.Add(this.lblMultLangCreateTable);
-            this.tabMultiLangCreateTable.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangCreateTable.Location = new System.Drawing.Point(4, 49);
             this.tabMultiLangCreateTable.Name = "tabMultiLangCreateTable";
             this.tabMultiLangCreateTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangCreateTable.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangCreateTable.Size = new System.Drawing.Size(762, 476);
             this.tabMultiLangCreateTable.TabIndex = 11;
             this.tabMultiLangCreateTable.Text = "MultiLangCreateTable";
             this.tabMultiLangCreateTable.UseVisualStyleBackColor = true;
@@ -1216,7 +1218,7 @@
             this.rtbMultiLangCreateTable.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangCreateTable.Name = "rtbMultiLangCreateTable";
             this.rtbMultiLangCreateTable.ReadOnly = true;
-            this.rtbMultiLangCreateTable.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangCreateTable.Size = new System.Drawing.Size(762, 444);
             this.rtbMultiLangCreateTable.TabIndex = 24;
             this.rtbMultiLangCreateTable.Text = "";
             // 
@@ -1256,10 +1258,10 @@
             this.tabMultiLangInsertData.Controls.Add(this.btnMultiLangInsertData);
             this.tabMultiLangInsertData.Controls.Add(this.txtMultiLangInsertData);
             this.tabMultiLangInsertData.Controls.Add(this.lblMultiLangInsertData);
-            this.tabMultiLangInsertData.Location = new System.Drawing.Point(4, 22);
+            this.tabMultiLangInsertData.Location = new System.Drawing.Point(4, 49);
             this.tabMultiLangInsertData.Name = "tabMultiLangInsertData";
             this.tabMultiLangInsertData.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangInsertData.Size = new System.Drawing.Size(762, 503);
+            this.tabMultiLangInsertData.Size = new System.Drawing.Size(762, 476);
             this.tabMultiLangInsertData.TabIndex = 12;
             this.tabMultiLangInsertData.Text = "MultiLangInsertData";
             this.tabMultiLangInsertData.UseVisualStyleBackColor = true;
@@ -1273,7 +1275,7 @@
             this.rtbMultiLangInsertData.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangInsertData.Name = "rtbMultiLangInsertData";
             this.rtbMultiLangInsertData.ReadOnly = true;
-            this.rtbMultiLangInsertData.Size = new System.Drawing.Size(762, 471);
+            this.rtbMultiLangInsertData.Size = new System.Drawing.Size(762, 444);
             this.rtbMultiLangInsertData.TabIndex = 24;
             this.rtbMultiLangInsertData.Text = "";
             // 
@@ -1313,10 +1315,10 @@
             this.tabVO.Controls.Add(this.btnVO);
             this.tabVO.Controls.Add(this.txtVO);
             this.tabVO.Controls.Add(this.lblVO);
-            this.tabVO.Location = new System.Drawing.Point(4, 22);
+            this.tabVO.Location = new System.Drawing.Point(4, 49);
             this.tabVO.Name = "tabVO";
             this.tabVO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabVO.Size = new System.Drawing.Size(762, 503);
+            this.tabVO.Size = new System.Drawing.Size(762, 476);
             this.tabVO.TabIndex = 13;
             this.tabVO.Text = "VO";
             this.tabVO.UseVisualStyleBackColor = true;
@@ -1330,7 +1332,7 @@
             this.rtbVOTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbVOTpl.Name = "rtbVOTpl";
             this.rtbVOTpl.ReadOnly = true;
-            this.rtbVOTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbVOTpl.Size = new System.Drawing.Size(762, 444);
             this.rtbVOTpl.TabIndex = 28;
             this.rtbVOTpl.Text = "";
             // 
@@ -1370,10 +1372,10 @@
             this.tabAggVO.Controls.Add(this.btnAggVO);
             this.tabAggVO.Controls.Add(this.txtAggVO);
             this.tabAggVO.Controls.Add(this.lblAggVO);
-            this.tabAggVO.Location = new System.Drawing.Point(4, 22);
+            this.tabAggVO.Location = new System.Drawing.Point(4, 49);
             this.tabAggVO.Name = "tabAggVO";
             this.tabAggVO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAggVO.Size = new System.Drawing.Size(762, 503);
+            this.tabAggVO.Size = new System.Drawing.Size(762, 476);
             this.tabAggVO.TabIndex = 14;
             this.tabAggVO.Text = "AggVO";
             this.tabAggVO.UseVisualStyleBackColor = true;
@@ -1387,7 +1389,7 @@
             this.rtbAggVO.Location = new System.Drawing.Point(1, 29);
             this.rtbAggVO.Name = "rtbAggVO";
             this.rtbAggVO.ReadOnly = true;
-            this.rtbAggVO.Size = new System.Drawing.Size(762, 471);
+            this.rtbAggVO.Size = new System.Drawing.Size(762, 444);
             this.rtbAggVO.TabIndex = 32;
             this.rtbAggVO.Text = "";
             // 
@@ -1427,10 +1429,10 @@
             this.tabRest.Controls.Add(this.btnRestTpl);
             this.tabRest.Controls.Add(this.txtRestTpl);
             this.tabRest.Controls.Add(this.lblRestTpl);
-            this.tabRest.Location = new System.Drawing.Point(4, 22);
+            this.tabRest.Location = new System.Drawing.Point(4, 49);
             this.tabRest.Name = "tabRest";
             this.tabRest.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRest.Size = new System.Drawing.Size(762, 503);
+            this.tabRest.Size = new System.Drawing.Size(762, 476);
             this.tabRest.TabIndex = 15;
             this.tabRest.Text = "Rest";
             this.tabRest.UseVisualStyleBackColor = true;
@@ -1444,7 +1446,7 @@
             this.rtbRestTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbRestTpl.Name = "rtbRestTpl";
             this.rtbRestTpl.ReadOnly = true;
-            this.rtbRestTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbRestTpl.Size = new System.Drawing.Size(762, 444);
             this.rtbRestTpl.TabIndex = 36;
             this.rtbRestTpl.Text = "";
             // 
@@ -1484,10 +1486,10 @@
             this.tabService.Controls.Add(this.btnServiceTpl);
             this.tabService.Controls.Add(this.txtServiceTpl);
             this.tabService.Controls.Add(this.lblServiceTpl);
-            this.tabService.Location = new System.Drawing.Point(4, 22);
+            this.tabService.Location = new System.Drawing.Point(4, 49);
             this.tabService.Name = "tabService";
             this.tabService.Padding = new System.Windows.Forms.Padding(3);
-            this.tabService.Size = new System.Drawing.Size(762, 503);
+            this.tabService.Size = new System.Drawing.Size(762, 476);
             this.tabService.TabIndex = 16;
             this.tabService.Text = "Service";
             this.tabService.UseVisualStyleBackColor = true;
@@ -1501,7 +1503,7 @@
             this.rtbServiceTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbServiceTpl.Name = "rtbServiceTpl";
             this.rtbServiceTpl.ReadOnly = true;
-            this.rtbServiceTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbServiceTpl.Size = new System.Drawing.Size(762, 444);
             this.rtbServiceTpl.TabIndex = 40;
             this.rtbServiceTpl.Text = "";
             // 
@@ -1541,10 +1543,10 @@
             this.tabServiceImpl.Controls.Add(this.btnServiceImplTpl);
             this.tabServiceImpl.Controls.Add(this.txtServiceImplTpl);
             this.tabServiceImpl.Controls.Add(this.lblServiceImplTpl);
-            this.tabServiceImpl.Location = new System.Drawing.Point(4, 22);
+            this.tabServiceImpl.Location = new System.Drawing.Point(4, 73);
             this.tabServiceImpl.Name = "tabServiceImpl";
             this.tabServiceImpl.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServiceImpl.Size = new System.Drawing.Size(762, 503);
+            this.tabServiceImpl.Size = new System.Drawing.Size(762, 452);
             this.tabServiceImpl.TabIndex = 17;
             this.tabServiceImpl.Text = "Service Implement";
             this.tabServiceImpl.UseVisualStyleBackColor = true;
@@ -1558,7 +1560,7 @@
             this.rtbServiceImplTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbServiceImplTpl.Name = "rtbServiceImplTpl";
             this.rtbServiceImplTpl.ReadOnly = true;
-            this.rtbServiceImplTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbServiceImplTpl.Size = new System.Drawing.Size(762, 420);
             this.rtbServiceImplTpl.TabIndex = 44;
             this.rtbServiceImplTpl.Text = "";
             // 
@@ -1598,10 +1600,10 @@
             this.tabAggDTO.Controls.Add(this.btnAggVORequestTpl);
             this.tabAggDTO.Controls.Add(this.txtAggVORequestTpl);
             this.tabAggDTO.Controls.Add(this.lblAggVORequestTpl);
-            this.tabAggDTO.Location = new System.Drawing.Point(4, 22);
+            this.tabAggDTO.Location = new System.Drawing.Point(4, 73);
             this.tabAggDTO.Name = "tabAggDTO";
             this.tabAggDTO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAggDTO.Size = new System.Drawing.Size(762, 503);
+            this.tabAggDTO.Size = new System.Drawing.Size(762, 452);
             this.tabAggDTO.TabIndex = 18;
             this.tabAggDTO.Text = "AggDTO";
             this.tabAggDTO.UseVisualStyleBackColor = true;
@@ -1615,7 +1617,7 @@
             this.rtbAggVORequestTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbAggVORequestTpl.Name = "rtbAggVORequestTpl";
             this.rtbAggVORequestTpl.ReadOnly = true;
-            this.rtbAggVORequestTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbAggVORequestTpl.Size = new System.Drawing.Size(762, 420);
             this.rtbAggVORequestTpl.TabIndex = 48;
             this.rtbAggVORequestTpl.Text = "";
             // 
@@ -1655,10 +1657,10 @@
             this.tabDTO.Controls.Add(this.btnDTOTpl);
             this.tabDTO.Controls.Add(this.txtDTOTpl);
             this.tabDTO.Controls.Add(this.lblDTOTpl);
-            this.tabDTO.Location = new System.Drawing.Point(4, 22);
+            this.tabDTO.Location = new System.Drawing.Point(4, 73);
             this.tabDTO.Name = "tabDTO";
             this.tabDTO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDTO.Size = new System.Drawing.Size(762, 503);
+            this.tabDTO.Size = new System.Drawing.Size(762, 452);
             this.tabDTO.TabIndex = 19;
             this.tabDTO.Text = "DTO";
             this.tabDTO.UseVisualStyleBackColor = true;
@@ -1672,7 +1674,7 @@
             this.rtbDTOTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbDTOTpl.Name = "rtbDTOTpl";
             this.rtbDTOTpl.ReadOnly = true;
-            this.rtbDTOTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbDTOTpl.Size = new System.Drawing.Size(762, 420);
             this.rtbDTOTpl.TabIndex = 52;
             this.rtbDTOTpl.Text = "";
             // 
@@ -1705,6 +1707,63 @@
             this.lblDTOTpl.Size = new System.Drawing.Size(78, 12);
             this.lblDTOTpl.TabIndex = 49;
             this.lblDTOTpl.Text = "DTO.tpl File";
+            // 
+            // tabHandler
+            // 
+            this.tabHandler.Controls.Add(this.rtbHandlerTpl);
+            this.tabHandler.Controls.Add(this.btnHandlerTpl);
+            this.tabHandler.Controls.Add(this.txtHandlerTpl);
+            this.tabHandler.Controls.Add(this.lblHandlerTpl);
+            this.tabHandler.Location = new System.Drawing.Point(4, 73);
+            this.tabHandler.Name = "tabHandler";
+            this.tabHandler.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHandler.Size = new System.Drawing.Size(762, 452);
+            this.tabHandler.TabIndex = 20;
+            this.tabHandler.Text = "Handler";
+            this.tabHandler.UseVisualStyleBackColor = true;
+            // 
+            // rtbHandlerTpl
+            // 
+            this.rtbHandlerTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbHandlerTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbHandlerTpl.Location = new System.Drawing.Point(1, 29);
+            this.rtbHandlerTpl.Name = "rtbHandlerTpl";
+            this.rtbHandlerTpl.ReadOnly = true;
+            this.rtbHandlerTpl.Size = new System.Drawing.Size(762, 420);
+            this.rtbHandlerTpl.TabIndex = 56;
+            this.rtbHandlerTpl.Text = "";
+            // 
+            // btnHandlerTpl
+            // 
+            this.btnHandlerTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHandlerTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHandlerTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnHandlerTpl.Name = "btnHandlerTpl";
+            this.btnHandlerTpl.Size = new System.Drawing.Size(20, 20);
+            this.btnHandlerTpl.TabIndex = 55;
+            this.btnHandlerTpl.Text = "...";
+            this.btnHandlerTpl.UseVisualStyleBackColor = true;
+            this.btnHandlerTpl.Click += new System.EventHandler(this.btnHandlerTpl_Click);
+            // 
+            // txtHandlerTpl
+            // 
+            this.txtHandlerTpl.Location = new System.Drawing.Point(112, 4);
+            this.txtHandlerTpl.Name = "txtHandlerTpl";
+            this.txtHandlerTpl.Size = new System.Drawing.Size(619, 19);
+            this.txtHandlerTpl.TabIndex = 54;
+            this.txtHandlerTpl.TextChanged += new System.EventHandler(this.txtHandlerTpl_TextChanged);
+            // 
+            // lblHandlerTpl
+            // 
+            this.lblHandlerTpl.AutoSize = true;
+            this.lblHandlerTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblHandlerTpl.Location = new System.Drawing.Point(8, 7);
+            this.lblHandlerTpl.Name = "lblHandlerTpl";
+            this.lblHandlerTpl.Size = new System.Drawing.Size(98, 12);
+            this.lblHandlerTpl.TabIndex = 53;
+            this.lblHandlerTpl.Text = "Handler.tpl File";
             // 
             // tabSetting
             // 
@@ -1943,63 +2002,6 @@
             this.imgList.Images.SetKeyName(3, "success.gif");
             this.imgList.Images.SetKeyName(4, "warning.gif");
             // 
-            // tabHandler
-            // 
-            this.tabHandler.Controls.Add(this.rtbHandlerTpl);
-            this.tabHandler.Controls.Add(this.btnHandlerTpl);
-            this.tabHandler.Controls.Add(this.txtHandlerTpl);
-            this.tabHandler.Controls.Add(this.lblHandlerTpl);
-            this.tabHandler.Location = new System.Drawing.Point(4, 22);
-            this.tabHandler.Name = "tabHandler";
-            this.tabHandler.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHandler.Size = new System.Drawing.Size(762, 503);
-            this.tabHandler.TabIndex = 20;
-            this.tabHandler.Text = "Handler";
-            this.tabHandler.UseVisualStyleBackColor = true;
-            // 
-            // rtbHandlerTpl
-            // 
-            this.rtbHandlerTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbHandlerTpl.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbHandlerTpl.Location = new System.Drawing.Point(1, 29);
-            this.rtbHandlerTpl.Name = "rtbHandlerTpl";
-            this.rtbHandlerTpl.ReadOnly = true;
-            this.rtbHandlerTpl.Size = new System.Drawing.Size(762, 471);
-            this.rtbHandlerTpl.TabIndex = 56;
-            this.rtbHandlerTpl.Text = "";
-            // 
-            // btnHandlerTpl
-            // 
-            this.btnHandlerTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHandlerTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHandlerTpl.Location = new System.Drawing.Point(732, 3);
-            this.btnHandlerTpl.Name = "btnHandlerTpl";
-            this.btnHandlerTpl.Size = new System.Drawing.Size(20, 20);
-            this.btnHandlerTpl.TabIndex = 55;
-            this.btnHandlerTpl.Text = "...";
-            this.btnHandlerTpl.UseVisualStyleBackColor = true;
-            this.btnHandlerTpl.Click += new System.EventHandler(this.btnHandlerTpl_Click);
-            // 
-            // txtHandlerTpl
-            // 
-            this.txtHandlerTpl.Location = new System.Drawing.Point(112, 4);
-            this.txtHandlerTpl.Name = "txtHandlerTpl";
-            this.txtHandlerTpl.Size = new System.Drawing.Size(619, 19);
-            this.txtHandlerTpl.TabIndex = 54;
-            this.txtHandlerTpl.TextChanged += new System.EventHandler(this.txtHandlerTpl_TextChanged);
-            // 
-            // lblHandlerTpl
-            // 
-            this.lblHandlerTpl.AutoSize = true;
-            this.lblHandlerTpl.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblHandlerTpl.Location = new System.Drawing.Point(8, 7);
-            this.lblHandlerTpl.Name = "lblHandlerTpl";
-            this.lblHandlerTpl.Size = new System.Drawing.Size(98, 12);
-            this.lblHandlerTpl.TabIndex = 53;
-            this.lblHandlerTpl.Text = "Handler.tpl File";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2060,13 +2062,13 @@
             this.tabAggDTO.PerformLayout();
             this.tabDTO.ResumeLayout(false);
             this.tabDTO.PerformLayout();
+            this.tabHandler.ResumeLayout(false);
+            this.tabHandler.PerformLayout();
             this.tabSetting.ResumeLayout(false);
             this.grpPublish.ResumeLayout(false);
             this.grpPublish.PerformLayout();
             this.grpGenerate.ResumeLayout(false);
             this.grpGenerate.PerformLayout();
-            this.tabHandler.ResumeLayout(false);
-            this.tabHandler.PerformLayout();
             this.ResumeLayout(false);
 
         }
