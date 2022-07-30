@@ -27,7 +27,7 @@ namespace MyBatisCodeGenerator.Generator
 
         public override string GetClassSpace()
         {
-            return $"{GetItemDefine("CLASSROOT")}.vo";
+            return $"{GetItemDefine("CLASSROOT")}.vo.aggvo";
         }
         public override string GetRootPath()
         {

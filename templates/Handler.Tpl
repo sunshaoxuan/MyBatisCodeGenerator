@@ -1,8 +1,8 @@
-package $CLASSROOT$.service.handler.$ENTITYNAME_LOWER$;
+package $CLASSROOT$.impl.handler.$ENTITYNAME_LOWER$;
 
-import $CLASSROOT$.service.handler.AbstractHandler;
-import $CLASSROOT$.service.handler.IRule;
-$IF HASAGGVO$import $CLASSROOT$.vo.$ENTITYNAME$AggVO;$ELSE$import $CLASSROOT$.vo.$ENTITYNAME$VO;$END IF$
+import $CLASSROOT$.impl.handler.AbstractHandler;
+import $CLASSROOT$.impl.handler.IRule;
+$IF HASAGGVO$import $CLASSROOT$.vo.aggvo.$ENTITYNAME$AggVO;$ELSE$import $CLASSROOT$.vo.$ENTITYNAME$VO;$END IF$
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * @since $DATE$
  */
 public class $ENTITYNAME$SaveHandler extends AbstractHandler {
-  @Pointcut("execution(public * $CLASSROOT$.service.impl.$ENTITYNAME$ServiceImpl.save(..))")
+  @Pointcut("execution(public * $CLASSROOT$.impl.$ENTITYNAME$ServiceImpl.save(..))")
   // 切入点签名
   public void log() {
     System.out.println("$ENTITYNAME$ Pointcut");

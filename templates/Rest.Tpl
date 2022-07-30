@@ -4,16 +4,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jp.co.gutingjun.common.util.BaseRest;
 import jp.co.gutingjun.common.util.R;
+import jp.co.gutingjun.pms.common.CommonUtils;
 import $CLASSROOT$.rest.dto.*;
-import $CLASSROOT$.vo.$ENTITYNAME$VO;
-import lombok.extern.slf4j.Slf4j;
+import $CLASSROOT$.vo.*;$HASAGGVO BEGIN$
+import $CLASSROOT$.vo.aggvo.*;$HASAGGVO END$
+import $CLASSROOT$.inf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import $CLASSROOT$.service.*;
-$HASAGGVO BEGIN$
-import $CLASSROOT$.vo.AggVO;
-import $CLASSROOT$.rest.dto.$ENTITYNAME$AggDTO;
-import $CLASSROOT$.vo.$ENTITYNAME$AggVO;$HASAGGVO END$
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * $ENTITYDESC$接口
@@ -28,7 +26,7 @@ import $CLASSROOT$.vo.$ENTITYNAME$AggVO;$HASAGGVO END$
     tags = {"pms"})
 @RequestMapping("pms")
 public class $ENTITYNAME$Rest extends BaseRest {
-  @Autowired $ENTITYNAME$Service $LOWER_ENTITYNAME$Service;
+  @Autowired I$ENTITYNAME$Service $LOWER_ENTITYNAME$Service;
 
   @ApiOperation(value = "$ENTITYDESC$数据加载", notes = "$ENTITYDESC$数据加载")
   @PostMapping(value = "/$ENTITYNAME_LOWER$")
@@ -57,7 +55,7 @@ $SKIP END$
   @ResponseBody
   public R<Long> save(@RequestBody $ENTITYNAME$AggDTO request) {
     $ENTITYNAME$AggVO aggVO = new $ENTITYNAME$AggVO();
-    DTOUtils.transfer(request, aggVO);
+    CommonUtils.transfer(request, aggVO);
     try{
       $ENTITYNAME$AggVO rtn = $LOWER_ENTITYNAME$Service.save(aggVO);
       return R.responseBySuccess(rtn.pickParentID());
@@ -92,7 +90,7 @@ $ELSE$
   @ResponseBody
   public R<Long> save(@RequestBody $ENTITYNAME$DTO request) {
    $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
-    DTOUtils.transfer(request, newVO);
+    CommonUtils.transfer(request, newVO);
     try {
       return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(newVO));
     } catch (Exception ex) {

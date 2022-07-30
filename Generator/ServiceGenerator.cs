@@ -13,7 +13,7 @@ namespace MyBatisCodeGenerator.Generator
 
         public override string GetClassSpace()
         {
-            return $"{GetItemDefine("CLASSROOT")}.service";
+            return $"{GetItemDefine("CLASSROOT")}.inf";
         }
 
         public override string GetRootPath()
@@ -30,7 +30,7 @@ namespace MyBatisCodeGenerator.Generator
                 throw new Exception("(ERRNO:G10) Do not define service file name.");
             }
 
-            fileName = fileName + "Service" + defaultExt;
+            fileName = "I" + fileName + "Service" + defaultExt;
 
             return fileName;
         }

@@ -1,11 +1,11 @@
-package $CLASSROOT$.service;
+package $CLASSROOT$.inf;
 
 import $CLASSROOT$.vo.$ENTITYNAME$VO;
 $HASAGGVO BEGIN$
-import $CLASSROOT$.vo.AggVO;
-import $CLASSROOT$.vo.$ENTITYNAME$AggVO;$HASAGGVO END$
+import $CLASSROOT$.vo.aggvo.AggVO;
+import $CLASSROOT$.vo.aggvo.$ENTITYNAME$AggVO;$HASAGGVO END$
 
-public interface $ENTITYNAME$Service {
+public interface I$ENTITYNAME$Service {
     /**
      * 取所有$ENTITYDESC$数据
      *
@@ -35,6 +35,7 @@ $IF HASAGGVO$
      * @return $ENTITYDESC$聚合VO
      */
     public AggVO get$ENTITYNAME$AggVOByIDLang(Long id, String lang);
+
     /**
     * 保存$ENTITYDESC$全档案
     *
@@ -50,8 +51,7 @@ $ELSE$
      * @return $ENTITYDESC$ID
      */
     public Long save($ENTITYNAME$VO vo) throws Exception;$END IF$
-$HASBIZKEY BEGIN$
-$IF BIZKEYCONTAINVARCHAR$
+$HASBIZKEY BEGIN$ $IF BIZKEYCONTAINVARCHAR$
     /**
     * 按业务主键取$ENTITYDESC$集合
     *

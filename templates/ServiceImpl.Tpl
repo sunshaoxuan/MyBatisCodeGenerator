@@ -1,21 +1,19 @@
-package $CLASSROOT$.service.impl;
+package $CLASSROOT$.impl;
 
 import $CLASSROOT$.entity.$ENTITYNAME$Entity;
-import $CLASSROOT$.service.$ENTITYNAME$Service;
-import org.springframework.stereotype.Service;
-import $CLASSROOT$.vo.$ENTITYNAME$VO;
-import $CLASSROOT$.common.CommonUtils;
-$HASAGGVO BEGIN$
-import $CLASSROOT$.vo.AggVO;
-import $CLASSROOT$.vo.$ENTITYNAME$AggVO; $HASAGGVO END$
+import $CLASSROOT$.inf.*;
+import $CLASSROOT$.vo.*;$HASAGGVO BEGIN$
+import $CLASSROOT$.vo.aggvo.*; $HASAGGVO END$
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
+import $CLASSROOT$.common.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
-public class $ENTITYNAME$ServiceImpl implements $ENTITYNAME$Service {
+public class $ENTITYNAME$ServiceImpl implements I$ENTITYNAME$Service {
   @Override
   public $ENTITYNAME$VO[] getAll$ENTITYNAME$() {
     List<$ENTITYNAME$Entity> entityList = CommonUtils.getAllEntityList($ENTITYNAME$Entity.class);
@@ -95,7 +93,7 @@ $ELSE$
     return result == null ? null : rtn.toArray(new $ENTITYNAME$VO[0]); 
   }$END IF$ $HASBIZKEY END$
 
-    @Transactional(rollbackFor=Exception.class)
+  @Transactional(rollbackFor=Exception.class)
   @Override
   public Integer delete($ENTITYNAME$VO vo) throws Exception{
     return vo.delete();

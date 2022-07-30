@@ -15,7 +15,7 @@ namespace MyBatisCodeGenerator.Generator
         public override string GetClassSpace()
         {
             string entityName = GetItemDefine("ENTITYNAME");
-            return $"{GetItemDefine("CLASSROOT")}.service.handler." + entityName.ToLower();
+            return $"{GetItemDefine("CLASSROOT")}.impl.handler." + entityName.ToLower();
         }
 
         public override string GetRootPath()

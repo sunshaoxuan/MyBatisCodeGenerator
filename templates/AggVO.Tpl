@@ -1,5 +1,6 @@
-package $CLASSROOT$.vo;
+package $CLASSROOT$.vo.aggvo;
 
+import $CLASSROOT$.vo.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

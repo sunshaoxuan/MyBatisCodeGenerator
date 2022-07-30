@@ -13,7 +13,7 @@ namespace MyBatisCodeGenerator.Generator
 
         public override string GetClassSpace()
         {
-            return $"{GetItemDefine("CLASSROOT")}.service.impl";
+            return $"{GetItemDefine("CLASSROOT")}.impl";
         }
 
         public override string GetRootPath()

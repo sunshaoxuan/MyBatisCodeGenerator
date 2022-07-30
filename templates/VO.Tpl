@@ -31,7 +31,7 @@ public class $ENTITYNAME$VO extends ValueObject{
 
   public void set$ENTITYNAME$Entity($ENTITYNAME$Entity $LOWER_ENTITYNAME$Entity) {
     this.$LOWER_ENTITYNAME$Entity = $LOWER_ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
-    if($LOWER_ENTITYNAME$Entity != null){
+    if($LOWER_ENTITYNAME$Entity != null && (get$ENTITYNAME$ResEntity() == null || get$ENTITYNAME$ResEntity().length == 0)){
       loadResByID($LOWER_ENTITYNAME$Entity.getId());
     }$HASMULTILANGPROPERTY END$
   }$HASMULTILANGPROPERTY BEGIN$
