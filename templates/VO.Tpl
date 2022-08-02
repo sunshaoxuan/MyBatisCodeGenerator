@@ -96,8 +96,16 @@ public class $ENTITYNAME$VO extends ValueObject{
   public void putEntity(Object entity, String lang) {
     $IF HASMULTILANGPROPERTY$ set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity, lang); $ELSE$ $END IF$
   }
+  
+  public static $ENTITYNAME$VO findByID(Long id){
+    return findByID($ENTITYNAME$VO.class, id);
+  }
 
-  public static $ENTITYNAME$VO[] getAll(){
-    return ($ENTITYNAME$VO[]) getAllEntity($ENTITYNAME$VO.class, $ENTITYNAME$Entity.class);
+  public static List<$ENTITYNAME$VO> findByBizKey(Long id) {
+      return findByBizKey($ENTITYNAME$VO.class, id);
+  }
+
+  public static $ENTITYNAME$VO[] findAll(){
+    return ($ENTITYNAME$VO[]) findAll($ENTITYNAME$VO.class, $ENTITYNAME$Entity.class);
   }
 }
