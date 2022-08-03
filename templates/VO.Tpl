@@ -91,7 +91,7 @@ public class $ENTITYNAME$VO extends ValueObject{
   public Object pickRefEntity() {
     return $IF HASMULTILANGPROPERTY$get$ENTITYNAME$ResEntity();$ELSE$null;$END IF$
   }
-    
+  
   @Override
   public void putEntity(Object entity, String lang) {
     $IF HASMULTILANGPROPERTY$ set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity, lang); $ELSE$ $END IF$
@@ -99,6 +99,10 @@ public class $ENTITYNAME$VO extends ValueObject{
   
   public static $ENTITYNAME$VO findByID(Long id){
     return findByID($ENTITYNAME$VO.class, id);
+  }
+
+  public static $ENTITYNAME$VO findByID(Long id, String lang){
+    return findByID($ENTITYNAME$VO.class, id, lang);
   }
 
   public static List<$ENTITYNAME$VO> findByBizKey(Long id) {

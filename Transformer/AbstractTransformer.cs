@@ -206,7 +206,7 @@ namespace MyBatisCodeGenerator.Transformer
 
             if (tempSB.ToString().Contains("$IFFORMATTEDDATE"))
             {
-                if ("Date".Equals(TemplateUtils.GetJavaType(item["VO DATA TYPE"])))
+                if ("Date".Equals(TemplateUtils.GetJavaType(item["DATA TYPE"])))
                 {
                     tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), "$IFFORMATTEDDATE BEGIN$".Length);
                     tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE END$"), "$IFFORMATTEDDATE END$".Length);
