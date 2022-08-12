@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @NoArgsConstructor
-public class $ENTITYNAME$VO extends ValueObject{
+public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
   private $ENTITYNAME$Entity $LOWER_ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
   private $ENTITYNAME$ResEntity[] $LOWER_ENTITYNAME$ResEntity;$HASMULTILANGPROPERTY END$
 
@@ -25,7 +25,7 @@ public class $ENTITYNAME$VO extends ValueObject{
   }
   
   @Override
-  public void putEntity(Object entity) {
+  public void putEntity($ENTITYNAME$Entity entity) {
     set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity);
   }
 
@@ -83,7 +83,7 @@ public class $ENTITYNAME$VO extends ValueObject{
   }
 
   @Override
-  public Object pickEntity() {
+  public $ENTITYNAME$Entity pickEntity() {
     return get$ENTITYNAME$Entity();
   }
 
@@ -93,7 +93,7 @@ public class $ENTITYNAME$VO extends ValueObject{
   }
   
   @Override
-  public void putEntity(Object entity, String lang) {
+  public void putEntity($ENTITYNAME$Entity entity, String lang) {
     $IF HASMULTILANGPROPERTY$ set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity, lang); $ELSE$ $END IF$
   }
   
@@ -111,5 +111,9 @@ public class $ENTITYNAME$VO extends ValueObject{
 
   public static $ENTITYNAME$VO[] findAll(){
     return ($ENTITYNAME$VO[]) findAll($ENTITYNAME$VO.class, $ENTITYNAME$Entity.class);
+  }
+
+  public static $ENTITYNAME$VO[] findAll(String lang){
+    return ($ENTITYNAME$VO[]) findAll($ENTITYNAME$VO.class, $ENTITYNAME$Entity.class, lang);
   }
 }

@@ -24,30 +24,46 @@ public class $ENTITYNAME$SaveHandler extends AbstractHandler {
   // 前置处理
   @Before("log()")
   public void beforeHandler(JoinPoint jp) throws Throwable {
-    for (IRule ruleBean : getRegisterRules()) {
-      ruleBean.doBefore(jp.getArgs());
-    }
+    getRegisterRules()
+        .forEach(
+            ruleBean -> {
+              try {
+                ruleBean.doBeforeCheck(jp.getArgs());
+                ruleBean.doBefore(jp.getArgs());
+              } catch (Throwable e) {
+                throw new RuntimeException(e);
+              }
+            });
   }
   // 返回处理
   @AfterReturning(returning = "ret", pointcut = "log()")
   public void afterReturnHanlder(Object ret) throws Throwable {
-    for (IRule ruleBean : getRegisterRules()) {
-      ruleBean.doAfterReturn(ret);
-    }
+    getRegisterRules()
+        .forEach(
+            ruleBean -> {
+              ruleBean.doAfterReturn(ret);
+            });
   }
 
   // 异常处理
   @AfterThrowing(throwing = "ex", pointcut = "log()")
   public void throwsHandler(JoinPoint jp, Exception ex) {
-    System.out.println("$ENTITYNAME$ Pointcut: throwsHandler");
+    System.out.printf("$ENTITYNAME$ Pointcut: %s%n", ex.getMessage());
   }
 
   // 后置处理
   @After("log()")
-  public void afterHandler(JoinPoint jp) {
-    for (IRule ruleBean : getRegisterRules()) {
-      ruleBean.doAfter(jp.getArgs());
-    }
+  public void afterHandler(JoinPoint jp) throws Throwable {
+    getRegisterRules()
+        .forEach(
+            ruleBean -> {
+              try {
+                ruleBean.doAfterCheck(jp.getArgs());
+                ruleBean.doAfter(jp.getArgs());
+              } catch (Throwable e) {
+                throw new RuntimeException(e);
+              }
+            });
   }
 
   @Override

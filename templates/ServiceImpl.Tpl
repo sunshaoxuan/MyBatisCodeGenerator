@@ -19,11 +19,15 @@ public class $ENTITYNAME$ServiceImpl implements I$ENTITYNAME$Service {
     List<$ENTITYNAME$Entity> entityList = CommonUtils.getAllEntityList($ENTITYNAME$Entity.class);
     if (entityList != null && entityList.size() > 0) {
       List<$ENTITYNAME$VO> $LOWER_ENTITYNAME$VOList = new ArrayList<$ENTITYNAME$VO>();
-      for ($ENTITYNAME$Entity entity : entityList) {
-        $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
-        newVO.set$ENTITYNAME$Entity(entity);
-        $LOWER_ENTITYNAME$VOList.add(newVO);
-      }
+
+      entityList.forEach(
+              entity->{
+                $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
+                newVO.set$ENTITYNAME$Entity(entity);
+                $LOWER_ENTITYNAME$VOList.add(newVO);
+              }
+      );
+
       if ($LOWER_ENTITYNAME$VOList.size() > 0) {
         return $LOWER_ENTITYNAME$VOList.toArray(new $ENTITYNAME$VO[0]);
       }
@@ -83,13 +87,17 @@ $ELSE$
   public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(Long bizKey) {
     List<$ENTITYNAME$VO> rtn = new ArrayList<$ENTITYNAME$VO>();
     List<$ENTITYNAME$Entity> result = CommonUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
+
     if(result != null && result.size() > 0){
-        for ($ENTITYNAME$Entity entity : result) {
-            $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
-            newVO.set$ENTITYNAME$Entity(entity);
-            rtn.add(newVO);
-        }
+        result.forEach(
+                rst -> {
+                $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
+                newVO.set$ENTITYNAME$Entity(rst);
+                rtn.add(newVO);
+                }
+        );
     }
+
     return result == null ? null : rtn.toArray(new $ENTITYNAME$VO[0]); 
   }$END IF$ $HASBIZKEY END$
 
