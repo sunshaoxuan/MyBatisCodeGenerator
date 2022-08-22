@@ -29,7 +29,7 @@ import java.util.Date;
 @NoArgsConstructor
 @MultiLangResource(catelog = "$MULTILANGRESCATALOG$", resourceid = "mt0000")
 public class $ENTITYNAME$Entity $PARENTCLASS$ $INTERFACES$ {$FOREACH PROPERTY BEGIN$
-  /** $PROPERTYDESC$ */
+  // $PROPERTYDESC$ 
   @ApiModelProperty(value = "$PROPERTYDESC$", name = "$PROPERTYNAME$", example = "")
   @MultiLangResource(catelog = "$MULTILANGRESCATALOG$", resourceid = "$MULTILANGRESID$")  $IFFORMATTEDDATE BEGIN$
   @JsonDeserialize(using = DateTimeDeserializers.class)

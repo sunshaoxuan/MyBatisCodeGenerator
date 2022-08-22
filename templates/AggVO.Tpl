@@ -12,10 +12,10 @@ import java.util.List;
  * @create $DATE$
  */
  public class $ENTITYNAME$AggVO extends AggVO {
-  /** $ENTITYDESC$ */
+  // $ENTITYDESC$ 
   private $ENTITYNAME$VO parent;
   $FOREACH AGG VO BEGIN$	
-  /** $PROPERTYDESC$ */
+  // $PROPERTYDESC$ 
   private $PROPERTYVODATATYPE$[] $LOWER_PROPERTYVODATATYPE$;
     $FOREACH AGG VO END$
   @Override
@@ -42,7 +42,7 @@ import java.util.List;
   } 
   $FOREACH AGG VO END$
 
-  /** 取主实体ID */
+  // 取主实体ID 
   @Override
   public Long pickParentID() {
     if (getParent() != null) {
@@ -52,13 +52,13 @@ import java.util.List;
     return -1L;
   }
 
-  /** 取主实体类型 */
+  // 取主实体类型 
   @Override
   public Class pickParentClass() {
     return $ENTITYNAME$VO.class;
   }
 
-  /** 取子实体类型列表 */
+  // 取子实体类型列表 
   @Override
   public List<Class> pickSubClasses() {
     List<Class> entityClasses = new ArrayList<Class>();  $FOREACH AGG VO BEGIN$	
@@ -66,7 +66,7 @@ import java.util.List;
     return entityClasses;
   }
 
-  /** 取子实体对象列表 */
+  // 取子实体对象列表 
   @Override
   public List pickSubVOList(Class subVOClazz) {$FOREACH AGG VO BEGIN$
     if (subVOClazz.equals($PROPERTYVODATATYPE$.class)) {

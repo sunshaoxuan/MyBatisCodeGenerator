@@ -78,7 +78,7 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
     }
   }$HASMULTILANGPROPERTY END$
 
-  public static List<$ENTITYNAME$Entity> getListByBizKey(Long bizKey) {
+  public static List<$ENTITYNAME$Entity> findListByBizKey(Long bizKey) {
     return CommonUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
   }
 

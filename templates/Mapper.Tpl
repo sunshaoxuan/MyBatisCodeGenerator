@@ -26,10 +26,10 @@ public interface $ENTITYNAME$EntityMapper {
 
     @Insert({
         "insert into $TABLENAME$ (",$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
 		") values (",$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
 		"#{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$", $FOREACH FIELD END$
 		")"
     })
@@ -37,26 +37,26 @@ public interface $ENTITYNAME$EntityMapper {
 
     @Select({
         "select",$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
         "from $TABLENAME$",
         "where dr=0 and $PKFIELDNAME$ = #{$PKFIELDNAME$,jdbcType=$PKFIELDDATATYPE$}"
     })
     @Results({$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
     $ENTITYNAME$Entity selectByPrimaryKey($PKFIELDJAVATYPE$ $PKFIELDNAME$);
 
     @Select({
         "select",$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
         "from $TABLENAME$",
         "where dr=0"
     })
     @Results({$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
     List<$ENTITYNAME$Entity> selectAll();
@@ -64,26 +64,26 @@ $HASBIZKEY BEGIN$
 $IF BIZKEYCONTAINVARCHAR$
     @Select({
         "select",$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         "$FIELDNAME$ $COMMAEXCEPTLAST$",$FOREACH FIELD END$
         "from $TABLENAME$",
         "where dr=0 and (1=2$BIZKEYWHERECONDITION$)"
     })
     @Results({$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.VARCHAR $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
     List<$ENTITYNAME$Entity> selectByBizKey(String bizKeyValue);
 $ELSE$
     @Select({
         "select",$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         "$FIELDNAME$ $COMMAEXCEPTLAST$",$FOREACH FIELD END$
         "from $TABLENAME$",
         "where dr=0 and (1=2$BIZKEYWHERECONDITION$)"
     })
     @Results({$FOREACH FIELD BEGIN$
-        /** $PROPERTYDESC$ */
+        // $PROPERTYDESC$ 
         @Result(column="$FIELDNAME$", property="$PROPERTYNAME$", jdbcType=JdbcType.$PROPERTYDATATYPE$ $IDRESULTTAG$) $COMMAEXCEPTLAST$ $FOREACH FIELD END$
     })
     List<$ENTITYNAME$Entity> selectByBizKey($BIZKEYFIELDJAVATYPE$ bizKeyValue);$END IF$
@@ -91,7 +91,7 @@ $HASBIZKEY END$
     @Update({
         "update $TABLENAME$",
         "set",$FOREACH FIELD EXCEPT PK BEGIN$
-        /** $PROPERTYDESC$ */ $IFVERSION BEGIN$
+        // $PROPERTYDESC$  $IFVERSION BEGIN$
         "$FIELDNAME$ = $FIELDNAME$ + 1 ,", $IFVERSION ELSE$ 
 		"$FIELDNAME$ = #{$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$", $IFVERSION END$  $FOREACH FIELD EXCEPT PK END$
         "where $PKFIELDNAME$ = #{$PKPROPERTYNAME$,jdbcType=$PKFIELDDATATYPE$}" $HASVERSION BEGIN$ ,
