@@ -5,6 +5,7 @@ $SKIP END$import $CLASSROOT$.entity.$ENTITYNAME$Entity;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 $HASBIZKEY BEGIN$import java.util.List;$HASBIZKEY END$
@@ -34,6 +35,21 @@ public interface $ENTITYNAME$EntityMapper {
 		")"
     })
     int insert($ENTITYNAME$Entity record);
+
+  @Insert({
+    "<script>insert into $TABLENAME$ (",$FOREACH FIELD BEGIN$
+    // $PROPERTYDESC$ 
+    "$FIELDNAME$ $COMMAEXCEPTLAST$", $FOREACH FIELD END$
+	") values",
+    "<foreach collection='collection' item='item' index='index' separator=','>",
+    "(" ,$FOREACH FIELD BEGIN$
+    // $PROPERTYDESC$ 
+    "#{item.$PROPERTYNAME$,jdbcType=$PROPERTYDATATYPE$} $COMMAEXCEPTLAST$",$FOREACH FIELD END$
+    ")",
+    "</foreach>",
+    "</script>"
+  })
+  void batchInsert(ArrayList<$ENTITYNAME$Entity> records);
 
     @Select({
         "select",$FOREACH FIELD BEGIN$

@@ -58,7 +58,7 @@ $IF HASAGGVO$
   @Transactional(rollbackFor=Exception.class)
   @Override
   public $ENTITYNAME$AggVO save($ENTITYNAME$AggVO aggVO) throws Exception{
-    aggVO.save();
+    aggVO.save(null);
 
     $ENTITYNAME$AggVO newAggVO = new $ENTITYNAME$AggVO();
     newAggVO.loadByParentID(aggVO.pickParentID());
@@ -68,7 +68,7 @@ $ELSE$
   @Transactional(rollbackFor=Exception.class)
   @Override
   public Long save($ENTITYNAME$VO vo) throws Exception {
-    return vo.save();
+    return vo.save(null);
   }$END IF$ $HASBIZKEY BEGIN$ $IF BIZKEYCONTAINVARCHAR$
     @Override
     public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(String bizKey) {
