@@ -72,7 +72,7 @@ $SKIP END$
 
     try{
       aggVO.loadByParentID(request.getId());
-      return R.responseBySuccess(aggVO.delete());
+      return R.responseBySuccess(aggVO.delete(null));
     }catch (Exception ex){
       return R.responseByError(0, ex.getMessage());
     }
@@ -104,7 +104,7 @@ $ELSE$
   public R<Integer> delete(@RequestBody IDDTO request) {
     try {
       $ENTITYNAME$VO vo = new $ENTITYNAME$VO(request.getId());
-      return R.responseBySuccess(vo.delete());
+      return R.responseBySuccess(vo.delete(null));
     } catch (Exception ex) {
       return R.responseByError(0, ex.getMessage());
     }

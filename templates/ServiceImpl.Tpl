@@ -104,6 +104,6 @@ $ELSE$
   @Transactional(rollbackFor=Exception.class)
   @Override
   public Integer delete($ENTITYNAME$VO vo) throws Exception{
-    return vo.delete();
+    return vo.delete(null);
   }
 }

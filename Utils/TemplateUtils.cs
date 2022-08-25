@@ -645,7 +645,7 @@ namespace MyBatisCodeGenerator.Utils
             }
             else if (dataType.ToUpper().Equals("DECIMAL"))
             {
-                return "decimal";
+                return "double";
             }
             else if (dataType.ToUpper().StartsWith("VARCHAR"))
             {
@@ -694,7 +694,7 @@ namespace MyBatisCodeGenerator.Utils
             }
             else if (dataType.ToUpper().Equals("DECIMAL"))
             {
-                return "DECIMAL";
+                return "DOUBLE";
             }
 
             else { return ""; }
