@@ -25,6 +25,16 @@ public interface $ENTITYNAME$EntityMapper {
     })
     int deleteByPrimaryKey(@Param("$PKFIELDNAME$") $PKFIELDJAVATYPE$ $PKFIELDNAME$$HASVERSION BEGIN$,@Param("version") Integer version$HASVERSION END$); 
 
+  @Update({
+    "<script>update $TABLENAME$ set dr=1 ",
+    "where id in ",
+    "<foreach collection='collection' item='item' index='index' separator=',' open='(' close=')'>",
+    " #{item,jdbcType=BIGINT}",
+    "</foreach>",
+    "</script>"
+  })
+  int batchDelete(ArrayList<Long> ids);
+
     @Insert({
         "insert into $TABLENAME$ (",$FOREACH FIELD BEGIN$
         // $PROPERTYDESC$ 
