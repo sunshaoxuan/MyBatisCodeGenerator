@@ -80,5 +80,12 @@ import java.util.List;
     return null;
   }
 
+  // 设置子实体对象集合
+  @Override
+  public void putSubVOList(Class subVOClazz, List subVOs) {$FOREACH AGG VO BEGIN$
+    if (subVOClazz.equals($PROPERTYVODATATYPE$.class)) {
+      set$PROPERTYVODATATYPE$(($PROPERTYVODATATYPE$[]) subVOs.toArray(new $PROPERTYVODATATYPE$[0]));
+    } $FOREACH AGG VO END$
+  }
 }
 
