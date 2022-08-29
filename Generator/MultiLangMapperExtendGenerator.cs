@@ -9,9 +9,9 @@ namespace MyBatisCodeGenerator.Generator
     {
         public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.MultiLangMapperExtend;
 
-        public override string GetSavedFileName(string defaultExt)
+        public override string GetSavedFileName(string defaultExt, Dictionary<string, string> tagData)
         {
-            String fileName = GetItemDefine("ENTITYNAME");
+            string fileName = GetItemDefine("ENTITYNAME");
 
             if (string.IsNullOrEmpty(fileName))
             {

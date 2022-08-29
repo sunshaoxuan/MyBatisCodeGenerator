@@ -1,4 +1,5 @@
-﻿using MyBatisCodeGenerator.Utils;
+﻿using MyBatisCodeGenerator.Transformer;
+using MyBatisCodeGenerator.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,7 +24,7 @@ namespace MyBatisCodeGenerator.Generator
             return BaseSourcePath;
         }
 
-        public override string GetSavedFileName(string defaultExt)
+        public override string GetSavedFileName(string defaultExt, Dictionary<string, string> tagData)
         {
             string fileName = GetItemDefine("ENTITYNAME");
 
@@ -32,7 +33,7 @@ namespace MyBatisCodeGenerator.Generator
                 throw new Exception("(ERRNO:G09) Do not define service implemtn file name.");
             }
 
-            fileName = fileName + "SaveHandler" + defaultExt;
+            fileName = fileName + tagData["$HANDLERTYPE$"] + "Handler" + defaultExt;
 
             return fileName;
         }
@@ -41,7 +42,7 @@ namespace MyBatisCodeGenerator.Generator
         {
             string entityName = GetItemDefine("ENTITYNAME");
 
-            foreach (KeyValuePair<String, DataTable> kv in ExcelData)
+            foreach (KeyValuePair<string, DataTable> kv in ExcelData)
             {
                 if (!kv.Value.Equals(DesignData))
                 {
@@ -52,7 +53,7 @@ namespace MyBatisCodeGenerator.Generator
                             (define["VO DATA TYPE"].ToUpper().Equals(entityName.ToUpper() + "AGGVO")
                             || define["VO DATA TYPE"].ToUpper().Equals(entityName.ToUpper() + "VO")))
                         {
-                            return false;
+                            return true;
                         }
                     }
                 }
@@ -66,6 +67,16 @@ namespace MyBatisCodeGenerator.Generator
             FileExtension = ".java";
             GenerateByMeta = true;
             IsMultiLangGenerator = false;
+            IsMultiFile = true;
+            MultiFileTagData = new Dictionary<string, Dictionary<string, string>>();
+            MultiFileTagData.Add("Save Handler", new Dictionary<string, string>());
+            MultiFileTagData["Save Handler"].Add("$HANDLERTYPE$", "Save");
+            MultiFileTagData["Save Handler"].Add("$LOWER_HANDLERTYPE$", "save");
+            MultiFileTagData["Save Handler"].Add("$HANDLERTYPENAME$", "保存");
+            MultiFileTagData.Add("Delete Handler", new Dictionary<string, string>());
+            MultiFileTagData["Delete Handler"].Add("$HANDLERTYPE$", "Delete");
+            MultiFileTagData["Delete Handler"].Add("$LOWER_HANDLERTYPE$", "delete");
+            MultiFileTagData["Delete Handler"].Add("$HANDLERTYPENAME$", "删除");
         }
     }
 }

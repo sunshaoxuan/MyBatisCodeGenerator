@@ -8,7 +8,7 @@ namespace MyBatisCodeGenerator.Generator
     {
         public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.AggDTO;
 
-        public override string GetSavedFileName(string defaultExt)
+        public override string GetSavedFileName(string defaultExt, Dictionary<string, string> tagData)
         {
             string fileName = GetItemDefine("ENTITYNAME");
 

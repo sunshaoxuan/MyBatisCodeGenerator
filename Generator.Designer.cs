@@ -1831,7 +1831,7 @@
             this.lblDBConnStr.Name = "lblDBConnStr";
             this.lblDBConnStr.Size = new System.Drawing.Size(176, 12);
             this.lblDBConnStr.TabIndex = 11;
-            this.lblDBConnStr.Text = "DataBase Connection String";
+            this.lblDBConnStr.Text = "DataBase Connection string";
             // 
             // txtDBConnStr
             // 

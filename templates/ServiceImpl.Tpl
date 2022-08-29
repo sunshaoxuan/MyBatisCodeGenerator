@@ -64,11 +64,23 @@ $IF HASAGGVO$
     newAggVO.loadByParentID(aggVO.pickParentID());
     return newAggVO;
   }
+
+  @Transactional(rollbackFor=Exception.class)
+  @Override
+  public Integer delete($ENTITYNAME$AggVO aggVO) throws Exception {
+    return aggVO.delete(null);
+  }
 $ELSE$
   @Transactional(rollbackFor=Exception.class)
   @Override
   public Long save($ENTITYNAME$VO vo) throws Exception {
     return vo.save(null);
+  }
+
+  @Transactional(rollbackFor=Exception.class)
+  @Override
+  public Integer delete($ENTITYNAME$VO vo) throws Exception{
+    return vo.delete(null);
   }$END IF$ $HASBIZKEY BEGIN$ $IF BIZKEYCONTAINVARCHAR$
     @Override
     public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(String bizKey) {
@@ -100,10 +112,4 @@ $ELSE$
 
     return result == null ? null : rtn.toArray(new $ENTITYNAME$VO[0]); 
   }$END IF$ $HASBIZKEY END$
-
-  @Transactional(rollbackFor=Exception.class)
-  @Override
-  public Integer delete($ENTITYNAME$VO vo) throws Exception{
-    return vo.delete(null);
-  }
 }

@@ -1,5 +1,6 @@
 ﻿using MyBatisCodeGenerator.Utils;
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace MyBatisCodeGenerator.Generator
@@ -8,7 +9,7 @@ namespace MyBatisCodeGenerator.Generator
     {
         public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.MultiLangCreateTable;
 
-        public override string GetSavedFileName(string defaultExt)
+        public override string GetSavedFileName(string defaultExt, Dictionary<string, string> tagData)
         {
             string fileName = GetItemDefine("TABLENAME") + "_res";
 
@@ -23,7 +24,7 @@ namespace MyBatisCodeGenerator.Generator
 
         public override string GetClassSpace()
         {
-            return String.Empty;
+            return string.Empty;
         }
 
         public override string GetRootPath()

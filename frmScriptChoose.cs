@@ -27,16 +27,16 @@ namespace MyBatisCodeGenerator
             this.DialogResult =DialogResult.Cancel;
         }
 
-        public List<String> getCheckedScriptNames()
+        public List<string> getCheckedScriptNames()
         {
-            List<String> scriptNames = new List<String>();
+            List<string> scriptNames = new List<string>();
             
             return scriptNames;
         }
 
-        public void setScripts(String[] allScripts)
+        public void setScripts(string[] allScripts)
         {
-            foreach (String script in allScripts)
+            foreach (string script in allScripts)
             {
                 chklScripts.Items.Add(script);  
             }

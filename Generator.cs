@@ -23,7 +23,7 @@ namespace MyBatisCodeGenerator
             Running, Stopped
         }
 
-        Dictionary<String, String> settings = new Dictionary<string, string>();
+        Dictionary<string, string> settings = new Dictionary<string, string>();
         RunStatusEnum runStatus = RunStatusEnum.Stopped;
 
         public frmMain()
@@ -161,7 +161,7 @@ namespace MyBatisCodeGenerator
 
             btnStop.Enabled = false;
 
-            if (String.IsNullOrEmpty(txtDesignFile.Text))
+            if (string.IsNullOrEmpty(txtDesignFile.Text))
             {
                 btnRun.Enabled = false;
                 return;
@@ -173,7 +173,7 @@ namespace MyBatisCodeGenerator
                 return;
             }
 
-            if (String.IsNullOrEmpty(txtSourceCodeRoot.Text) && String.IsNullOrEmpty(txtScriptSavePath.Text))
+            if (string.IsNullOrEmpty(txtSourceCodeRoot.Text) && string.IsNullOrEmpty(txtScriptSavePath.Text))
             {
                 btnRun.Enabled = false;
                 return;
@@ -302,8 +302,8 @@ namespace MyBatisCodeGenerator
             }
         }
 
-        List<String> preparedDefineTables = new List<string>();
-        List<String> preparedDataTables = new List<string>();
+        List<string> preparedDefineTables = new List<string>();
+        List<string> preparedDataTables = new List<string>();
 
         internal SortedList<int, AbstractTransformer> GetDefinedTransformer()
         {
@@ -665,7 +665,7 @@ namespace MyBatisCodeGenerator
 
         private void ReadExcel()
         {
-            if (!String.IsNullOrEmpty(txtDesignFile.Text))
+            if (!string.IsNullOrEmpty(txtDesignFile.Text))
             {
                 excelReadData = ExcelUtils.GetExcelTableByOleDB(txtDesignFile.Text);
                 isReading = false;
@@ -796,7 +796,7 @@ namespace MyBatisCodeGenerator
 
             try
             {
-                Dictionary<String, String> defRefs = new Dictionary<string, string>();
+                Dictionary<string, string> defRefs = new Dictionary<string, string>();
                 defRefs.Add("CLASSROOT", txtClassRoot.Text);
                 MySql.Data.MySqlClient.MySqlConnection conn = TemplateUtils.getNewConntection(txtDBConnStr.Text);
                 defRefs.Add("DATABASENAME", conn.Database);
@@ -864,7 +864,7 @@ namespace MyBatisCodeGenerator
         {
             if (excelTables != null)
             {
-                foreach (KeyValuePair<String, DataTable> kv in excelTables)
+                foreach (KeyValuePair<string, DataTable> kv in excelTables)
                 {
                     bool bMetaBegin = false;
                     bool bMetaEnd = false;
@@ -1023,7 +1023,7 @@ namespace MyBatisCodeGenerator
                     {
                         for (int i = 0; i <= ((CheckedListBox)ctl).Items.Count - 1; i++)
                         {
-                            if (new List<String>(settings[ctl.Name].Split(',')).Contains((string)((CheckedListBox)ctl).Items[i]))
+                            if (new List<string>(settings[ctl.Name].Split(',')).Contains((string)((CheckedListBox)ctl).Items[i]))
                             {
                                 ((CheckedListBox)ctl).SetItemChecked(i, true);
                             }
@@ -1048,7 +1048,7 @@ namespace MyBatisCodeGenerator
                     Object settingObj = CommonUtils.ReadSerializationDataFromFile(Application.StartupPath + @"\setting.dat");
                     if (settingObj != null)
                     {
-                        settings = (Dictionary<String, String>)settingObj;
+                        settings = (Dictionary<string, string>)settingObj;
                         InjectSettingsToControls(this);
                     }
 
@@ -1405,7 +1405,7 @@ namespace MyBatisCodeGenerator
 
             if (frmScript.ShowDialog() == DialogResult.OK)
             {
-                List<String> checkedScripts = frmScript.getCheckedScriptNames();
+                List<string> checkedScripts = frmScript.getCheckedScriptNames();
 
                 runStatus = RunStatusEnum.Running;
 
@@ -1419,7 +1419,7 @@ namespace MyBatisCodeGenerator
 
                 try
                 {
-                    String connetStr = txtDBConnStr.Text;
+                    string connetStr = txtDBConnStr.Text;
 
                     if (string.IsNullOrEmpty(connetStr))
                     {
@@ -1480,8 +1480,8 @@ namespace MyBatisCodeGenerator
         {
             char[] splitter = new char[] { ',', ' ' };
             Dictionary<string, StringBuilder> rtn = new Dictionary<string, StringBuilder>();
-            String[] tableNames = tableNameStr.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
-            foreach (String tablename in tableNames)
+            string[] tableNames = tableNameStr.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string tablename in tableNames)
             {
                 string fileName = $"{prefix}{tablename}{".sql"}";
                 if (scopeList.Contains("fileName"))

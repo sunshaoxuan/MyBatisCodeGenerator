@@ -43,6 +43,15 @@ $IF HASAGGVO$
     * @return
     */
     public $ENTITYNAME$AggVO save($ENTITYNAME$AggVO aggVO) throws Exception;
+
+    /**
+     * 删除$ENTITYDESC$全档案
+     *
+     * @param aggVO 房源信息聚合
+     * @return 成功标记，0不成功，1成功
+     * @throws Exception
+     */
+    public Integer delete($ENTITYNAME$AggVO aggVO) throws Exception;
 $ELSE$
     /**
      * 保存$ENTITYDESC$数据
@@ -50,7 +59,15 @@ $ELSE$
      * @param vo $ENTITYDESC$VO
      * @return $ENTITYDESC$ID
      */
-    public Long save($ENTITYNAME$VO vo) throws Exception;$END IF$
+    public Long save($ENTITYNAME$VO vo) throws Exception;
+    
+    /**
+     * 删除指定$ENTITYDESC$记录
+     *
+     * @param vo $ENTITYDESC$VO
+     * @return 成功标记，0不成功，1成功
+     */
+    public Integer delete($ENTITYNAME$VO vo) throws Exception;$END IF$
 $HASBIZKEY BEGIN$ $IF BIZKEYCONTAINVARCHAR$
     /**
     * 按业务主键取$ENTITYDESC$集合
@@ -67,12 +84,4 @@ $ELSE$
     * @return
     */
     public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(Long bizKey);$END IF$ $HASBIZKEY END$
-
-    /**
-     * 删除指定$ENTITYDESC$记录
-     *
-     * @param vo $ENTITYDESC$VO
-     * @return 成功标记，0不成功，1成功
-     */
-    public Integer delete($ENTITYNAME$VO vo) throws Exception;
 }

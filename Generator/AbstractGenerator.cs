@@ -13,22 +13,22 @@ namespace MyBatisCodeGenerator.Generator
         /// <summary>
         /// 作者
         /// </summary>
-        public String Author { get; set; }
+        public string Author { get; set; }
 
         /// <summary>
         /// 代码保存根文件夹
         /// </summary>
-        public String BaseSourcePath { get; set; }
+        public string BaseSourcePath { get; set; }
 
         /// <summary>
         /// 脚本保存根文件夹
         /// </summary>
-        public String BaseScriptPath { get; set; }
+        public string BaseScriptPath { get; set; }
 
         /// <summary>
         /// 文件扩展名
         /// </summary>
-        public String FileExtension { get; set; }
+        public string FileExtension { get; set; }
 
         /// <summary>
         /// 是否创建不存在的文件夹，默认：是
@@ -68,12 +68,17 @@ namespace MyBatisCodeGenerator.Generator
         /// <summary>
         /// 自定义参数
         /// </summary>
-        public Dictionary<String,String> DefRefs { get; set; }
+        public Dictionary<string,string> DefRefs { get; set; }
 
         /// <summary>
         /// 是否VO
         /// </summary>
         public Boolean IsVO { get; set; }
+
+        /// <summary>
+        /// 是否多文件生成器
+        /// </summary>
+        public Boolean IsMultiFile { get; set; } = false;
 
         /// <summary>
         /// 默认转换器
@@ -86,17 +91,48 @@ namespace MyBatisCodeGenerator.Generator
         public Dictionary<string, Dictionary<string, string[]>> MultiLangRefInfo { get; set; }
 
         /// <summary>
+        /// 多文件生成器动态标记数据
+        /// </summary>
+        public Dictionary<string, Dictionary<string, string>> MultiFileTagData { get; set; }
+
+        /// <summary>
         /// 按模板及设置生成代码
         /// </summary>
         /// <param name="templateText">模板内容</param>
         /// <returns></returns>
-        public String Run(string templateText)
+        public string Run(string templateText)
         {
             if (!IsGeneratable())
             {
-                return String.Empty;
+                return string.Empty;
             }
 
+            string filename = string.Empty;
+            if (IsMultiFile)
+            {
+                foreach (KeyValuePair<string, Dictionary<string, string>> tagData in this.MultiFileTagData)
+                {
+                    filename += (tagData.Key + ":[" + RunGenerator(ReplaceMultiFileTags(templateText, tagData.Value), tagData.Value) + "] \r\n");
+                }
+            }
+            else
+            {
+                filename = RunGenerator(templateText, null);
+            }
+            return filename;
+        }
+
+        private string ReplaceMultiFileTags(string templateText, Dictionary<string, string> tagData)
+        {
+            foreach (KeyValuePair<string, string> tagdata in tagData)
+            {
+                templateText = templateText.Replace(tagdata.Key, tagdata.Value);
+            }
+            return templateText;
+        }
+
+        private string RunGenerator(string templateText, Dictionary<string, string> tagData)
+        {
             StringBuilder sb = new StringBuilder();
             sb.Append(templateText);
 
@@ -118,14 +154,14 @@ namespace MyBatisCodeGenerator.Generator
 
             TemplateUtils.ApplyMiscDefines(Author, sb);
 
-            String contentText = sb.ToString();
+            string contentText = sb.ToString();
 
             if (string.IsNullOrEmpty(contentText.Trim()))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            string savedFilename = GetSavedFileName(FileExtension);
+            string savedFilename = GetSavedFileName(FileExtension, tagData);
             CommonUtils.WriteTextFile(savedFilename, GetSavedPath(GetRootPath()), contentText, IsCreatePath, IsOverwriteExists, false, true);
             return savedFilename;
         }
@@ -135,7 +171,7 @@ namespace MyBatisCodeGenerator.Generator
         /// </summary>
         /// <param name="basePath">根路径</param>
         /// <returns></returns>
-        public String GetSavedPath(string basePath)
+        public string GetSavedPath(string basePath)
         {
             return TemplateUtils.GetSavedPath(basePath, GetClassSpace());
         }
@@ -145,20 +181,21 @@ namespace MyBatisCodeGenerator.Generator
         /// </summary>
         /// <param name="table"></param>
         /// <param name="defaultExt"></param>
+        /// <param name="tagData"></param>
         /// <returns></returns>
-        public abstract String GetSavedFileName(string defaultExt);
+        public abstract string GetSavedFileName(string defaultExt, Dictionary<string, string> tagData);
 
         /// <summary>
         /// 取代码类命名空间
         /// </summary>
         /// <returns></returns>
-        public abstract String GetClassSpace();
+        public abstract string GetClassSpace();
 
         /// <summary>
         /// 取保存根路径
         /// </summary>
         /// <returns></returns>
-        public abstract String GetRootPath();
+        public abstract string GetRootPath();
 
         public string GetItemDefine(string itemTag)
         {
@@ -169,7 +206,7 @@ namespace MyBatisCodeGenerator.Generator
         /// 是否具备生成条件
         /// </summary>
         /// <returns></returns>
-        public abstract Boolean IsGeneratable();
+        public abstract bool IsGeneratable();
 
         public string CreateTablePrefix { get; set; }
         public string InsertDataPrefix { get; set; }

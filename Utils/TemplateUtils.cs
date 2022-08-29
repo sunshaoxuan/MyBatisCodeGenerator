@@ -40,12 +40,12 @@ namespace MyBatisCodeGenerator.Utils
             return rst.Count > 0;
         }
 
-        public static String designStartTag = "$MYBATIS META DESIGN START$";
-        public static String designEndTag = "$MYBATIS META DESIGN END$";
-        public static String dataStartTag = "$MYBATIS DATA START$";
-        public static String dataEndTag = "$MYBATIS DATA END$";
-        public static String multiLangStartTag = "$MYBATIS MULTILANG DATA START$";
-        public static String multiLangEndTag = "$MYBATIS MULTILANG DATA END$";
+        public static string designStartTag = "$MYBATIS META DESIGN START$";
+        public static string designEndTag = "$MYBATIS META DESIGN END$";
+        public static string dataStartTag = "$MYBATIS DATA START$";
+        public static string dataEndTag = "$MYBATIS DATA END$";
+        public static string multiLangStartTag = "$MYBATIS MULTILANG DATA START$";
+        public static string multiLangEndTag = "$MYBATIS MULTILANG DATA END$";
 
         internal static List<Dictionary<string, string>> GeMultiLangDataDetail(DataTable designData)
         {
@@ -225,7 +225,7 @@ namespace MyBatisCodeGenerator.Utils
             return item.ContainsKey("DATA TYPE") && item["DATA TYPE"].ToUpper().Equals("VARCHAR");
         }
 
-        public static List<Dictionary<string, string>> GetDesignMetaDetailByValue(DataTable designData, String designItem, String compareValue)
+        public static List<Dictionary<string, string>> GetDesignMetaDetailByValue(DataTable designData, string designItem, string compareValue)
         {
             List<Dictionary<string, string>> detail = new List<Dictionary<string, string>>();
             bool enterBlock = false;
@@ -816,7 +816,7 @@ namespace MyBatisCodeGenerator.Utils
             sb.Replace("$DATE$", DateTime.Now.ToString("yyyy-MM-dd"));
         }
 
-        internal static String GetSavedPath(String basePath, String spaceName)
+        internal static string GetSavedPath(string basePath, string spaceName)
         {
             string savedPath = string.Empty;
             if (!basePath.EndsWith("\\"))

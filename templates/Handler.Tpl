@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 /**
- * $ENTITYDESC$保存前后事件增强处理器
+ * $ENTITYDESC$$HANDLERTYPENAME$前后事件增强处理器
  *
  * @author $AUTHOR$
  * @since $DATE$
  */
-public class $ENTITYNAME$SaveHandler extends AbstractHandler {
-  @Pointcut("execution(public * $CLASSROOT$.impl.$ENTITYNAME$ServiceImpl.save(..))")
+public class $ENTITYNAME$$HANDLERTYPE$Handler extends AbstractHandler {
+  @Pointcut("execution(public * $CLASSROOT$.impl.$ENTITYNAME$ServiceImpl.$LOWER_HANDLERTYPE$(..))")
   // 切入点签名
   public void log() {
     System.out.println("$ENTITYNAME$ Pointcut");

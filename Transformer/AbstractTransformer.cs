@@ -33,7 +33,7 @@ namespace MyBatisCodeGenerator.Transformer
         /// <summary>
         /// 自定义参数
         /// </summary>
-        public Dictionary<String, String> DefRefs { get; set; }
+        public Dictionary<string, string> DefRefs { get; set; }
 
         /// <summary>
         /// 排序
@@ -255,7 +255,7 @@ namespace MyBatisCodeGenerator.Transformer
         /// <summary>
         /// 多语资源
         /// </summary>
-        public Dictionary<string, Dictionary<String, string[]>> MultiLangRefInfo { get; set; }
+        public Dictionary<string, Dictionary<string, string[]>> MultiLangRefInfo { get; set; }
 
         internal void DoCommonTransform()
         {

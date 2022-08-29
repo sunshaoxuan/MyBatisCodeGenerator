@@ -9,7 +9,7 @@ namespace MyBatisCodeGenerator.Generator
     {
         public override TemplateUtils.TemplateTypeEnum GeneratorType => TemplateUtils.TemplateTypeEnum.CreateTable;
 
-        public override string GetSavedFileName(string defaultExt)
+        public override string GetSavedFileName(string defaultExt, Dictionary<string, string> tagData)
         {
             string fileName = GetItemDefine("TABLENAME");
 
@@ -24,7 +24,7 @@ namespace MyBatisCodeGenerator.Generator
 
         public override string GetClassSpace()
         {
-            return String.Empty;
+            return string.Empty;
         }
 
         public override string GetRootPath()
@@ -34,8 +34,8 @@ namespace MyBatisCodeGenerator.Generator
 
         public override bool IsGeneratable()
         {
-            String designItem = "GENERATE FIELD";
-            String compareValue = "Y";
+            string designItem = "GENERATE FIELD";
+            string compareValue = "Y";
 
             List<Dictionary<string, string>> details = TemplateUtils.GetDesignMetaDetailByValue(DesignData, designItem, compareValue);
             return details.Count > 0;

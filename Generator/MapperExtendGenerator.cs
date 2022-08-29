@@ -19,9 +19,9 @@ namespace MyBatisCodeGenerator.Generator
             return BaseSourcePath;
         }
 
-        public override string GetSavedFileName(string defaultExt)
+        public override string GetSavedFileName(string defaultExt, Dictionary<string, string> tagData)
         {
-            String fileName = GetItemDefine("ENTITYNAME");
+            string fileName = GetItemDefine("ENTITYNAME");
 
             if (string.IsNullOrEmpty(fileName))
             {
@@ -34,8 +34,8 @@ namespace MyBatisCodeGenerator.Generator
 
         public override bool IsGeneratable()
         {
-            String designItem = "GENERATE FIELD";
-            String compareValue = "Y";
+            string designItem = "GENERATE FIELD";
+            string compareValue = "Y";
 
             List<Dictionary<string, string>> details = TemplateUtils.GetDesignMetaDetailByValue(DesignData, designItem, compareValue);
             return details.Count > 0;
