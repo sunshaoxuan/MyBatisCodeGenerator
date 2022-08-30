@@ -15,7 +15,11 @@ import lombok.Data;
  */
  @Data
  public class $ENTITYNAME$DTO implements Serializable{
-  //"$ENTITYDESC$实体"
+   // 操作状态
+   @ApiModelProperty(value = "操作状态", name = "voState", example = "")
+  private int voState = 0;
+
+  // $ENTITYDESC$实体
   @ApiModelProperty(value = "$ENTITYDESC$实体", name = "$LOWER_ENTITYNAME$Entity", example = "")
   private $ENTITYNAME$Entity $LOWER_ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
 
