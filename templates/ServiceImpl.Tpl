@@ -6,7 +6,7 @@ import $CLASSROOT$.vo.*;$HASAGGVO BEGIN$
 import $CLASSROOT$.vo.aggvo.*; $HASAGGVO END$
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
-import $CLASSROOT$.common.CommonUtils;
+import jp.co.gutingjun.pms.common.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;

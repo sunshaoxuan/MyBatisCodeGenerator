@@ -1,5 +1,7 @@
 package $CLASSROOT$.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jp.co.gutingjun.common.multilang.MultiLangResource;
@@ -25,6 +27,7 @@ public class $ENTITYNAME$ResEntity implements java.io.Serializable{
   // 主键 
   @ApiModelProperty(value = "id", name = "主键", example = "")
   @MultiLangResource(catelog = "common", resourceid = "bd0001")
+  @JsonSerialize(using = ToStringSerializer.class)
   private Long id;
   // 语言 
   @ApiModelProperty(value = "lang", name = "语言", example = "")
