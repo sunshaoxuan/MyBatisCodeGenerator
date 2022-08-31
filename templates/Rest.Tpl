@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * $ENTITYDESC$接口
  *
@@ -31,8 +35,23 @@ public class $ENTITYNAME$Rest extends BaseRest {
   @ApiOperation(value = "$ENTITYDESC$数据加载", notes = "$ENTITYDESC$数据加载")
   @PostMapping(value = "/$ENTITYNAME_LOWER$")
   @ResponseBody
-  public R<$ENTITYNAME$VO[]> load$ENTITYNAME$() {
-    return R.responseBySuccess($LOWER_ENTITYNAME$Service.getAll$ENTITYNAME$());
+  public R load$ENTITYNAME$() {
+    try {
+      $ENTITYNAME$VO[] allVOs = $LOWER_ENTITYNAME$Service.getAll$ENTITYNAME$();
+      List<$ENTITYNAME$DTO> allDTOs = new ArrayList<>();
+      if (allVOs != null && allVOs.length > 0) {
+        Arrays.stream(allVOs)
+            .forEach(
+                vo -> {
+                  $ENTITYNAME$DTO dto = new $ENTITYNAME$DTO();
+                  CommonUtils.vo2dto(vo, dto);
+                  allDTOs.add(dto);
+                });
+      }
+      return R.responseBySuccess(allDTOs.toArray(new $ENTITYNAME$VO[0]));
+    } catch (Exception ex) {
+      return R.responseByError(500, ex.getMessage());
+    }
   }
 $IF HASAGGVO$
 $SKIP BEGIN$
@@ -46,8 +65,15 @@ $SKIP END$
   @ApiOperation(value = "指定$ENTITYDESC$聚合数据加载（可选语言）", notes = "指定$ENTITYDESC$聚合数据加载（可选语言，语种留空则为全语言）")
   @PostMapping(value = "/$ENTITYNAME_LOWER$byparentid")
   @ResponseBody
-  public R<AggVO> load$ENTITYNAME$AggVOByID(@RequestBody LanguageDTO request) {
-    return R.responseBySuccess($LOWER_ENTITYNAME$Service.get$ENTITYNAME$AggVOByIDLang(request.getId(), request.getLang()));
+  public R load$ENTITYNAME$AggVOByID(@RequestBody LanguageDTO request) {
+    try{
+        AggVO aggVO = $LOWER_ENTITYNAME$Service.get$ENTITYNAME$AggVOByIDLang(request.getId(), request.getLang());
+        $ENTITYNAME$AggDTO aggDTO = new $ENTITYNAME$AggDTO();
+        CommonUtils.vo2dto(aggVO, aggDTO);
+        return R.responseBySuccess(aggDTO);
+    }catch(Exception ex){
+        return R.responseByError(500, ex.getMessage());
+    }
   }
 
   @ApiOperation(value = "$ENTITYDESC$数据保存", notes = "$ENTITYDESC$数据保存")
@@ -55,12 +81,12 @@ $SKIP END$
   @ResponseBody
   public R<Long> save(@RequestBody $ENTITYNAME$AggDTO request) {
     $ENTITYNAME$AggVO aggVO = new $ENTITYNAME$AggVO();
-    CommonUtils.transfer(request, aggVO);
+    CommonUtils.dto2vo(request, aggVO);
     try{
       $ENTITYNAME$AggVO rtn = $LOWER_ENTITYNAME$Service.save(aggVO);
       return R.responseBySuccess(rtn.pickParentID());
     }catch (Exception ex){
-      return R.responseByError(0, ex.getMessage());
+      return R.responseByError(500, ex.getMessage());
     }
   }
 
@@ -74,15 +100,22 @@ $SKIP END$
       aggVO.loadByParentID(request.getId());
       return R.responseBySuccess(aggVO.delete(null));
     }catch (Exception ex){
-      return R.responseByError(0, ex.getMessage());
+      return R.responseByError(500, ex.getMessage());
     }
   }
 $ELSE$
   @ApiOperation(value = "指定$ENTITYDESC$数据加载", notes = "指定$ENTITYDESC$数据加载")
   @PostMapping(value = "/$ENTITYNAME_LOWER$byid")
   @ResponseBody
-  public R<$ENTITYNAME$VO> load$ENTITYNAME$ByID(@RequestBody IDDTO request) {
-    return R.responseBySuccess($LOWER_ENTITYNAME$Service.get$ENTITYNAME$ByID(request.getId()));
+  public R load$ENTITYNAME$ByID(@RequestBody IDDTO request) {
+    try {
+      $ENTITYNAME$VO vo = $LOWER_ENTITYNAME$Service.get$ENTITYNAME$ByID(request.getId());
+      $ENTITYNAME$DTO dto = new $ENTITYNAME$DTO();
+      CommonUtils.vo2dto(vo, dto);
+      return R.responseBySuccess(dto);
+    } catch (Exception ex) {
+      return R.responseByError(500, ex.getMessage());
+    }
   }
 
   @ApiOperation(value = "$ENTITYDESC$数据保存", notes = "$ENTITYDESC$数据保存")
@@ -90,11 +123,11 @@ $ELSE$
   @ResponseBody
   public R<Long> save(@RequestBody $ENTITYNAME$DTO request) {
    $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
-    CommonUtils.transfer(request, newVO);
+    CommonUtils.dto2vo(request, newVO);
     try {
       return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(newVO));
     } catch (Exception ex) {
-      return R.responseByError(0, ex.getMessage());
+      return R.responseByError(500, ex.getMessage());
     }
   }
 
@@ -106,7 +139,7 @@ $ELSE$
       $ENTITYNAME$VO vo = new $ENTITYNAME$VO(request.getId());
       return R.responseBySuccess(vo.delete(null));
     } catch (Exception ex) {
-      return R.responseByError(0, ex.getMessage());
+      return R.responseByError(500, ex.getMessage());
     }
   }
 $END IF$
