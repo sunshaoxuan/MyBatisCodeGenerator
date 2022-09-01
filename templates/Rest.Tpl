@@ -6,6 +6,7 @@ import jp.co.gutingjun.common.util.BaseRest;
 import jp.co.gutingjun.common.util.R;
 import jp.co.gutingjun.pms.common.CommonUtils;
 import $CLASSROOT$.rest.dto.*;
+import $CLASSROOT$.rest.dto.extend.*;
 import $CLASSROOT$.vo.*;$HASAGGVO BEGIN$
 import $CLASSROOT$.vo.aggvo.*;$HASAGGVO END$
 import $CLASSROOT$.inf.*;
@@ -43,12 +44,10 @@ public class $ENTITYNAME$Rest extends BaseRest {
         Arrays.stream(allVOs)
             .forEach(
                 vo -> {
-                  $ENTITYNAME$DTO dto = new $ENTITYNAME$DTO();
-                  CommonUtils.vo2dto(vo, dto);
-                  allDTOs.add(dto);
+                    allDTOs.add(($ENTITYNAME$DTO) CommonUtils.getDTOFromVO(vo));
                 });
       }
-      return R.responseBySuccess(allDTOs.toArray(new $ENTITYNAME$VO[0]));
+      return R.responseBySuccess(allDTOs.toArray(new $ENTITYNAME$DTO[0]));
     } catch (Exception ex) {
       return R.responseByError(500, ex.getMessage());
     }
@@ -68,9 +67,7 @@ $SKIP END$
   public R load$ENTITYNAME$AggVOByID(@RequestBody LanguageDTO request) {
     try{
         AggVO aggVO = $LOWER_ENTITYNAME$Service.get$ENTITYNAME$AggVOByIDLang(request.getId(), request.getLang());
-        $ENTITYNAME$AggDTO aggDTO = new $ENTITYNAME$AggDTO();
-        CommonUtils.vo2dto(aggVO, aggDTO);
-        return R.responseBySuccess(aggDTO);
+        return R.responseBySuccess(CommonUtils.getDTOFromVO(aggVO));
     }catch(Exception ex){
         return R.responseByError(500, ex.getMessage());
     }
@@ -80,8 +77,7 @@ $SKIP END$
   @PostMapping(value = "/$ENTITYNAME_LOWER$aggsave")
   @ResponseBody
   public R<Long> save(@RequestBody $ENTITYNAME$AggDTO request) {
-    $ENTITYNAME$AggVO aggVO = new $ENTITYNAME$AggVO();
-    CommonUtils.dto2vo(request, aggVO);
+    $ENTITYNAME$AggVO aggVO = ($ENTITYNAME$AggVO) CommonUtils.getVOFromDTO(request);
     try{
       $ENTITYNAME$AggVO rtn = $LOWER_ENTITYNAME$Service.save(aggVO);
       return R.responseBySuccess(rtn.pickParentID());
@@ -110,9 +106,7 @@ $ELSE$
   public R load$ENTITYNAME$ByID(@RequestBody IDDTO request) {
     try {
       $ENTITYNAME$VO vo = $LOWER_ENTITYNAME$Service.get$ENTITYNAME$ByID(request.getId());
-      $ENTITYNAME$DTO dto = new $ENTITYNAME$DTO();
-      CommonUtils.vo2dto(vo, dto);
-      return R.responseBySuccess(dto);
+      return R.responseBySuccess(CommonUtils.getDTOFromVO(vo));
     } catch (Exception ex) {
       return R.responseByError(500, ex.getMessage());
     }
@@ -122,8 +116,7 @@ $ELSE$
   @PostMapping(value = "/$ENTITYNAME_LOWER$save")
   @ResponseBody
   public R<Long> save(@RequestBody $ENTITYNAME$DTO request) {
-   $ENTITYNAME$VO newVO = new $ENTITYNAME$VO();
-    CommonUtils.dto2vo(request, newVO);
+    $ENTITYNAME$VO newVO = ($ENTITYNAME$VO) CommonUtils.getVOFromDTO(request);
     try {
       return R.responseBySuccess($LOWER_ENTITYNAME$Service.save(newVO));
     } catch (Exception ex) {
