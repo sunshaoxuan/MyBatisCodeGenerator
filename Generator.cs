@@ -3,6 +3,7 @@ using MyBatisCodeGenerator.Transformer;
 using MyBatisCodeGenerator.Utils;
 using MySql.Data.MySqlClient;
 using MySqlConnector;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,15 +24,18 @@ namespace MyBatisCodeGenerator
             Running, Stopped
         }
 
-        Dictionary<string, string> settings = new Dictionary<string, string>();
+        Dictionary<string, DataTable> excelReadData = null;
+        bool isReading = false;
         RunStatusEnum runStatus = RunStatusEnum.Stopped;
+        string currentSettingFileName = String.Empty;
+        bool SettingLoaded = false;
+        bool SettingSaved = true;
+
 
         public frmMain()
         {
             InitializeComponent();
         }
-
-        bool initialized = false;
 
         private void btnDesignFileBrowse_Click(object sender, EventArgs e)
         {
@@ -40,10 +44,12 @@ namespace MyBatisCodeGenerator
             if (result.Equals(DialogResult.OK))
             {
                 txtDesignFile.Text = dlgOpenFile.FileName;
+                SettingSaved = false;
             }
 
             RefreshControlStatus();
-            getExcelData();
+
+            tsbRefreshDesign_Click(sender, e);
         }
 
         private void btnSelectAll_Click(object sender, EventArgs e)
@@ -52,6 +58,8 @@ namespace MyBatisCodeGenerator
             {
                 chklTemplate.SetItemChecked(i, true);
             }
+
+            SettingSaved = false;
             RefreshControlStatus();
         }
 
@@ -61,6 +69,8 @@ namespace MyBatisCodeGenerator
             {
                 chklTemplate.SetItemChecked(i, false);
             }
+
+            SettingSaved = false;
             RefreshControlStatus();
         }
 
@@ -70,6 +80,8 @@ namespace MyBatisCodeGenerator
             {
                 chklTemplate.SetItemChecked(i, chklTemplate.GetItemChecked(i) ? false : true);
             }
+
+            SettingSaved = false;
             RefreshControlStatus();
         }
 
@@ -79,7 +91,9 @@ namespace MyBatisCodeGenerator
             if (result.Equals(DialogResult.OK))
             {
                 txtSourceCodeRoot.Text = dlgFolderBrowser.SelectedPath;
+                SettingSaved = false;
             }
+
             RefreshControlStatus();
         }
 
@@ -89,67 +103,61 @@ namespace MyBatisCodeGenerator
             if (result.Equals(DialogResult.OK))
             {
                 txtScriptSavePath.Text = dlgFolderBrowser.SelectedPath;
+                SettingSaved = false;
             }
             RefreshControlStatus();
         }
 
-        private void btnEntityTpl_Click(object sender, EventArgs e)
+        private void LoadTemplate(string fileName, TextBox fileNameCtrl)
         {
             dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "Entity.Tpl";
+            dlgOpenFile.InitialDirectory = String.IsNullOrEmpty(dlgOpenFile.FileName) ? Application.StartupPath : Directory.GetParent(dlgOpenFile.FileName).ToString();
+            dlgOpenFile.FileName = fileName;
             DialogResult result = dlgOpenFile.ShowDialog();
             if (result.Equals(DialogResult.OK))
             {
-                txtEntityTpl.Text = dlgOpenFile.FileName;
+                fileNameCtrl.Text = dlgOpenFile.FileName;
+                SettingSaved = false;
+                RefreshControlStatus();
             }
+        }
+
+        private void btnEntityTpl_Click(object sender, EventArgs e)
+        {
+            LoadTemplate("Entity.Tpl", txtEntityTpl);
         }
 
         private void btnEntityExtendTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "SqlProvider.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtSqlProviderTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("SqlProvider.Tpl", txtSqlProviderTpl);
         }
 
         private void btnMapperTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "Mapper.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtMapperTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("Mapper.Tpl", txtMapperTpl);
         }
 
         private void btnCreateTableTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "CreateTable.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtCreateTableTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("CreateTable.Tpl", txtCreateTableTpl);
         }
 
         private void btnInsertDataTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "InsertData.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtInsertDataTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("InsertData.Tpl", txtInsertDataTpl);
         }
 
         private void RefreshControlStatus()
         {
+            if (String.IsNullOrEmpty(currentSettingFileName))
+            {
+                this.Text = "Mybatis Code Generator";
+            }
+            else
+            {
+                this.Text = "Mybatis Code Generator" + " [" + currentSettingFileName + "]";
+            }
+
             if (chklTemplate.CheckedItems.Count == 0)
             {
                 lblUsedTemplate.ForeColor = Color.Red;
@@ -159,32 +167,54 @@ namespace MyBatisCodeGenerator
                 lblUsedTemplate.ForeColor = Color.Black;
             }
 
-            btnStop.Enabled = false;
+            if (SettingSaved)
+            {
+                tsbSave.Enabled = false;
+            }
+            else
+            {
+                tsbSave.Enabled = true;
+            }
+
+            if (!SettingLoaded && !tsbRun.Enabled)
+            {
+                tsbRefreshDesign.Enabled = false;
+                tsbRefreshTemplate.Enabled = false;
+                tsbPublish.Enabled = false;
+            }
+            else
+            {
+                tsbRefreshDesign.Enabled = true;
+                tsbRefreshTemplate.Enabled = true;
+                tsbPublish.Enabled = true;
+            }
+
+            tsbStop.Enabled = false;
 
             if (string.IsNullOrEmpty(txtDesignFile.Text))
             {
-                btnRun.Enabled = false;
+                tsbRun.Enabled = false;
                 return;
             }
 
             if (chklTemplate.CheckedItems.Count == 0)
             {
-                btnRun.Enabled = false;
+                tsbRun.Enabled = false;
                 return;
             }
 
             if (string.IsNullOrEmpty(txtSourceCodeRoot.Text) && string.IsNullOrEmpty(txtScriptSavePath.Text))
             {
-                btnRun.Enabled = false;
+                tsbRun.Enabled = false;
                 return;
             }
 
-            btnRun.Enabled = true;
+            tsbRun.Enabled = true;
         }
 
         private void DisableAllOnRunning()
         {
-            btnRun.Enabled = false;
+            tsbRun.Enabled = false;
             tabTemplate.Enabled = false;
             tabSetting.Enabled = false;
 
@@ -210,12 +240,12 @@ namespace MyBatisCodeGenerator
             chkCreatePath.Enabled = false;
             chkStopOnError.Enabled = false;
 
-            btnRefreshTemplate.Enabled = false;
+            tsbRefreshTemplate.Enabled = false;
         }
 
         private void EnableAllOnStop()
         {
-            btnRun.Enabled = true;
+            tsbRun.Enabled = true;
             tabTemplate.Enabled = true;
             tabSetting.Enabled = true;
 
@@ -241,7 +271,7 @@ namespace MyBatisCodeGenerator
             chkCreatePath.Enabled = true;
             chkStopOnError.Enabled = true;
 
-            btnRefreshTemplate.Enabled = true;
+            tsbRefreshTemplate.Enabled = true;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -249,58 +279,6 @@ namespace MyBatisCodeGenerator
             RefreshControlStatus();
         }
 
-        private void btnRun_Click(object sender, EventArgs e)
-        {
-            runStatus = RunStatusEnum.Running;
-
-            tstrsStatus.Text = "Generate Processing ...";
-            DisableAllOnRunning();
-            dtgStepLog.Rows.Clear();
-
-            tstrpProgress.Visible = true;
-            btnStop.Enabled = true;
-
-            Application.DoEvents();
-
-            try
-            {
-                TemplateUtils.connectionString = txtDBConnStr.Text;
-                Generate();
-                GenerateExtraMultiLangRes();
-            }
-            catch (Exception ex)
-            {
-                CommonUtils.Log(ex.StackTrace);
-                MessageBox.Show(ex.Message);
-            }
-
-            stopGenerate(true);
-
-            MessageBox.Show(tstrsStatus.Text, "Information", MessageBoxButtons.OK);
-            tstrsStatus.Text = "";
-
-            tstrpProgress.Visible = false;
-        }
-
-        private void GenerateExtraMultiLangRes()
-        {
-            if (MultiLangRefInfo != null && MultiLangRefInfo.Count > 0)
-            {
-                StringBuilder textStr = new StringBuilder();
-                foreach (KeyValuePair<string, Dictionary<string, string[]>> info in MultiLangRefInfo)
-                {
-                    foreach (KeyValuePair<string, string[]> item in info.Value)
-                    {
-                        textStr.Append(info.Key + ",");
-                        textStr.Append(item.Key + ",");
-                        textStr.Append(item.Value[0] + ",");
-                        textStr.Append(item.Value[1] + ",");
-                        textStr.Append(item.Value[2] + "\r\n");
-                    }
-                }
-                CommonUtils.WriteTextFile("extra_meta_multilang_res.csv", txtScriptSavePath.Text, textStr.ToString(), true, true, true, false);
-            }
-        }
 
         List<string> preparedDefineTables = new List<string>();
         List<string> preparedDataTables = new List<string>();
@@ -352,7 +330,7 @@ namespace MyBatisCodeGenerator
                 }
             }
 
-            if(excelTables == null && sleepTime >= 5)
+            if (excelTables == null && sleepTime >= 5)
             {
                 throw new Exception("Reading faild.");
             }
@@ -649,8 +627,6 @@ namespace MyBatisCodeGenerator
             }
         }
 
-        Dictionary<string, DataTable> excelReadData = null;
-        bool isReading = false;
         private Dictionary<string, DataTable> getExcelData()
         {
             if (excelReadData == null && isReading == false)
@@ -724,7 +700,7 @@ namespace MyBatisCodeGenerator
             }
 
             runStatus = RunStatusEnum.Stopped;
-            btnRun.Enabled = true;
+            tsbRun.Enabled = true;
             EnableAllOnStop();
         }
 
@@ -909,23 +885,15 @@ namespace MyBatisCodeGenerator
             }
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            stopGenerate(false);
-        }
-
         private void chklTemplate_SelectedValueChanged(object sender, EventArgs e)
         {
+            SettingSaved = false;
             RefreshControlStatus();
         }
 
         private void chklTemplate_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            RefreshControlStatus();
-        }
-
-        private void chklTemplate_SelectedValueChanged_1(object sender, EventArgs e)
-        {
+            SettingSaved = false;
             RefreshControlStatus();
         }
 
@@ -937,9 +905,39 @@ namespace MyBatisCodeGenerator
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FetchSettingsFromControls(this);
-            CommonUtils.WriteSerializationDataToFile(Application.StartupPath + @"\setting.dat", settings);
+            DialogResult result = !SettingSaved ? MessageBox.Show("Save settings to file?", "Exit", MessageBoxButtons.YesNoCancel) : DialogResult.No;
+            if (result == DialogResult.Yes)
+            {
+                settings.Clear();
+                FetchSettingsFromControls(this);
+
+                if (String.IsNullOrEmpty(currentSettingFileName))
+                {
+                    SaveFileDialog saveFile = new SaveFileDialog();
+                    saveFile.Filter = "Setting Files | *.dat";
+                    saveFile.FileName = "setting.dat";
+                    saveFile.InitialDirectory = Application.StartupPath;
+                    if (saveFile.ShowDialog() == DialogResult.OK)
+                    {
+                        CommonUtils.WriteSerializationDataToFile(saveFile.FileName, settings);
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                    }
+                }
+                else
+                {
+                    CommonUtils.WriteSerializationDataToFile(currentSettingFileName, settings);
+                }
+            }
+            else if (result == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
         }
+
+        Dictionary<string, string> settings = new Dictionary<string, string>();
 
         private void FetchSettingsFromControls(Control control)
         {
@@ -999,7 +997,7 @@ namespace MyBatisCodeGenerator
             }
         }
 
-        private void InjectSettingsToControls(Control control)
+        private void InjectSettingsToControls(Control control, Dictionary<string, string> settings)
         {
             foreach (Control ctl in control.Controls)
             {
@@ -1035,29 +1033,7 @@ namespace MyBatisCodeGenerator
                     }
                 }
 
-                InjectSettingsToControls(ctl);
-            }
-        }
-
-        private void frmMain_Activated(object sender, EventArgs e)
-        {
-            if (!initialized)
-            {
-                if (File.Exists(Application.StartupPath + @"\setting.dat"))
-                {
-                    Object settingObj = CommonUtils.ReadSerializationDataFromFile(Application.StartupPath + @"\setting.dat");
-                    if (settingObj != null)
-                    {
-                        settings = (Dictionary<string, string>)settingObj;
-                        InjectSettingsToControls(this);
-                    }
-
-                    RefreshControlStatus();
-                }
-
-                initialized = true;
-
-                getExcelData();
+                InjectSettingsToControls(ctl, settings);
             }
         }
 
@@ -1150,6 +1126,9 @@ namespace MyBatisCodeGenerator
                 CommonUtils.SetRichTextBoxTextColor(rtbServiceImplTpl, txtTagColor.ForeColor);
                 CommonUtils.SetRichTextBoxTextColor(rtbAggVORequestTpl, txtTagColor.ForeColor);
                 CommonUtils.SetRichTextBoxTextColor(rtbDTOTpl, txtTagColor.ForeColor);
+
+                SettingSaved = false;
+                RefreshControlStatus();
             }
         }
 
@@ -1199,13 +1178,7 @@ namespace MyBatisCodeGenerator
 
         private void btnMapperExtendTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "MapperExtend.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtMapperExtendTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("MapperExtend.Tpl", txtMapperExtendTpl);
         }
 
         private void txtMapperExtendTpl_TextChanged(object sender, EventArgs e)
@@ -1221,13 +1194,7 @@ namespace MyBatisCodeGenerator
 
         private void btnMultiLang_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "MultiLangEntity.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtMultiLangEntity.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("MultiLangEntity.Tpl", txtMultiLangEntity);
         }
 
         private void txtMultiLang_TextChanged(object sender, EventArgs e)
@@ -1243,13 +1210,7 @@ namespace MyBatisCodeGenerator
 
         private void btnMultiLangSqlProvider_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "MultiLangSqlProvider.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtMultiLangSqlProvider.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("MultiLangSqlProvider.Tpl", txtMultiLangSqlProvider);
         }
 
         private void txtMultiLangSqlProvider_TextChanged(object sender, EventArgs e)
@@ -1265,13 +1226,7 @@ namespace MyBatisCodeGenerator
 
         private void btnMultiLangMapper_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "MultiLangMapper.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtMultiLangMapper.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("MultiLangMapper.Tpl", txtMultiLangMapper);
         }
 
         private void txtMultiLangMapper_TextChanged(object sender, EventArgs e)
@@ -1298,13 +1253,7 @@ namespace MyBatisCodeGenerator
 
         private void btnMultiLangMapperExtend_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "MultiLangMapperExtend.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtMultiLangMapperExtend.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("MultiLangMapperExtend.Tpl", txtMultiLangMapperExtend);
         }
 
         private void txtMultiLangCreateTable_TextChanged(object sender, EventArgs e)
@@ -1320,13 +1269,7 @@ namespace MyBatisCodeGenerator
 
         private void btnMultiLangCreateTable_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "MultiLangCreateTable.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtMultiLangCreateTable.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("MultiLangCreateTable.Tpl", txtMultiLangCreateTable);
         }
 
         private void txtMultiLangInsertData_TextChanged(object sender, EventArgs e)
@@ -1342,13 +1285,7 @@ namespace MyBatisCodeGenerator
 
         private void btnMultiLangInsertData_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "MultiLangInsertData.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtMultiLangInsertData.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("MultiLangInsertData.Tpl", txtMultiLangInsertData);
         }
 
         private void txtVO_TextChanged(object sender, EventArgs e)
@@ -1364,24 +1301,12 @@ namespace MyBatisCodeGenerator
 
         private void btnVO_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "VO.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtVO.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("VO.Tpl", txtVO);
         }
 
         private void btnAggVO_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "AggVO.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtAggVO.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("AggVO.Tpl", txtAggVO);
         }
 
         private void txtAggVO_TextChanged(object sender, EventArgs e)
@@ -1397,84 +1322,6 @@ namespace MyBatisCodeGenerator
 
         private List<string> executedScripts = new List<string>();
 
-        private void btnPublish_Click(object sender, EventArgs e)
-        {
-            frmScriptChoose frmScript = new frmScriptChoose();
-            string[] filenames = Directory.GetFiles(txtScriptSavePath.Text, "*.sql");
-            frmScript.setScripts(filenames);
-
-            if (frmScript.ShowDialog() == DialogResult.OK)
-            {
-                List<string> checkedScripts = frmScript.getCheckedScriptNames();
-
-                runStatus = RunStatusEnum.Running;
-
-                tstrsStatus.Text = "Publishing ...";
-                DisableAllOnRunning();
-                dtgStepLog.Rows.Clear();
-                btnRun.Enabled = false;
-                btnStop.Enabled = true;
-
-                Application.DoEvents();
-
-                try
-                {
-                    string connetStr = txtDBConnStr.Text;
-
-                    if (string.IsNullOrEmpty(connetStr))
-                    {
-                        MessageBox.Show("No database connection info defined.");
-                    }
-                    else
-                    {
-                        dtgStepLog.Rows.Clear();
-
-                        MySqlConnection conn = new MySqlConnection(connetStr);
-                        try
-                        {
-                            conn.Open();
-
-                            Dictionary<string, StringBuilder> scriptSB = null;
-
-                            scriptSB = ReadSpecificCreateTableScript(txtCreateTablePrefix.Text, txtBaseExecutive.Text, checkedScripts);
-                            RunScripts(scriptSB, conn, "Pre-execute scripts");
-
-                            scriptSB = ReadSpecificCreateTableScript(txtInsertDataPrefix.Text, txtBaseExecutive.Text, checkedScripts);
-                            RunScripts(scriptSB, conn, "Pre-insert data scripts");
-
-                            scriptSB = ReadCreateTableScripts(checkedScripts);
-                            RunScripts(scriptSB, conn, "Create table scripts");
-
-                            scriptSB = ReadInsertDataScripts(checkedScripts);
-                            RunScripts(scriptSB, conn, "Metadata Insert Scripts");
-
-                            if (chkExecuteMultiLang.Checked)
-                            {
-                                scriptSB = ReadMultiLangInsertDataScripts(checkedScripts);
-                                RunScripts(scriptSB, conn, "Multi Language Data Insert Scripts");
-                            }
-                        }
-                        finally
-                        {
-                            conn.Close();
-                        }
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    CommonUtils.Log(ex.StackTrace);
-                    MessageBox.Show(ex.Message);
-                }
-
-                EnableAllOnStop();
-                btnRun.Enabled = true;
-                btnStop.Enabled = false;
-                tstrsStatus.Text = "";
-                tstrpProgress.Visible = false;
-                runStatus = RunStatusEnum.Stopped;
-            }
-        }
 
         private Dictionary<string, StringBuilder> ReadSpecificCreateTableScript(string prefix, string tableNameStr, List<string> scopeList)
         {
@@ -1583,35 +1430,17 @@ namespace MyBatisCodeGenerator
 
         private void btnRestTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "Rest.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtRestTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("Rest.Tpl", txtRestTpl);
         }
 
         private void btnServiceTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "Service.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtServiceTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("Service.Tpl", txtServiceTpl);
         }
 
         private void btnServiceImplTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "ServiceImpl.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtServiceImplTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("ServiceImpl.Tpl", txtServiceImplTpl);
         }
 
         private void txtServiceImplTpl_TextChanged(object sender, EventArgs e)
@@ -1649,13 +1478,7 @@ namespace MyBatisCodeGenerator
 
         private void btnAggVORequestTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "AggDTO.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtAggVORequestTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("AggDTO.Tpl", txtAggVORequestTpl);
         }
 
         private void txtAggVORequestTpl_TextChanged(object sender, EventArgs e)
@@ -1671,13 +1494,7 @@ namespace MyBatisCodeGenerator
 
         private void btnDTOTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "DTO.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
-            {
-                txtDTOTpl.Text = dlgOpenFile.FileName;
-            }
+            LoadTemplate("DTO.Tpl", txtDTOTpl);
         }
 
         private void txtDTOTpl_TextChanged(object sender, EventArgs e)
@@ -1694,25 +1511,18 @@ namespace MyBatisCodeGenerator
         Dictionary<TextBox, RichTextBox> freshDic = new Dictionary<TextBox, RichTextBox>();
         private void btnRefreshTemplate_Click(object sender, EventArgs e)
         {
-            if (freshDic.Count > 0)
-            {
-                foreach (KeyValuePair<TextBox, RichTextBox> keyValuePair in freshDic)
-                {
-                    keyValuePair.Value.Text = CommonUtils.ReadTextFile(keyValuePair.Key.Text);
-                    CommonUtils.SetRichTextBoxTextColor(keyValuePair.Value, txtTagColor.ForeColor);
-                }
-            }
+
         }
 
-        private void btnRun_MouseHover(object sender, EventArgs e)
+        private void tsbRun_MouseHover(object sender, EventArgs e)
         {
-            if(excelReadData != null)
+            if (excelReadData != null)
             {
                 if (runStatus != RunStatusEnum.Running)
                 {
-                    if(btnRun.Enabled == false)
+                    if (tsbRun.Enabled == false)
                     {
-                        btnRun.Enabled = true;
+                        tsbRun.Enabled = true;
                     }
                 }
             }
@@ -1731,12 +1541,304 @@ namespace MyBatisCodeGenerator
 
         private void btnHandlerTpl_Click(object sender, EventArgs e)
         {
-            dlgOpenFile.Filter = "Template File | *.Tpl";
-            dlgOpenFile.FileName = "Handler.Tpl";
-            DialogResult result = dlgOpenFile.ShowDialog();
-            if (result.Equals(DialogResult.OK))
+            LoadTemplate("Handler.Tpl", txtHandlerTpl);
+        }
+
+        private void tsbExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void tsbRun_Click(object sender, EventArgs e)
+        {
+            runStatus = RunStatusEnum.Running;
+
+            tstrsStatus.Text = "Generate Processing ...";
+            DisableAllOnRunning();
+            dtgStepLog.Rows.Clear();
+
+            tstrpProgress.Visible = true;
+            tsbStop.Enabled = true;
+
+            Application.DoEvents();
+
+            try
             {
-                txtHandlerTpl.Text = dlgOpenFile.FileName;
+                TemplateUtils.connectionString = txtDBConnStr.Text;
+                Generate();
+                GenerateExtraMultiLangRes();
+            }
+            catch (Exception ex)
+            {
+                CommonUtils.Log(ex.StackTrace);
+                MessageBox.Show(ex.Message);
+            }
+
+            stopGenerate(true);
+
+            MessageBox.Show(tstrsStatus.Text, "Information", MessageBoxButtons.OK);
+            tstrsStatus.Text = "";
+
+            tstrpProgress.Visible = false;
+        }
+
+        private void GenerateExtraMultiLangRes()
+        {
+            if (MultiLangRefInfo != null && MultiLangRefInfo.Count > 0)
+            {
+                StringBuilder textStr = new StringBuilder();
+                foreach (KeyValuePair<string, Dictionary<string, string[]>> info in MultiLangRefInfo)
+                {
+                    foreach (KeyValuePair<string, string[]> item in info.Value)
+                    {
+                        textStr.Append(info.Key + ",");
+                        textStr.Append(item.Key + ",");
+                        textStr.Append(item.Value[0] + ",");
+                        textStr.Append(item.Value[1] + ",");
+                        textStr.Append(item.Value[2] + "\r\n");
+                    }
+                }
+                CommonUtils.WriteTextFile("extra_meta_multilang_res.csv", txtScriptSavePath.Text, textStr.ToString(), true, true, true, false);
+            }
+        }
+
+        private void tsbRefreshTemplate_Click(object sender, EventArgs e)
+        {
+            if (freshDic.Count > 0)
+            {
+                foreach (KeyValuePair<TextBox, RichTextBox> keyValuePair in freshDic)
+                {
+                    keyValuePair.Value.Text = CommonUtils.ReadTextFile(keyValuePair.Key.Text);
+                    CommonUtils.SetRichTextBoxTextColor(keyValuePair.Value, txtTagColor.ForeColor);
+                }
+            }
+        }
+
+        private void tsbOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Application.StartupPath;
+            openFileDialog.Filter = "Setting File | *.dat";
+            openFileDialog.FileName = @"\setting.dat";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(openFileDialog.FileName))
+                {
+                    currentSettingFileName = openFileDialog.FileName;
+                    Object settingObj = CommonUtils.ReadSerializationDataFromFile(openFileDialog.FileName);
+                    if (settingObj != null)
+                    {
+                        Dictionary<string, string> settings = (Dictionary<string, string>)settingObj;
+                        InjectSettingsToControls(this, settings);
+                    }
+
+                    RefreshControlStatus();
+                }
+
+                SettingLoaded = true;
+                SettingSaved = true;
+
+                tsbSave.Enabled = false;
+                RefreshControlStatus();
+
+                excelReadData = null;
+                getExcelData();
+            }
+        }
+
+        private void tsbStop_Click(object sender, EventArgs e)
+        {
+            stopGenerate(false);
+        }
+
+        private void tsbPublish_Click(object sender, EventArgs e)
+        {
+            frmScriptChoose frmScript = new frmScriptChoose();
+            string[] filenames = Directory.GetFiles(txtScriptSavePath.Text);
+            List<string> fileList = new List<string>();
+            fileList.AddRange(filenames);
+            Predicate<string> findPredicate = new Predicate<string>(IsSQLFile);
+            frmScript.setScripts(fileList.FindAll(findPredicate).ToArray());
+            frmScript.StartPosition = FormStartPosition.CenterParent;
+
+            if (frmScript.ShowDialog(this) == DialogResult.OK)
+            {
+                List<string> checkedScripts = frmScript.getCheckedScriptNames();
+
+                runStatus = RunStatusEnum.Running;
+
+                tstrsStatus.Text = "Publishing ...";
+                DisableAllOnRunning();
+                dtgStepLog.Rows.Clear();
+                tsbRun.Enabled = false;
+                tsbStop.Enabled = true;
+
+                Application.DoEvents();
+
+                try
+                {
+                    string connetStr = txtDBConnStr.Text;
+
+                    if (string.IsNullOrEmpty(connetStr))
+                    {
+                        MessageBox.Show("No database connection info defined.");
+                    }
+                    else
+                    {
+                        dtgStepLog.Rows.Clear();
+
+                        MySqlConnection conn = new MySqlConnection(connetStr);
+                        try
+                        {
+                            conn.Open();
+
+                            Dictionary<string, StringBuilder> scriptSB = null;
+
+                            scriptSB = ReadSpecificCreateTableScript(txtCreateTablePrefix.Text, txtBaseExecutive.Text, checkedScripts);
+                            RunScripts(scriptSB, conn, "Pre-execute scripts");
+
+                            scriptSB = ReadSpecificCreateTableScript(txtInsertDataPrefix.Text, txtBaseExecutive.Text, checkedScripts);
+                            RunScripts(scriptSB, conn, "Pre-insert data scripts");
+
+                            scriptSB = ReadCreateTableScripts(checkedScripts);
+                            RunScripts(scriptSB, conn, "Create table scripts");
+
+                            scriptSB = ReadInsertDataScripts(checkedScripts);
+                            RunScripts(scriptSB, conn, "Metadata Insert Scripts");
+
+                            if (chkExecuteMultiLang.Checked)
+                            {
+                                scriptSB = ReadMultiLangInsertDataScripts(checkedScripts);
+                                RunScripts(scriptSB, conn, "Multi Language Data Insert Scripts");
+                            }
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    CommonUtils.Log(ex.StackTrace);
+                    MessageBox.Show(ex.Message);
+                }
+
+                EnableAllOnStop();
+                tsbRun.Enabled = true;
+                tsbStop.Enabled = false;
+                tstrsStatus.Text = "";
+                tstrpProgress.Visible = false;
+                runStatus = RunStatusEnum.Stopped;
+            }
+        }
+
+        private bool IsSQLFile(string fileName)
+        {
+            return fileName.EndsWith(".sql");
+        }
+
+        private void tsbSave_Click(object sender, EventArgs e)
+        {
+            settings.Clear();
+            FetchSettingsFromControls(this);
+
+            if (String.IsNullOrEmpty(currentSettingFileName))
+            {
+                tsbSaveAs_Click(sender, e);
+                return;
+            }
+            else
+            {
+                CommonUtils.WriteSerializationDataToFile(currentSettingFileName, settings);
+                SettingSaved = true;
+                tsbSave.Enabled = false;
+
+                RefreshControlStatus();
+            }
+        }
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F5:
+                    //F5 = Run
+                    tsbRun_Click(this, EventArgs.Empty);
+                    break;
+                case Keys.F4:
+                    //F4 = Stop
+                    tsbStop_Click(this, EventArgs.Empty);
+                    break;
+            }
+
+            if (e.KeyCode == Keys.O && e.Modifiers == Keys.Control)
+            {
+                //Ctrl+O = Open
+                tsbOpen_Click(this, EventArgs.Empty);
+            }
+            else if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control)
+            {
+                //Ctrl+S = Save
+                tsbSave_Click(this, EventArgs.Empty);
+            }
+            else if (e.KeyCode == Keys.S && ((int)e.Modifiers) == ((int)Keys.Control + (int)Keys.Shift))
+            {
+                //Ctrl+Shift+S = Save As
+                tsbSaveAs_Click(this, EventArgs.Empty);
+            }
+            else if (e.KeyCode == Keys.P && e.Modifiers == Keys.Control)
+            {
+                //Ctrl+P = Publish to database
+                tsbPublish_Click(this, EventArgs.Empty);
+            }
+            else if (e.KeyCode == Keys.R && e.Modifiers == Keys.Control)
+            {
+                //Ctrl+R = Refresh Design File
+                tsbRefreshDesign_Click(this, EventArgs.Empty);
+            }
+            else if (e.KeyCode == Keys.R && ((int)e.Modifiers) == ((int)Keys.Control + (int)Keys.Shift))
+            {
+                //Ctrl+Shift+R = Refresh Template
+                tsbRefreshTemplate_Click(this, EventArgs.Empty);
+            }
+            else if (e.KeyCode == Keys.Q && e.Modifiers == Keys.Control)
+            {
+                //Ctrl+Q = Quit
+                tsbExit_Click(this, EventArgs.Empty);
+            }
+        }
+
+        private void tsbSaveAs_Click(object sender, EventArgs e)
+        {
+            settings.Clear();
+            FetchSettingsFromControls(this);
+
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "Setting Files | *.dat";
+            saveFile.FileName = "setting.dat";
+            saveFile.InitialDirectory = Application.StartupPath;
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                CommonUtils.WriteSerializationDataToFile(saveFile.FileName, settings);
+            }
+
+            currentSettingFileName = saveFile.FileName;
+            SettingSaved = true;
+            tsbSave.Enabled = false;
+
+            RefreshControlStatus();
+        }
+
+        private void tsbRefreshDesign_Click(object sender, EventArgs e)
+        {
+            if (!isReading)
+            {
+                excelReadData = null;
+                isReading = false;
+                getExcelData();
             }
         }
     }

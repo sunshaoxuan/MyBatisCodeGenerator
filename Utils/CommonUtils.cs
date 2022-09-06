@@ -137,7 +137,7 @@ namespace MyBatisCodeGenerator.Utils
             WriteTextFile(@"\log_" + DateTime.Today.ToString("yyyy_MM_dd") + ".log", 
                 Application.StartupPath, 
                 DateTime.Today.ToString("yyyy-MM-dd HH:mm:ss") + "\t" + content + "\r\n", 
-                true, false, true, true);
+                true, false, true, false);
         }
     }
 }

@@ -49,7 +49,6 @@
             this.chklScripts.CheckOnClick = true;
             this.chklScripts.FormattingEnabled = true;
             this.chklScripts.Location = new System.Drawing.Point(12, 40);
-            this.chklScripts.MultiColumn = true;
             this.chklScripts.Name = "chklScripts";
             this.chklScripts.Size = new System.Drawing.Size(776, 368);
             this.chklScripts.TabIndex = 5;
@@ -60,6 +59,7 @@
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(737, 19);
             this.txtFilter.TabIndex = 6;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
             // lblFilter
             // 
@@ -103,6 +103,7 @@
             this.llbSelectAll.TabIndex = 13;
             this.llbSelectAll.TabStop = true;
             this.llbSelectAll.Text = "ALL";
+            this.llbSelectAll.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSelectAll_LinkClicked);
             // 
             // llbSelectNone
             // 
@@ -115,6 +116,7 @@
             this.llbSelectNone.TabIndex = 13;
             this.llbSelectNone.TabStop = true;
             this.llbSelectNone.Text = "None";
+            this.llbSelectNone.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSelectNone_LinkClicked);
             // 
             // llbSelectReverse
             // 
@@ -127,6 +129,7 @@
             this.llbSelectReverse.TabIndex = 13;
             this.llbSelectReverse.TabStop = true;
             this.llbSelectReverse.Text = "Reverse";
+            this.llbSelectReverse.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSelectReverse_LinkClicked);
             // 
             // llbSelectCreateTable
             // 
@@ -139,6 +142,7 @@
             this.llbSelectCreateTable.TabIndex = 13;
             this.llbSelectCreateTable.TabStop = true;
             this.llbSelectCreateTable.Text = "All Create";
+            this.llbSelectCreateTable.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbSelectCreateTable_LinkClicked);
             // 
             // llbAllInsert
             // 
@@ -151,6 +155,7 @@
             this.llbAllInsert.TabIndex = 13;
             this.llbAllInsert.TabStop = true;
             this.llbAllInsert.Text = "All Insert";
+            this.llbAllInsert.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbAllInsert_LinkClicked);
             // 
             // frmScriptChoose
             // 

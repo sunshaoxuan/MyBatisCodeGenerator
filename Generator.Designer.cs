@@ -32,16 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tabcMain = new System.Windows.Forms.TabControl();
             this.tabGenerator = new System.Windows.Forms.TabPage();
-            this.btnPublish = new System.Windows.Forms.Button();
             this.dtgStepLog = new System.Windows.Forms.DataGridView();
             this.colIcon = new System.Windows.Forms.DataGridViewImageColumn();
             this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.strpStatus = new System.Windows.Forms.StatusStrip();
             this.tstrpProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.tstrsStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnRefreshTemplate = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
-            this.btnRun = new System.Windows.Forms.Button();
             this.btnSelectReverse = new System.Windows.Forms.Button();
             this.btnSelectNone = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
@@ -184,6 +180,19 @@
             this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.dlgFolderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
+            this.tspActions = new System.Windows.Forms.ToolStrip();
+            this.tsbOpen = new System.Windows.Forms.ToolStripButton();
+            this.tsbSave = new System.Windows.Forms.ToolStripButton();
+            this.tsbSaveAs = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbRefreshDesign = new System.Windows.Forms.ToolStripButton();
+            this.tsbRefreshTemplate = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbRun = new System.Windows.Forms.ToolStripButton();
+            this.tsbStop = new System.Windows.Forms.ToolStripButton();
+            this.tsbPublish = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbExit = new System.Windows.Forms.ToolStripButton();
             this.tabcMain.SuspendLayout();
             this.tabGenerator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgStepLog)).BeginInit();
@@ -213,29 +222,28 @@
             this.tabSetting.SuspendLayout();
             this.grpPublish.SuspendLayout();
             this.grpGenerate.SuspendLayout();
+            this.tspActions.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabcMain
             // 
+            this.tabcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabcMain.Controls.Add(this.tabGenerator);
             this.tabcMain.Controls.Add(this.tabTemplate);
             this.tabcMain.Controls.Add(this.tabSetting);
-            this.tabcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabcMain.Location = new System.Drawing.Point(0, 0);
+            this.tabcMain.Location = new System.Drawing.Point(40, 0);
             this.tabcMain.Name = "tabcMain";
             this.tabcMain.SelectedIndex = 0;
-            this.tabcMain.Size = new System.Drawing.Size(784, 561);
+            this.tabcMain.Size = new System.Drawing.Size(782, 561);
             this.tabcMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabcMain.TabIndex = 0;
             // 
             // tabGenerator
             // 
-            this.tabGenerator.Controls.Add(this.btnPublish);
             this.tabGenerator.Controls.Add(this.dtgStepLog);
             this.tabGenerator.Controls.Add(this.strpStatus);
-            this.tabGenerator.Controls.Add(this.btnRefreshTemplate);
-            this.tabGenerator.Controls.Add(this.btnStop);
-            this.tabGenerator.Controls.Add(this.btnRun);
             this.tabGenerator.Controls.Add(this.btnSelectReverse);
             this.tabGenerator.Controls.Add(this.btnSelectNone);
             this.tabGenerator.Controls.Add(this.btnSelectAll);
@@ -256,20 +264,10 @@
             this.tabGenerator.Location = new System.Drawing.Point(4, 22);
             this.tabGenerator.Name = "tabGenerator";
             this.tabGenerator.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGenerator.Size = new System.Drawing.Size(776, 535);
+            this.tabGenerator.Size = new System.Drawing.Size(774, 535);
             this.tabGenerator.TabIndex = 0;
             this.tabGenerator.Text = "Generator";
             this.tabGenerator.UseVisualStyleBackColor = true;
-            // 
-            // btnPublish
-            // 
-            this.btnPublish.Location = new System.Drawing.Point(683, 227);
-            this.btnPublish.Name = "btnPublish";
-            this.btnPublish.Size = new System.Drawing.Size(75, 23);
-            this.btnPublish.TabIndex = 10;
-            this.btnPublish.Text = "Publish (&P)";
-            this.btnPublish.UseVisualStyleBackColor = true;
-            this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
             // 
             // dtgStepLog
             // 
@@ -286,7 +284,7 @@
             this.dtgStepLog.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colIcon,
             this.colText});
-            this.dtgStepLog.Location = new System.Drawing.Point(3, 258);
+            this.dtgStepLog.Location = new System.Drawing.Point(6, 227);
             this.dtgStepLog.Name = "dtgStepLog";
             this.dtgStepLog.ReadOnly = true;
             this.dtgStepLog.RowTemplate.Height = 21;
@@ -294,7 +292,7 @@
             this.dtgStepLog.ShowCellErrors = false;
             this.dtgStepLog.ShowEditingIcon = false;
             this.dtgStepLog.ShowRowErrors = false;
-            this.dtgStepLog.Size = new System.Drawing.Size(770, 249);
+            this.dtgStepLog.Size = new System.Drawing.Size(765, 280);
             this.dtgStepLog.TabIndex = 9;
             this.dtgStepLog.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgStepLog_CellValueChanged);
             // 
@@ -320,7 +318,7 @@
             this.tstrsStatus});
             this.strpStatus.Location = new System.Drawing.Point(3, 510);
             this.strpStatus.Name = "strpStatus";
-            this.strpStatus.Size = new System.Drawing.Size(770, 22);
+            this.strpStatus.Size = new System.Drawing.Size(768, 22);
             this.strpStatus.TabIndex = 8;
             this.strpStatus.Text = "statusStrip1";
             // 
@@ -337,42 +335,6 @@
             this.tstrsStatus.Name = "tstrsStatus";
             this.tstrsStatus.Size = new System.Drawing.Size(0, 17);
             this.tstrsStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // btnRefreshTemplate
-            // 
-            this.btnRefreshTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefreshTemplate.Location = new System.Drawing.Point(6, 227);
-            this.btnRefreshTemplate.Name = "btnRefreshTemplate";
-            this.btnRefreshTemplate.Size = new System.Drawing.Size(149, 23);
-            this.btnRefreshTemplate.TabIndex = 7;
-            this.btnRefreshTemplate.Text = "Refresh Templates (&T)";
-            this.btnRefreshTemplate.UseVisualStyleBackColor = true;
-            this.btnRefreshTemplate.Click += new System.EventHandler(this.btnRefreshTemplate_Click);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(584, 227);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(75, 23);
-            this.btnStop.TabIndex = 7;
-            this.btnStop.Text = "Stop (&S)";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // btnRun
-            // 
-            this.btnRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRun.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnRun.Location = new System.Drawing.Point(503, 227);
-            this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(75, 23);
-            this.btnRun.TabIndex = 7;
-            this.btnRun.Text = "Run (&R)";
-            this.btnRun.UseVisualStyleBackColor = true;
-            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
-            this.btnRun.MouseHover += new System.EventHandler(this.btnRun_MouseHover);
             // 
             // btnSelectReverse
             // 
@@ -470,7 +432,7 @@
             this.chklTemplate.Size = new System.Drawing.Size(284, 130);
             this.chklTemplate.TabIndex = 4;
             this.chklTemplate.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklTemplate_ItemCheck);
-            this.chklTemplate.SelectedValueChanged += new System.EventHandler(this.chklTemplate_SelectedValueChanged_1);
+            this.chklTemplate.SelectedValueChanged += new System.EventHandler(this.chklTemplate_SelectedValueChanged);
             // 
             // lblUsedTemplate
             // 
@@ -487,7 +449,7 @@
             // 
             this.btnScriptSavePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnScriptSavePath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnScriptSavePath.Location = new System.Drawing.Point(738, 201);
+            this.btnScriptSavePath.Location = new System.Drawing.Point(736, 201);
             this.btnScriptSavePath.Name = "btnScriptSavePath";
             this.btnScriptSavePath.Size = new System.Drawing.Size(20, 20);
             this.btnScriptSavePath.TabIndex = 2;
@@ -499,7 +461,7 @@
             // 
             this.btnSourceCodeRoot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSourceCodeRoot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSourceCodeRoot.Location = new System.Drawing.Point(738, 176);
+            this.btnSourceCodeRoot.Location = new System.Drawing.Point(736, 176);
             this.btnSourceCodeRoot.Name = "btnSourceCodeRoot";
             this.btnSourceCodeRoot.Size = new System.Drawing.Size(20, 20);
             this.btnSourceCodeRoot.TabIndex = 2;
@@ -511,7 +473,7 @@
             // 
             this.btnDesignFileBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDesignFileBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDesignFileBrowse.Location = new System.Drawing.Point(738, 13);
+            this.btnDesignFileBrowse.Location = new System.Drawing.Point(736, 13);
             this.btnDesignFileBrowse.Name = "btnDesignFileBrowse";
             this.btnDesignFileBrowse.Size = new System.Drawing.Size(20, 20);
             this.btnDesignFileBrowse.TabIndex = 2;
@@ -525,7 +487,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtScriptSavePath.Location = new System.Drawing.Point(151, 202);
             this.txtScriptSavePath.Name = "txtScriptSavePath";
-            this.txtScriptSavePath.Size = new System.Drawing.Size(586, 19);
+            this.txtScriptSavePath.Size = new System.Drawing.Size(584, 19);
             this.txtScriptSavePath.TabIndex = 1;
             this.txtScriptSavePath.TextChanged += new System.EventHandler(this.txtScriptSavePath_TextChanged);
             // 
@@ -535,7 +497,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSourceCodeRoot.Location = new System.Drawing.Point(151, 177);
             this.txtSourceCodeRoot.Name = "txtSourceCodeRoot";
-            this.txtSourceCodeRoot.Size = new System.Drawing.Size(586, 19);
+            this.txtSourceCodeRoot.Size = new System.Drawing.Size(584, 19);
             this.txtSourceCodeRoot.TabIndex = 1;
             this.txtSourceCodeRoot.TextChanged += new System.EventHandler(this.txtSourceCodeRoot_TextChanged);
             // 
@@ -545,7 +507,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDesignFile.Location = new System.Drawing.Point(155, 14);
             this.txtDesignFile.Name = "txtDesignFile";
-            this.txtDesignFile.Size = new System.Drawing.Size(582, 19);
+            this.txtDesignFile.Size = new System.Drawing.Size(580, 19);
             this.txtDesignFile.TabIndex = 1;
             this.txtDesignFile.TextChanged += new System.EventHandler(this.txtDesignFile_TextChanged);
             // 
@@ -588,7 +550,7 @@
             this.tabTemplate.Location = new System.Drawing.Point(4, 22);
             this.tabTemplate.Name = "tabTemplate";
             this.tabTemplate.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTemplate.Size = new System.Drawing.Size(776, 535);
+            this.tabTemplate.Size = new System.Drawing.Size(774, 535);
             this.tabTemplate.TabIndex = 1;
             this.tabTemplate.Text = "Code Templates";
             this.tabTemplate.UseVisualStyleBackColor = true;
@@ -621,7 +583,7 @@
             this.tabcTemplates.Multiline = true;
             this.tabcTemplates.Name = "tabcTemplates";
             this.tabcTemplates.SelectedIndex = 0;
-            this.tabcTemplates.Size = new System.Drawing.Size(770, 529);
+            this.tabcTemplates.Size = new System.Drawing.Size(768, 529);
             this.tabcTemplates.TabIndex = 0;
             // 
             // tabEntities
@@ -633,7 +595,7 @@
             this.tabEntities.Location = new System.Drawing.Point(4, 73);
             this.tabEntities.Name = "tabEntities";
             this.tabEntities.Padding = new System.Windows.Forms.Padding(3);
-            this.tabEntities.Size = new System.Drawing.Size(762, 452);
+            this.tabEntities.Size = new System.Drawing.Size(760, 452);
             this.tabEntities.TabIndex = 0;
             this.tabEntities.Text = "Entities";
             this.tabEntities.UseVisualStyleBackColor = true;
@@ -647,7 +609,7 @@
             this.rtbEntityTpl.Location = new System.Drawing.Point(0, 32);
             this.rtbEntityTpl.Name = "rtbEntityTpl";
             this.rtbEntityTpl.ReadOnly = true;
-            this.rtbEntityTpl.Size = new System.Drawing.Size(762, 420);
+            this.rtbEntityTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbEntityTpl.TabIndex = 4;
             this.rtbEntityTpl.Text = "";
             // 
@@ -655,7 +617,7 @@
             // 
             this.btnEntityTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEntityTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEntityTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnEntityTpl.Location = new System.Drawing.Point(730, 3);
             this.btnEntityTpl.Name = "btnEntityTpl";
             this.btnEntityTpl.Size = new System.Drawing.Size(20, 20);
             this.btnEntityTpl.TabIndex = 3;
@@ -687,10 +649,10 @@
             this.tabEntityExtends.Controls.Add(this.btnSqlProviderTpl);
             this.tabEntityExtends.Controls.Add(this.txtSqlProviderTpl);
             this.tabEntityExtends.Controls.Add(this.lblSqlProviderTpl);
-            this.tabEntityExtends.Location = new System.Drawing.Point(4, 25);
+            this.tabEntityExtends.Location = new System.Drawing.Point(4, 73);
             this.tabEntityExtends.Name = "tabEntityExtends";
             this.tabEntityExtends.Padding = new System.Windows.Forms.Padding(3);
-            this.tabEntityExtends.Size = new System.Drawing.Size(762, 500);
+            this.tabEntityExtends.Size = new System.Drawing.Size(760, 452);
             this.tabEntityExtends.TabIndex = 1;
             this.tabEntityExtends.Text = "SqlProviders";
             this.tabEntityExtends.UseVisualStyleBackColor = true;
@@ -704,7 +666,7 @@
             this.rtbSqlProviderTpl.Location = new System.Drawing.Point(0, 29);
             this.rtbSqlProviderTpl.Name = "rtbSqlProviderTpl";
             this.rtbSqlProviderTpl.ReadOnly = true;
-            this.rtbSqlProviderTpl.Size = new System.Drawing.Size(762, 471);
+            this.rtbSqlProviderTpl.Size = new System.Drawing.Size(760, 423);
             this.rtbSqlProviderTpl.TabIndex = 8;
             this.rtbSqlProviderTpl.Text = "";
             // 
@@ -712,7 +674,7 @@
             // 
             this.btnSqlProviderTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSqlProviderTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSqlProviderTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnSqlProviderTpl.Location = new System.Drawing.Point(730, 3);
             this.btnSqlProviderTpl.Name = "btnSqlProviderTpl";
             this.btnSqlProviderTpl.Size = new System.Drawing.Size(20, 20);
             this.btnSqlProviderTpl.TabIndex = 7;
@@ -744,10 +706,10 @@
             this.tabMappers.Controls.Add(this.btnMapperTpl);
             this.tabMappers.Controls.Add(this.txtMapperTpl);
             this.tabMappers.Controls.Add(this.lblMapperTpl);
-            this.tabMappers.Location = new System.Drawing.Point(4, 25);
+            this.tabMappers.Location = new System.Drawing.Point(4, 73);
             this.tabMappers.Name = "tabMappers";
             this.tabMappers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMappers.Size = new System.Drawing.Size(762, 500);
+            this.tabMappers.Size = new System.Drawing.Size(760, 452);
             this.tabMappers.TabIndex = 2;
             this.tabMappers.Text = "Mappers";
             this.tabMappers.UseVisualStyleBackColor = true;
@@ -761,7 +723,7 @@
             this.rtbMapperTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbMapperTpl.Name = "rtbMapperTpl";
             this.rtbMapperTpl.ReadOnly = true;
-            this.rtbMapperTpl.Size = new System.Drawing.Size(761, 468);
+            this.rtbMapperTpl.Size = new System.Drawing.Size(759, 420);
             this.rtbMapperTpl.TabIndex = 8;
             this.rtbMapperTpl.Text = "";
             // 
@@ -769,7 +731,7 @@
             // 
             this.btnMapperTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMapperTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMapperTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnMapperTpl.Location = new System.Drawing.Point(730, 3);
             this.btnMapperTpl.Name = "btnMapperTpl";
             this.btnMapperTpl.Size = new System.Drawing.Size(20, 20);
             this.btnMapperTpl.TabIndex = 7;
@@ -801,10 +763,10 @@
             this.tabMapperExtend.Controls.Add(this.btnMapperExtendTpl);
             this.tabMapperExtend.Controls.Add(this.txtMapperExtendTpl);
             this.tabMapperExtend.Controls.Add(this.lblMapperExtendTpl);
-            this.tabMapperExtend.Location = new System.Drawing.Point(4, 25);
+            this.tabMapperExtend.Location = new System.Drawing.Point(4, 73);
             this.tabMapperExtend.Name = "tabMapperExtend";
             this.tabMapperExtend.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMapperExtend.Size = new System.Drawing.Size(762, 500);
+            this.tabMapperExtend.Size = new System.Drawing.Size(760, 452);
             this.tabMapperExtend.TabIndex = 6;
             this.tabMapperExtend.Text = "MapperExtend";
             this.tabMapperExtend.UseVisualStyleBackColor = true;
@@ -819,7 +781,7 @@
             this.rtbMapperExtendTpl.Location = new System.Drawing.Point(0, 30);
             this.rtbMapperExtendTpl.Name = "rtbMapperExtendTpl";
             this.rtbMapperExtendTpl.ReadOnly = true;
-            this.rtbMapperExtendTpl.Size = new System.Drawing.Size(762, 468);
+            this.rtbMapperExtendTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbMapperExtendTpl.TabIndex = 8;
             this.rtbMapperExtendTpl.Text = "";
             // 
@@ -827,7 +789,7 @@
             // 
             this.btnMapperExtendTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMapperExtendTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMapperExtendTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnMapperExtendTpl.Location = new System.Drawing.Point(730, 3);
             this.btnMapperExtendTpl.Name = "btnMapperExtendTpl";
             this.btnMapperExtendTpl.Size = new System.Drawing.Size(20, 20);
             this.btnMapperExtendTpl.TabIndex = 7;
@@ -859,10 +821,10 @@
             this.tabCreateTableScripts.Controls.Add(this.btnCreateTableTpl);
             this.tabCreateTableScripts.Controls.Add(this.txtCreateTableTpl);
             this.tabCreateTableScripts.Controls.Add(this.lblCreateTableTpl);
-            this.tabCreateTableScripts.Location = new System.Drawing.Point(4, 25);
+            this.tabCreateTableScripts.Location = new System.Drawing.Point(4, 73);
             this.tabCreateTableScripts.Name = "tabCreateTableScripts";
             this.tabCreateTableScripts.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCreateTableScripts.Size = new System.Drawing.Size(762, 500);
+            this.tabCreateTableScripts.Size = new System.Drawing.Size(760, 452);
             this.tabCreateTableScripts.TabIndex = 4;
             this.tabCreateTableScripts.Text = "Create Table Script";
             this.tabCreateTableScripts.UseVisualStyleBackColor = true;
@@ -876,7 +838,7 @@
             this.rtbCreateTableTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbCreateTableTpl.Name = "rtbCreateTableTpl";
             this.rtbCreateTableTpl.ReadOnly = true;
-            this.rtbCreateTableTpl.Size = new System.Drawing.Size(761, 468);
+            this.rtbCreateTableTpl.Size = new System.Drawing.Size(759, 420);
             this.rtbCreateTableTpl.TabIndex = 8;
             this.rtbCreateTableTpl.Text = "";
             // 
@@ -884,7 +846,7 @@
             // 
             this.btnCreateTableTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCreateTableTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCreateTableTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnCreateTableTpl.Location = new System.Drawing.Point(730, 3);
             this.btnCreateTableTpl.Name = "btnCreateTableTpl";
             this.btnCreateTableTpl.Size = new System.Drawing.Size(20, 20);
             this.btnCreateTableTpl.TabIndex = 7;
@@ -916,10 +878,10 @@
             this.tabInsertDataScripts.Controls.Add(this.btnInsertDataTpl);
             this.tabInsertDataScripts.Controls.Add(this.txtInsertDataTpl);
             this.tabInsertDataScripts.Controls.Add(this.lblInsertDataTpl);
-            this.tabInsertDataScripts.Location = new System.Drawing.Point(4, 25);
+            this.tabInsertDataScripts.Location = new System.Drawing.Point(4, 73);
             this.tabInsertDataScripts.Name = "tabInsertDataScripts";
             this.tabInsertDataScripts.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInsertDataScripts.Size = new System.Drawing.Size(762, 500);
+            this.tabInsertDataScripts.Size = new System.Drawing.Size(760, 452);
             this.tabInsertDataScripts.TabIndex = 5;
             this.tabInsertDataScripts.Text = "Insert Data Scripts";
             this.tabInsertDataScripts.UseVisualStyleBackColor = true;
@@ -933,7 +895,7 @@
             this.rtbInsertDataTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbInsertDataTpl.Name = "rtbInsertDataTpl";
             this.rtbInsertDataTpl.ReadOnly = true;
-            this.rtbInsertDataTpl.Size = new System.Drawing.Size(761, 468);
+            this.rtbInsertDataTpl.Size = new System.Drawing.Size(759, 420);
             this.rtbInsertDataTpl.TabIndex = 8;
             this.rtbInsertDataTpl.Text = "";
             // 
@@ -941,7 +903,7 @@
             // 
             this.btnInsertDataTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnInsertDataTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInsertDataTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnInsertDataTpl.Location = new System.Drawing.Point(730, 3);
             this.btnInsertDataTpl.Name = "btnInsertDataTpl";
             this.btnInsertDataTpl.Size = new System.Drawing.Size(20, 20);
             this.btnInsertDataTpl.TabIndex = 7;
@@ -973,10 +935,10 @@
             this.tabMultiLangEntity.Controls.Add(this.btnMultiLangEntity);
             this.tabMultiLangEntity.Controls.Add(this.txtMultiLangEntity);
             this.tabMultiLangEntity.Controls.Add(this.lblMultiLangEntity);
-            this.tabMultiLangEntity.Location = new System.Drawing.Point(4, 25);
+            this.tabMultiLangEntity.Location = new System.Drawing.Point(4, 73);
             this.tabMultiLangEntity.Name = "tabMultiLangEntity";
             this.tabMultiLangEntity.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangEntity.Size = new System.Drawing.Size(762, 500);
+            this.tabMultiLangEntity.Size = new System.Drawing.Size(760, 452);
             this.tabMultiLangEntity.TabIndex = 7;
             this.tabMultiLangEntity.Text = "MultiLangEntity";
             this.tabMultiLangEntity.UseVisualStyleBackColor = true;
@@ -990,7 +952,7 @@
             this.rtbMultiLangEntity.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangEntity.Name = "rtbMultiLangEntity";
             this.rtbMultiLangEntity.ReadOnly = true;
-            this.rtbMultiLangEntity.Size = new System.Drawing.Size(762, 468);
+            this.rtbMultiLangEntity.Size = new System.Drawing.Size(760, 420);
             this.rtbMultiLangEntity.TabIndex = 8;
             this.rtbMultiLangEntity.Text = "";
             // 
@@ -998,7 +960,7 @@
             // 
             this.btnMultiLangEntity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMultiLangEntity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMultiLangEntity.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangEntity.Location = new System.Drawing.Point(730, 3);
             this.btnMultiLangEntity.Name = "btnMultiLangEntity";
             this.btnMultiLangEntity.Size = new System.Drawing.Size(20, 20);
             this.btnMultiLangEntity.TabIndex = 7;
@@ -1030,10 +992,10 @@
             this.tabMultiLangSqlProvider.Controls.Add(this.btnMultiLangSqlProvider);
             this.tabMultiLangSqlProvider.Controls.Add(this.txtMultiLangSqlProvider);
             this.tabMultiLangSqlProvider.Controls.Add(this.lblMultiLangSqlProvider);
-            this.tabMultiLangSqlProvider.Location = new System.Drawing.Point(4, 25);
+            this.tabMultiLangSqlProvider.Location = new System.Drawing.Point(4, 73);
             this.tabMultiLangSqlProvider.Name = "tabMultiLangSqlProvider";
             this.tabMultiLangSqlProvider.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangSqlProvider.Size = new System.Drawing.Size(762, 500);
+            this.tabMultiLangSqlProvider.Size = new System.Drawing.Size(760, 452);
             this.tabMultiLangSqlProvider.TabIndex = 8;
             this.tabMultiLangSqlProvider.Text = "MultiLangSqlProvider";
             this.tabMultiLangSqlProvider.UseVisualStyleBackColor = true;
@@ -1047,7 +1009,7 @@
             this.rtbMultiLangSqlProvider.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangSqlProvider.Name = "rtbMultiLangSqlProvider";
             this.rtbMultiLangSqlProvider.ReadOnly = true;
-            this.rtbMultiLangSqlProvider.Size = new System.Drawing.Size(762, 468);
+            this.rtbMultiLangSqlProvider.Size = new System.Drawing.Size(760, 420);
             this.rtbMultiLangSqlProvider.TabIndex = 12;
             this.rtbMultiLangSqlProvider.Text = "";
             // 
@@ -1055,7 +1017,7 @@
             // 
             this.btnMultiLangSqlProvider.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMultiLangSqlProvider.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMultiLangSqlProvider.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangSqlProvider.Location = new System.Drawing.Point(730, 3);
             this.btnMultiLangSqlProvider.Name = "btnMultiLangSqlProvider";
             this.btnMultiLangSqlProvider.Size = new System.Drawing.Size(20, 20);
             this.btnMultiLangSqlProvider.TabIndex = 11;
@@ -1087,10 +1049,10 @@
             this.tabMultiLangMapper.Controls.Add(this.btnMultiLangMapper);
             this.tabMultiLangMapper.Controls.Add(this.txtMultiLangMapper);
             this.tabMultiLangMapper.Controls.Add(this.lblMultiLangMapper);
-            this.tabMultiLangMapper.Location = new System.Drawing.Point(4, 49);
+            this.tabMultiLangMapper.Location = new System.Drawing.Point(4, 73);
             this.tabMultiLangMapper.Name = "tabMultiLangMapper";
             this.tabMultiLangMapper.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangMapper.Size = new System.Drawing.Size(762, 476);
+            this.tabMultiLangMapper.Size = new System.Drawing.Size(760, 452);
             this.tabMultiLangMapper.TabIndex = 9;
             this.tabMultiLangMapper.Text = "MultiLangMapper";
             this.tabMultiLangMapper.UseVisualStyleBackColor = true;
@@ -1104,7 +1066,7 @@
             this.rtbMultiLangMapper.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangMapper.Name = "rtbMultiLangMapper";
             this.rtbMultiLangMapper.ReadOnly = true;
-            this.rtbMultiLangMapper.Size = new System.Drawing.Size(762, 444);
+            this.rtbMultiLangMapper.Size = new System.Drawing.Size(760, 420);
             this.rtbMultiLangMapper.TabIndex = 16;
             this.rtbMultiLangMapper.Text = "";
             // 
@@ -1112,7 +1074,7 @@
             // 
             this.btnMultiLangMapper.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMultiLangMapper.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMultiLangMapper.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangMapper.Location = new System.Drawing.Point(730, 3);
             this.btnMultiLangMapper.Name = "btnMultiLangMapper";
             this.btnMultiLangMapper.Size = new System.Drawing.Size(20, 20);
             this.btnMultiLangMapper.TabIndex = 15;
@@ -1144,10 +1106,10 @@
             this.tabMultiLangMapperExtend.Controls.Add(this.btnMultiLangMapperExtend);
             this.tabMultiLangMapperExtend.Controls.Add(this.txtMultiLangMapperExtend);
             this.tabMultiLangMapperExtend.Controls.Add(this.lblMultiLangMapperExtend);
-            this.tabMultiLangMapperExtend.Location = new System.Drawing.Point(4, 49);
+            this.tabMultiLangMapperExtend.Location = new System.Drawing.Point(4, 73);
             this.tabMultiLangMapperExtend.Name = "tabMultiLangMapperExtend";
             this.tabMultiLangMapperExtend.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangMapperExtend.Size = new System.Drawing.Size(762, 476);
+            this.tabMultiLangMapperExtend.Size = new System.Drawing.Size(760, 452);
             this.tabMultiLangMapperExtend.TabIndex = 10;
             this.tabMultiLangMapperExtend.Text = "MultiLangMapperExtend";
             this.tabMultiLangMapperExtend.UseVisualStyleBackColor = true;
@@ -1161,7 +1123,7 @@
             this.rtbMultiLangMapperExtend.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangMapperExtend.Name = "rtbMultiLangMapperExtend";
             this.rtbMultiLangMapperExtend.ReadOnly = true;
-            this.rtbMultiLangMapperExtend.Size = new System.Drawing.Size(762, 444);
+            this.rtbMultiLangMapperExtend.Size = new System.Drawing.Size(760, 420);
             this.rtbMultiLangMapperExtend.TabIndex = 20;
             this.rtbMultiLangMapperExtend.Text = "";
             // 
@@ -1169,7 +1131,7 @@
             // 
             this.btnMultiLangMapperExtend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMultiLangMapperExtend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMultiLangMapperExtend.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangMapperExtend.Location = new System.Drawing.Point(730, 3);
             this.btnMultiLangMapperExtend.Name = "btnMultiLangMapperExtend";
             this.btnMultiLangMapperExtend.Size = new System.Drawing.Size(20, 20);
             this.btnMultiLangMapperExtend.TabIndex = 19;
@@ -1201,10 +1163,10 @@
             this.tabMultiLangCreateTable.Controls.Add(this.btnMultiLangCreateTable);
             this.tabMultiLangCreateTable.Controls.Add(this.txtMultiLangCreateTable);
             this.tabMultiLangCreateTable.Controls.Add(this.lblMultLangCreateTable);
-            this.tabMultiLangCreateTable.Location = new System.Drawing.Point(4, 49);
+            this.tabMultiLangCreateTable.Location = new System.Drawing.Point(4, 73);
             this.tabMultiLangCreateTable.Name = "tabMultiLangCreateTable";
             this.tabMultiLangCreateTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangCreateTable.Size = new System.Drawing.Size(762, 476);
+            this.tabMultiLangCreateTable.Size = new System.Drawing.Size(760, 452);
             this.tabMultiLangCreateTable.TabIndex = 11;
             this.tabMultiLangCreateTable.Text = "MultiLangCreateTable";
             this.tabMultiLangCreateTable.UseVisualStyleBackColor = true;
@@ -1218,7 +1180,7 @@
             this.rtbMultiLangCreateTable.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangCreateTable.Name = "rtbMultiLangCreateTable";
             this.rtbMultiLangCreateTable.ReadOnly = true;
-            this.rtbMultiLangCreateTable.Size = new System.Drawing.Size(762, 444);
+            this.rtbMultiLangCreateTable.Size = new System.Drawing.Size(760, 420);
             this.rtbMultiLangCreateTable.TabIndex = 24;
             this.rtbMultiLangCreateTable.Text = "";
             // 
@@ -1226,7 +1188,7 @@
             // 
             this.btnMultiLangCreateTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMultiLangCreateTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMultiLangCreateTable.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangCreateTable.Location = new System.Drawing.Point(730, 3);
             this.btnMultiLangCreateTable.Name = "btnMultiLangCreateTable";
             this.btnMultiLangCreateTable.Size = new System.Drawing.Size(20, 20);
             this.btnMultiLangCreateTable.TabIndex = 23;
@@ -1258,10 +1220,10 @@
             this.tabMultiLangInsertData.Controls.Add(this.btnMultiLangInsertData);
             this.tabMultiLangInsertData.Controls.Add(this.txtMultiLangInsertData);
             this.tabMultiLangInsertData.Controls.Add(this.lblMultiLangInsertData);
-            this.tabMultiLangInsertData.Location = new System.Drawing.Point(4, 49);
+            this.tabMultiLangInsertData.Location = new System.Drawing.Point(4, 73);
             this.tabMultiLangInsertData.Name = "tabMultiLangInsertData";
             this.tabMultiLangInsertData.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiLangInsertData.Size = new System.Drawing.Size(762, 476);
+            this.tabMultiLangInsertData.Size = new System.Drawing.Size(760, 452);
             this.tabMultiLangInsertData.TabIndex = 12;
             this.tabMultiLangInsertData.Text = "MultiLangInsertData";
             this.tabMultiLangInsertData.UseVisualStyleBackColor = true;
@@ -1275,7 +1237,7 @@
             this.rtbMultiLangInsertData.Location = new System.Drawing.Point(1, 29);
             this.rtbMultiLangInsertData.Name = "rtbMultiLangInsertData";
             this.rtbMultiLangInsertData.ReadOnly = true;
-            this.rtbMultiLangInsertData.Size = new System.Drawing.Size(762, 444);
+            this.rtbMultiLangInsertData.Size = new System.Drawing.Size(760, 420);
             this.rtbMultiLangInsertData.TabIndex = 24;
             this.rtbMultiLangInsertData.Text = "";
             // 
@@ -1283,7 +1245,7 @@
             // 
             this.btnMultiLangInsertData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMultiLangInsertData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMultiLangInsertData.Location = new System.Drawing.Point(732, 3);
+            this.btnMultiLangInsertData.Location = new System.Drawing.Point(730, 3);
             this.btnMultiLangInsertData.Name = "btnMultiLangInsertData";
             this.btnMultiLangInsertData.Size = new System.Drawing.Size(20, 20);
             this.btnMultiLangInsertData.TabIndex = 23;
@@ -1315,10 +1277,10 @@
             this.tabVO.Controls.Add(this.btnVO);
             this.tabVO.Controls.Add(this.txtVO);
             this.tabVO.Controls.Add(this.lblVO);
-            this.tabVO.Location = new System.Drawing.Point(4, 49);
+            this.tabVO.Location = new System.Drawing.Point(4, 73);
             this.tabVO.Name = "tabVO";
             this.tabVO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabVO.Size = new System.Drawing.Size(762, 476);
+            this.tabVO.Size = new System.Drawing.Size(760, 452);
             this.tabVO.TabIndex = 13;
             this.tabVO.Text = "VO";
             this.tabVO.UseVisualStyleBackColor = true;
@@ -1332,7 +1294,7 @@
             this.rtbVOTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbVOTpl.Name = "rtbVOTpl";
             this.rtbVOTpl.ReadOnly = true;
-            this.rtbVOTpl.Size = new System.Drawing.Size(762, 444);
+            this.rtbVOTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbVOTpl.TabIndex = 28;
             this.rtbVOTpl.Text = "";
             // 
@@ -1340,7 +1302,7 @@
             // 
             this.btnVO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnVO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVO.Location = new System.Drawing.Point(732, 3);
+            this.btnVO.Location = new System.Drawing.Point(730, 3);
             this.btnVO.Name = "btnVO";
             this.btnVO.Size = new System.Drawing.Size(20, 20);
             this.btnVO.TabIndex = 27;
@@ -1372,10 +1334,10 @@
             this.tabAggVO.Controls.Add(this.btnAggVO);
             this.tabAggVO.Controls.Add(this.txtAggVO);
             this.tabAggVO.Controls.Add(this.lblAggVO);
-            this.tabAggVO.Location = new System.Drawing.Point(4, 49);
+            this.tabAggVO.Location = new System.Drawing.Point(4, 73);
             this.tabAggVO.Name = "tabAggVO";
             this.tabAggVO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAggVO.Size = new System.Drawing.Size(762, 476);
+            this.tabAggVO.Size = new System.Drawing.Size(760, 452);
             this.tabAggVO.TabIndex = 14;
             this.tabAggVO.Text = "AggVO";
             this.tabAggVO.UseVisualStyleBackColor = true;
@@ -1389,7 +1351,7 @@
             this.rtbAggVO.Location = new System.Drawing.Point(1, 29);
             this.rtbAggVO.Name = "rtbAggVO";
             this.rtbAggVO.ReadOnly = true;
-            this.rtbAggVO.Size = new System.Drawing.Size(762, 444);
+            this.rtbAggVO.Size = new System.Drawing.Size(760, 420);
             this.rtbAggVO.TabIndex = 32;
             this.rtbAggVO.Text = "";
             // 
@@ -1397,7 +1359,7 @@
             // 
             this.btnAggVO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAggVO.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAggVO.Location = new System.Drawing.Point(732, 3);
+            this.btnAggVO.Location = new System.Drawing.Point(730, 3);
             this.btnAggVO.Name = "btnAggVO";
             this.btnAggVO.Size = new System.Drawing.Size(20, 20);
             this.btnAggVO.TabIndex = 31;
@@ -1429,10 +1391,10 @@
             this.tabRest.Controls.Add(this.btnRestTpl);
             this.tabRest.Controls.Add(this.txtRestTpl);
             this.tabRest.Controls.Add(this.lblRestTpl);
-            this.tabRest.Location = new System.Drawing.Point(4, 49);
+            this.tabRest.Location = new System.Drawing.Point(4, 73);
             this.tabRest.Name = "tabRest";
             this.tabRest.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRest.Size = new System.Drawing.Size(762, 476);
+            this.tabRest.Size = new System.Drawing.Size(760, 452);
             this.tabRest.TabIndex = 15;
             this.tabRest.Text = "Rest";
             this.tabRest.UseVisualStyleBackColor = true;
@@ -1446,7 +1408,7 @@
             this.rtbRestTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbRestTpl.Name = "rtbRestTpl";
             this.rtbRestTpl.ReadOnly = true;
-            this.rtbRestTpl.Size = new System.Drawing.Size(762, 444);
+            this.rtbRestTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbRestTpl.TabIndex = 36;
             this.rtbRestTpl.Text = "";
             // 
@@ -1454,7 +1416,7 @@
             // 
             this.btnRestTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRestTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRestTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnRestTpl.Location = new System.Drawing.Point(730, 3);
             this.btnRestTpl.Name = "btnRestTpl";
             this.btnRestTpl.Size = new System.Drawing.Size(20, 20);
             this.btnRestTpl.TabIndex = 35;
@@ -1486,10 +1448,10 @@
             this.tabService.Controls.Add(this.btnServiceTpl);
             this.tabService.Controls.Add(this.txtServiceTpl);
             this.tabService.Controls.Add(this.lblServiceTpl);
-            this.tabService.Location = new System.Drawing.Point(4, 49);
+            this.tabService.Location = new System.Drawing.Point(4, 73);
             this.tabService.Name = "tabService";
             this.tabService.Padding = new System.Windows.Forms.Padding(3);
-            this.tabService.Size = new System.Drawing.Size(762, 476);
+            this.tabService.Size = new System.Drawing.Size(760, 452);
             this.tabService.TabIndex = 16;
             this.tabService.Text = "Service";
             this.tabService.UseVisualStyleBackColor = true;
@@ -1503,7 +1465,7 @@
             this.rtbServiceTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbServiceTpl.Name = "rtbServiceTpl";
             this.rtbServiceTpl.ReadOnly = true;
-            this.rtbServiceTpl.Size = new System.Drawing.Size(762, 444);
+            this.rtbServiceTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbServiceTpl.TabIndex = 40;
             this.rtbServiceTpl.Text = "";
             // 
@@ -1511,7 +1473,7 @@
             // 
             this.btnServiceTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnServiceTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnServiceTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnServiceTpl.Location = new System.Drawing.Point(730, 3);
             this.btnServiceTpl.Name = "btnServiceTpl";
             this.btnServiceTpl.Size = new System.Drawing.Size(20, 20);
             this.btnServiceTpl.TabIndex = 39;
@@ -1546,7 +1508,7 @@
             this.tabServiceImpl.Location = new System.Drawing.Point(4, 73);
             this.tabServiceImpl.Name = "tabServiceImpl";
             this.tabServiceImpl.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServiceImpl.Size = new System.Drawing.Size(762, 452);
+            this.tabServiceImpl.Size = new System.Drawing.Size(760, 452);
             this.tabServiceImpl.TabIndex = 17;
             this.tabServiceImpl.Text = "Service Implement";
             this.tabServiceImpl.UseVisualStyleBackColor = true;
@@ -1560,7 +1522,7 @@
             this.rtbServiceImplTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbServiceImplTpl.Name = "rtbServiceImplTpl";
             this.rtbServiceImplTpl.ReadOnly = true;
-            this.rtbServiceImplTpl.Size = new System.Drawing.Size(762, 420);
+            this.rtbServiceImplTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbServiceImplTpl.TabIndex = 44;
             this.rtbServiceImplTpl.Text = "";
             // 
@@ -1568,7 +1530,7 @@
             // 
             this.btnServiceImplTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnServiceImplTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnServiceImplTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnServiceImplTpl.Location = new System.Drawing.Point(730, 3);
             this.btnServiceImplTpl.Name = "btnServiceImplTpl";
             this.btnServiceImplTpl.Size = new System.Drawing.Size(20, 20);
             this.btnServiceImplTpl.TabIndex = 43;
@@ -1603,7 +1565,7 @@
             this.tabAggDTO.Location = new System.Drawing.Point(4, 73);
             this.tabAggDTO.Name = "tabAggDTO";
             this.tabAggDTO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAggDTO.Size = new System.Drawing.Size(762, 452);
+            this.tabAggDTO.Size = new System.Drawing.Size(760, 452);
             this.tabAggDTO.TabIndex = 18;
             this.tabAggDTO.Text = "AggDTO";
             this.tabAggDTO.UseVisualStyleBackColor = true;
@@ -1617,7 +1579,7 @@
             this.rtbAggVORequestTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbAggVORequestTpl.Name = "rtbAggVORequestTpl";
             this.rtbAggVORequestTpl.ReadOnly = true;
-            this.rtbAggVORequestTpl.Size = new System.Drawing.Size(762, 420);
+            this.rtbAggVORequestTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbAggVORequestTpl.TabIndex = 48;
             this.rtbAggVORequestTpl.Text = "";
             // 
@@ -1625,7 +1587,7 @@
             // 
             this.btnAggVORequestTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAggVORequestTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAggVORequestTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnAggVORequestTpl.Location = new System.Drawing.Point(730, 3);
             this.btnAggVORequestTpl.Name = "btnAggVORequestTpl";
             this.btnAggVORequestTpl.Size = new System.Drawing.Size(20, 20);
             this.btnAggVORequestTpl.TabIndex = 47;
@@ -1660,7 +1622,7 @@
             this.tabDTO.Location = new System.Drawing.Point(4, 73);
             this.tabDTO.Name = "tabDTO";
             this.tabDTO.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDTO.Size = new System.Drawing.Size(762, 452);
+            this.tabDTO.Size = new System.Drawing.Size(760, 452);
             this.tabDTO.TabIndex = 19;
             this.tabDTO.Text = "DTO";
             this.tabDTO.UseVisualStyleBackColor = true;
@@ -1674,7 +1636,7 @@
             this.rtbDTOTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbDTOTpl.Name = "rtbDTOTpl";
             this.rtbDTOTpl.ReadOnly = true;
-            this.rtbDTOTpl.Size = new System.Drawing.Size(762, 420);
+            this.rtbDTOTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbDTOTpl.TabIndex = 52;
             this.rtbDTOTpl.Text = "";
             // 
@@ -1682,7 +1644,7 @@
             // 
             this.btnDTOTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDTOTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDTOTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnDTOTpl.Location = new System.Drawing.Point(730, 3);
             this.btnDTOTpl.Name = "btnDTOTpl";
             this.btnDTOTpl.Size = new System.Drawing.Size(20, 20);
             this.btnDTOTpl.TabIndex = 51;
@@ -1717,7 +1679,7 @@
             this.tabHandler.Location = new System.Drawing.Point(4, 73);
             this.tabHandler.Name = "tabHandler";
             this.tabHandler.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHandler.Size = new System.Drawing.Size(762, 452);
+            this.tabHandler.Size = new System.Drawing.Size(760, 452);
             this.tabHandler.TabIndex = 20;
             this.tabHandler.Text = "Handler";
             this.tabHandler.UseVisualStyleBackColor = true;
@@ -1731,7 +1693,7 @@
             this.rtbHandlerTpl.Location = new System.Drawing.Point(1, 29);
             this.rtbHandlerTpl.Name = "rtbHandlerTpl";
             this.rtbHandlerTpl.ReadOnly = true;
-            this.rtbHandlerTpl.Size = new System.Drawing.Size(762, 420);
+            this.rtbHandlerTpl.Size = new System.Drawing.Size(760, 420);
             this.rtbHandlerTpl.TabIndex = 56;
             this.rtbHandlerTpl.Text = "";
             // 
@@ -1739,7 +1701,7 @@
             // 
             this.btnHandlerTpl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnHandlerTpl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHandlerTpl.Location = new System.Drawing.Point(732, 3);
+            this.btnHandlerTpl.Location = new System.Drawing.Point(730, 3);
             this.btnHandlerTpl.Name = "btnHandlerTpl";
             this.btnHandlerTpl.Size = new System.Drawing.Size(20, 20);
             this.btnHandlerTpl.TabIndex = 55;
@@ -1772,7 +1734,7 @@
             this.tabSetting.Location = new System.Drawing.Point(4, 22);
             this.tabSetting.Name = "tabSetting";
             this.tabSetting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSetting.Size = new System.Drawing.Size(776, 535);
+            this.tabSetting.Size = new System.Drawing.Size(774, 535);
             this.tabSetting.TabIndex = 2;
             this.tabSetting.Text = "Settings";
             this.tabSetting.UseVisualStyleBackColor = true;
@@ -1829,7 +1791,7 @@
             this.lblDBConnStr.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblDBConnStr.Location = new System.Drawing.Point(18, 27);
             this.lblDBConnStr.Name = "lblDBConnStr";
-            this.lblDBConnStr.Size = new System.Drawing.Size(176, 12);
+            this.lblDBConnStr.Size = new System.Drawing.Size(175, 12);
             this.lblDBConnStr.TabIndex = 11;
             this.lblDBConnStr.Text = "DataBase Connection string";
             // 
@@ -1905,12 +1867,13 @@
             // 
             // btnChangeColor
             // 
-            this.btnChangeColor.Location = new System.Drawing.Point(239, 58);
+            this.btnChangeColor.Location = new System.Drawing.Point(202, 58);
             this.btnChangeColor.Name = "btnChangeColor";
-            this.btnChangeColor.Size = new System.Drawing.Size(60, 23);
+            this.btnChangeColor.Size = new System.Drawing.Size(56, 23);
             this.btnChangeColor.TabIndex = 21;
             this.btnChangeColor.Text = "Change Color";
             this.btnChangeColor.UseVisualStyleBackColor = true;
+            this.btnChangeColor.Click += new System.EventHandler(this.btnChangeColor_Click);
             // 
             // txtTagColor
             // 
@@ -2002,20 +1965,156 @@
             this.imgList.Images.SetKeyName(3, "success.gif");
             this.imgList.Images.SetKeyName(4, "warning.gif");
             // 
+            // tspActions
+            // 
+            this.tspActions.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tspActions.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tspActions.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.tspActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbOpen,
+            this.tsbSave,
+            this.tsbSaveAs,
+            this.toolStripSeparator1,
+            this.tsbRefreshDesign,
+            this.tsbRefreshTemplate,
+            this.toolStripSeparator2,
+            this.tsbRun,
+            this.tsbStop,
+            this.tsbPublish,
+            this.toolStripSeparator3,
+            this.tsbExit});
+            this.tspActions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.tspActions.Location = new System.Drawing.Point(0, 0);
+            this.tspActions.Name = "tspActions";
+            this.tspActions.Size = new System.Drawing.Size(37, 561);
+            this.tspActions.TabIndex = 1;
+            this.tspActions.Text = "Main Menu";
+            // 
+            // tsbOpen
+            // 
+            this.tsbOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbOpen.Image = ((System.Drawing.Image)(resources.GetObject("tsbOpen.Image")));
+            this.tsbOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbOpen.Name = "tsbOpen";
+            this.tsbOpen.Size = new System.Drawing.Size(34, 36);
+            this.tsbOpen.Text = "Open Settings (Ctrl+O)";
+            this.tsbOpen.Click += new System.EventHandler(this.tsbOpen_Click);
+            // 
+            // tsbSave
+            // 
+            this.tsbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSave.Image = ((System.Drawing.Image)(resources.GetObject("tsbSave.Image")));
+            this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSave.Name = "tsbSave";
+            this.tsbSave.Size = new System.Drawing.Size(34, 36);
+            this.tsbSave.Text = "Save Settings (Ctrl+S)";
+            this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
+            // 
+            // tsbSaveAs
+            // 
+            this.tsbSaveAs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSaveAs.Image = ((System.Drawing.Image)(resources.GetObject("tsbSaveAs.Image")));
+            this.tsbSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSaveAs.Name = "tsbSaveAs";
+            this.tsbSaveAs.Size = new System.Drawing.Size(34, 36);
+            this.tsbSaveAs.Text = "Save As (Ctrl+Shift+S)";
+            this.tsbSaveAs.Click += new System.EventHandler(this.tsbSaveAs_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(34, 6);
+            // 
+            // tsbRefreshDesign
+            // 
+            this.tsbRefreshDesign.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRefreshDesign.Enabled = false;
+            this.tsbRefreshDesign.Image = ((System.Drawing.Image)(resources.GetObject("tsbRefreshDesign.Image")));
+            this.tsbRefreshDesign.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRefreshDesign.Name = "tsbRefreshDesign";
+            this.tsbRefreshDesign.Size = new System.Drawing.Size(34, 36);
+            this.tsbRefreshDesign.Text = "Refresh Design File (Ctrl+R)";
+            this.tsbRefreshDesign.Click += new System.EventHandler(this.tsbRefreshDesign_Click);
+            // 
+            // tsbRefreshTemplate
+            // 
+            this.tsbRefreshTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRefreshTemplate.Enabled = false;
+            this.tsbRefreshTemplate.Image = ((System.Drawing.Image)(resources.GetObject("tsbRefreshTemplate.Image")));
+            this.tsbRefreshTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRefreshTemplate.Name = "tsbRefreshTemplate";
+            this.tsbRefreshTemplate.Size = new System.Drawing.Size(34, 36);
+            this.tsbRefreshTemplate.Text = "Refresh Templates (Ctrl+Shift+R)";
+            this.tsbRefreshTemplate.Click += new System.EventHandler(this.tsbRefreshTemplate_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(34, 6);
+            // 
+            // tsbRun
+            // 
+            this.tsbRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbRun.Enabled = false;
+            this.tsbRun.Image = ((System.Drawing.Image)(resources.GetObject("tsbRun.Image")));
+            this.tsbRun.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRun.Name = "tsbRun";
+            this.tsbRun.Size = new System.Drawing.Size(34, 36);
+            this.tsbRun.Text = "Run (F5)";
+            this.tsbRun.Click += new System.EventHandler(this.tsbRun_Click);
+            // 
+            // tsbStop
+            // 
+            this.tsbStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbStop.Enabled = false;
+            this.tsbStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbStop.Image")));
+            this.tsbStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbStop.Name = "tsbStop";
+            this.tsbStop.Size = new System.Drawing.Size(34, 36);
+            this.tsbStop.Text = "Stop (F4)";
+            this.tsbStop.Click += new System.EventHandler(this.tsbStop_Click);
+            // 
+            // tsbPublish
+            // 
+            this.tsbPublish.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbPublish.Enabled = false;
+            this.tsbPublish.Image = ((System.Drawing.Image)(resources.GetObject("tsbPublish.Image")));
+            this.tsbPublish.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbPublish.Name = "tsbPublish";
+            this.tsbPublish.Size = new System.Drawing.Size(34, 36);
+            this.tsbPublish.Text = "Publish to Database (Ctrl+P)";
+            this.tsbPublish.Click += new System.EventHandler(this.tsbPublish_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(34, 6);
+            // 
+            // tsbExit
+            // 
+            this.tsbExit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbExit.Image = ((System.Drawing.Image)(resources.GetObject("tsbExit.Image")));
+            this.tsbExit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbExit.Name = "tsbExit";
+            this.tsbExit.Size = new System.Drawing.Size(34, 36);
+            this.tsbExit.Text = "Exit (Ctrl+Q)";
+            this.tsbExit.Click += new System.EventHandler(this.tsbExit_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(819, 561);
+            this.Controls.Add(this.tspActions);
             this.Controls.Add(this.tabcMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mybatis Code Generator";
-            this.Activated += new System.EventHandler(this.frmMain_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.tabcMain.ResumeLayout(false);
             this.tabGenerator.ResumeLayout(false);
             this.tabGenerator.PerformLayout();
@@ -2069,7 +2168,10 @@
             this.grpPublish.PerformLayout();
             this.grpGenerate.ResumeLayout(false);
             this.grpGenerate.PerformLayout();
+            this.tspActions.ResumeLayout(false);
+            this.tspActions.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -2105,9 +2207,7 @@
         private System.Windows.Forms.FolderBrowserDialog dlgFolderBrowser;
         private System.Windows.Forms.StatusStrip strpStatus;
         private System.Windows.Forms.ToolStripProgressBar tstrpProgress;
-        private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.DataGridView dtgStepLog;
-        private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnEntityTpl;
         private System.Windows.Forms.TextBox txtEntityTpl;
         private System.Windows.Forms.Label lblEntityTpl;
@@ -2178,7 +2278,6 @@
         private System.Windows.Forms.Button btnAggVO;
         private System.Windows.Forms.TextBox txtAggVO;
         private System.Windows.Forms.Label lblAggVO;
-        private System.Windows.Forms.Button btnPublish;
         private System.Windows.Forms.GroupBox grpPublish;
         private System.Windows.Forms.Label lblDBConnStr;
         private System.Windows.Forms.TextBox txtDBConnStr;
@@ -2223,12 +2322,24 @@
         private System.Windows.Forms.Button btnDTOTpl;
         private System.Windows.Forms.TextBox txtDTOTpl;
         private System.Windows.Forms.Label lblDTOTpl;
-        private System.Windows.Forms.Button btnRefreshTemplate;
         private System.Windows.Forms.TabPage tabHandler;
         private System.Windows.Forms.RichTextBox rtbHandlerTpl;
         private System.Windows.Forms.Button btnHandlerTpl;
         private System.Windows.Forms.TextBox txtHandlerTpl;
         private System.Windows.Forms.Label lblHandlerTpl;
+        private System.Windows.Forms.ToolStrip tspActions;
+        private System.Windows.Forms.ToolStripButton tsbSave;
+        private System.Windows.Forms.ToolStripButton tsbSaveAs;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton tsbOpen;
+        private System.Windows.Forms.ToolStripButton tsbRefreshDesign;
+        private System.Windows.Forms.ToolStripButton tsbRefreshTemplate;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton tsbRun;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton tsbExit;
+        private System.Windows.Forms.ToolStripButton tsbStop;
+        private System.Windows.Forms.ToolStripButton tsbPublish;
     }
 }
 
