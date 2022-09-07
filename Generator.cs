@@ -727,12 +727,14 @@ namespace MyBatisCodeGenerator
                 if (string.IsNullOrEmpty(savedFileName))
                 {
                     dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "  No [" + tmpType.ToString() + "] file Generated.";
+                    CommonUtils.Log((string)dtgStepLog.Rows[newTaskRowNo].Cells[1].Value);
                     ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["warning.gif"];
                     dtgStepLog.Refresh();
                 }
                 else
                 {
                     dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "  File [" + savedFileName + "] generated.";
+                    CommonUtils.Log((string)dtgStepLog.Rows[newTaskRowNo].Cells[1].Value);
                     ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["success.gif"];
                     dtgStepLog.Refresh();
                 }
@@ -742,6 +744,7 @@ namespace MyBatisCodeGenerator
                 CommonUtils.Log(ex.StackTrace);
 
                 dtgStepLog.Rows[newTaskRowNo].Cells[1].Value = "  Error on generating " + tmpType.ToString() + " file:" + ex.Message;
+                CommonUtils.Log((string)dtgStepLog.Rows[newTaskRowNo].Cells[1].Value);
                 ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Style.ForeColor = Color.Red;
                 ((DataGridViewImageCell)dtgStepLog.Rows[newTaskRowNo].Cells[0]).Value = imgList.Images["error.gif"];
 

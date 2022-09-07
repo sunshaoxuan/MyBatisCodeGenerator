@@ -55,7 +55,10 @@ namespace MyBatisCodeGenerator.Utils
                 {
                     if (!isSkip)
                     {
-                        throw new Exception("File ["+fullPath + fileName+"] already exists.");
+                        if (!isAppend)
+                        {
+                            throw new Exception("File [" + fullPath + fileName + "] already exists.");
+                        }
                     }
                     else
                     {
@@ -68,7 +71,15 @@ namespace MyBatisCodeGenerator.Utils
             {
                 Directory.CreateDirectory(fullPath);
             }
-            File.WriteAllText(fullPath+fileName, string.Join("", contentStr.ToArray()), new UTF8Encoding(false));
+
+
+            if (isAppend)
+            {
+                File.AppendAllText(fullPath + fileName, string.Join("", contentStr.ToArray()), new UTF8Encoding(false));
+            }
+            else { 
+                File.WriteAllText(fullPath+fileName, string.Join("", contentStr.ToArray()), new UTF8Encoding(false));
+            }
         }
 
         /// <summary>
@@ -136,7 +147,7 @@ namespace MyBatisCodeGenerator.Utils
             string fileFullPath = Application.StartupPath + @"\log_" + DateTime.Today.ToString("yyyy_MM_dd") + ".log";
             WriteTextFile(@"\log_" + DateTime.Today.ToString("yyyy_MM_dd") + ".log", 
                 Application.StartupPath, 
-                DateTime.Today.ToString("yyyy-MM-dd HH:mm:ss") + "\t" + content + "\r\n", 
+                DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\t" + content + "\r\n", 
                 true, false, true, false);
         }
     }
