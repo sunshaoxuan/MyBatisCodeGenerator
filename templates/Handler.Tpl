@@ -23,21 +23,21 @@ public class $ENTITYNAME$$HANDLERTYPE$Handler extends AbstractHandler {
   }
   // 前置处理
   @Before("log()")
-  public void beforeHandler(JoinPoint jp) throws Throwable {
+  public void beforeHandler(JoinPoint jp) throws Exception {
     getRegisterRules()
         .forEach(
             ruleBean -> {
               try {
                 ruleBean.doBeforeCheck(jp.getArgs());
                 ruleBean.doBefore(jp.getArgs());
-              } catch (Throwable e) {
-                throw new RuntimeException(e);
+              } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
               }
             });
   }
   // 返回处理
   @AfterReturning(returning = "ret", pointcut = "log()")
-  public void afterReturnHanlder(Object ret) throws Throwable {
+  public void afterReturnHanlder(Object ret) throws Exception {
     getRegisterRules()
         .forEach(
             ruleBean -> {
@@ -53,15 +53,15 @@ public class $ENTITYNAME$$HANDLERTYPE$Handler extends AbstractHandler {
 
   // 后置处理
   @After("log()")
-  public void afterHandler(JoinPoint jp) throws Throwable {
+  public void afterHandler(JoinPoint jp) throws Exception {
     getRegisterRules()
         .forEach(
             ruleBean -> {
               try {
                 ruleBean.doAfterCheck(jp.getArgs());
                 ruleBean.doAfter(jp.getArgs());
-              } catch (Throwable e) {
-                throw new RuntimeException(e);
+              } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
               }
             });
   }
