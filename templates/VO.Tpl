@@ -29,6 +29,11 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
     set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity);
   }
 
+  /**
+   * 用$ENTITYNAME$Entity填充$ENTITYNAME$VO
+   * 
+   * @param $LOWER_ENTITYNAME$Entity $ENTITYNAME$Entity
+   */
   public void set$ENTITYNAME$Entity($ENTITYNAME$Entity $LOWER_ENTITYNAME$Entity) {
     this.$LOWER_ENTITYNAME$Entity = $LOWER_ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
     if($LOWER_ENTITYNAME$Entity != null && (get$ENTITYNAME$ResEntity() == null || get$ENTITYNAME$ResEntity().length == 0)){
@@ -36,6 +41,11 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
     }$HASMULTILANGPROPERTY END$
   }$HASMULTILANGPROPERTY BEGIN$
 
+  /**
+   *  取VO对应的$ENTITYNAME$多语实体
+   *  
+   * @return
+   */
   public $ENTITYNAME$ResEntity[] get$ENTITYNAME$ResEntity() {
     return $LOWER_ENTITYNAME$ResEntity;
   }
@@ -63,7 +73,12 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
     }
   }
 
-  
+  /**
+   * 用$ENTITYNAME$Entity及指定语言填充$ENTITYNAME$VO
+   * 
+   * @param $LOWER_ENTITYNAME$Entity $ENTITYNAME$Entity
+   * @param lang 语言
+   */
   public void set$ENTITYNAME$Entity($ENTITYNAME$Entity  $LOWER_ENTITYNAME$Entity, String lang) {
     this. $LOWER_ENTITYNAME$Entity =  $LOWER_ENTITYNAME$Entity;
     if( $LOWER_ENTITYNAME$Entity != null){
@@ -77,10 +92,6 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
       set$ENTITYNAME$ResEntity(new $ENTITYNAME$ResEntity[] {resEntity});
     }
   }$HASMULTILANGPROPERTY END$
-
-  public static List<$ENTITYNAME$Entity> findListByBizKey(Long bizKey) {
-    return CommonUtils.getEntityListByBizKey($ENTITYNAME$Entity.class, bizKey);
-  }
 
   @Override
   public $ENTITYNAME$Entity pickEntity() {
@@ -97,22 +108,53 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
     $IF HASMULTILANGPROPERTY$ set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity, lang); $ELSE$ $END IF$
   }
   
+  /**
+   * 根据主键查询$ENTITYNAME$VO
+   * 
+   * @param id 主键
+   * @return
+   */
   public static $ENTITYNAME$VO findByID(Long id){
     return findByID($ENTITYNAME$VO.class, id);
   }
 
+  /**
+   * 根据主键及语言查询$ENTITYNAME$VO
+   * 
+   * @param id 主键
+   * @param lang 语言
+   * @return
+   */
   public static $ENTITYNAME$VO findByID(Long id, String lang){
     return findByID($ENTITYNAME$VO.class, id, lang);
   }
 
-  public static List<$ENTITYNAME$VO> findByBizKey(Long id) {
-      return findByBizKey($ENTITYNAME$VO.class, id);
+  /**
+   * 根据业务主键查找所有VO
+   *
+   * @param bizKey 业务主键
+   * @return
+   */
+  public static List<$ENTITYNAME$VO> findByBizKey($IF BIZKEYCONTAINVARCHAR$String bizKey) {
+      return findByBizKey($ENTITYNAME$VO.class, String.valueOf(bizKey));$ELSE$Long bizKey) {
+      return findByBizKey($ENTITYNAME$VO.class, bizKey);$END IF$
   }
 
+  /**
+   * 查询所有$ENTITYNAME$VO
+   * 
+   * @return 
+   */
   public static $ENTITYNAME$VO[] findAll(){
     return ($ENTITYNAME$VO[]) findAll($ENTITYNAME$VO.class, $ENTITYNAME$Entity.class);
   }
 
+  /**
+   * 按语言查询所有$ENTITYNAME$VO
+   * 
+   * @param lang 语言
+   * @return
+   */
   public static $ENTITYNAME$VO[] findAll(String lang){
     return ($ENTITYNAME$VO[]) findAll($ENTITYNAME$VO.class, $ENTITYNAME$Entity.class, lang);
   }
