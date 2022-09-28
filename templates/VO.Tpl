@@ -105,7 +105,7 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
   
   @Override
   public void putEntity($ENTITYNAME$Entity entity, String lang) {
-    $IF HASMULTILANGPROPERTY$ set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity, lang); $ELSE$ $END IF$
+    $IF HASMULTILANGPROPERTY$ set$ENTITYNAME$Entity(($ENTITYNAME$Entity) entity, lang); $ELSE$ putEntity(entity);$END IF$
   }
   
   /**
