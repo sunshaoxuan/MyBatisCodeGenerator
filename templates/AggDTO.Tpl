@@ -10,7 +10,6 @@ import lombok.Data;
  * $ENTITYDESC$AggVO请求数据
  *
  * @author $AUTHOR$
- * @create $DATE$
  */
  @Data
  public class $ENTITYNAME$AggDTO implements Serializable{

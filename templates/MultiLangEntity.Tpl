@@ -16,7 +16,6 @@ import java.util.Date;
  * $ENTITYDESC$多语
  *
  * @author $AUTHOR$
- * @since $DATE$
  */
   @ApiModel(value = "$ENTITYNAME$ResEntity", description = "$ENTITYDESC$多语")
 @Data

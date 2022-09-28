@@ -22,8 +22,7 @@ import java.util.List;
  * $ENTITYDESC$接口
  *
  * @author $AUTHOR$
- * @create $DATE$
- */
+  */
 @RestController
 @Slf4j
 @Api(

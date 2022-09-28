@@ -11,8 +11,7 @@ import java.util.List;
  * $ENTITYDESC$多语 Mapper
  *
  * @author $AUTHOR$
- * @since $DATE$
- */
+  */
 @Mapper
 public interface $ENTITYNAME$ResEntityMapper {
   @Update({

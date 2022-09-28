@@ -11,8 +11,7 @@ import lombok.Data;
  * $ENTITYDESC$请求数据
  *
  * @author $AUTHOR$
- * @create $DATE$
- */
+  */
  @Data
  public class $ENTITYNAME$DTO implements Serializable{
    // 操作状态

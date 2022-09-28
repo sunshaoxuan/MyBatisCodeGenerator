@@ -20,8 +20,7 @@ import java.util.Date;
  * $ENTITYDESC$
  *
  * @author $AUTHOR$
- * @since $DATE$
- */
+  */
  @ApiModel(value = "$ENTITYNAME$Entity", description = "$ENTITYDESC$")
 @Data
 @Builder

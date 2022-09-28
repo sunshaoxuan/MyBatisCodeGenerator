@@ -8,6 +8,5 @@ import org.apache.ibatis.type.JdbcType;
  * $ENTITYDESC$ ∂‡”ÔMapperExtend
  *
  * @author $AUTHOR$
- * @since $DATE$
  */
 public interface $ENTITYNAME$ResEntityExtendMapper extends $ENTITYNAME$ResEntityMapper {}

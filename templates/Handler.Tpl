@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * $ENTITYDESC$$HANDLERTYPENAME$前后事件增强处理器
  *
  * @author $AUTHOR$
- * @since $DATE$
  */
 public class $ENTITYNAME$$HANDLERTYPE$Handler extends AbstractHandler {
   @Pointcut("execution(public * $CLASSROOT$.impl.$ENTITYNAME$ServiceImpl.$LOWER_HANDLERTYPE$(..))")

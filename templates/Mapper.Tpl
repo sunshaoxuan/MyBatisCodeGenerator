@@ -14,8 +14,7 @@ $HASBIZKEY BEGIN$import java.util.List;$HASBIZKEY END$
  * $ENTITYDESC$ Mapper
  *
  * @author $AUTHOR$
- * @since $DATE$
- */
+  */
 @Mapper
 public interface $ENTITYNAME$EntityMapper {
     @Update({

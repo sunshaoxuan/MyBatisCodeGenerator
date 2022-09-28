@@ -9,7 +9,6 @@ import java.util.List;
  * $ENTITYDESC$AggVO
  *
  * @author $AUTHOR$
- * @create $DATE$
  */
  public class $ENTITYNAME$AggVO extends AggVO {
   // $ENTITYDESC$ 
