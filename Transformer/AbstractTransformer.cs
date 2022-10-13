@@ -203,10 +203,24 @@ namespace MyBatisCodeGenerator.Transformer
                         tempSB.ToString().IndexOf("$BIGINT END$") + "$BIGINT END$".Length - tempSB.ToString().IndexOf("$BIGINT BEGIN$"));
                 }
             }
+            
+            if (tempSB.ToString().Contains("$IFFORMATTEDDATETIME"))
+            {
+                if ("Date".Equals(TemplateUtils.GetJavaType(item["DATA TYPE"])) && "LocalDateTime".Equals(item["VO DATA TYPE"]))
+                {
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATETIME BEGIN$"), "$IFFORMATTEDDATETIME BEGIN$".Length);
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATETIME END$"), "$IFFORMATTEDDATETIME END$".Length);
+                }
+                else
+                {
+                    tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATETIME BEGIN$"),
+                        tempSB.ToString().IndexOf("$IFFORMATTEDDATETIME END$") + "$IFFORMATTEDDATETIME END$".Length - tempSB.ToString().IndexOf("$IFFORMATTEDDATETIME BEGIN$"));
+                }
+            }
 
             if (tempSB.ToString().Contains("$IFFORMATTEDDATE"))
             {
-                if ("Date".Equals(TemplateUtils.GetJavaType(item["DATA TYPE"])))
+                if ("Date".Equals(TemplateUtils.GetJavaType(item["DATA TYPE"])) && "LocalDate".Equals(item["VO DATA TYPE"]))
                 {
                     tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE BEGIN$"), "$IFFORMATTEDDATE BEGIN$".Length);
                     tempSB.Remove(tempSB.ToString().IndexOf("$IFFORMATTEDDATE END$"), "$IFFORMATTEDDATE END$".Length);

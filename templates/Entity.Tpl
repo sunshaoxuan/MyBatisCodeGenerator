@@ -29,11 +29,14 @@ import java.util.Date;
 @MultiLangResource(catelog = "$MULTILANGRESCATALOG$", resourceid = "mt0000")
 public class $ENTITYNAME$Entity $PARENTCLASS$ $INTERFACES$ {$FOREACH PROPERTY BEGIN$
   // $PROPERTYDESC$ 
-  @ApiModelProperty(value = "$PROPERTYDESC$", name = "$PROPERTYNAME$", example = "")
-  @MultiLangResource(catelog = "$MULTILANGRESCATALOG$", resourceid = "$MULTILANGRESID$")  $IFFORMATTEDDATE BEGIN$
+  @ApiModelProperty(value = "$PROPERTYDESC$", name = "$PROPERTYNAME$", example = "") 
+  @MultiLangResource(catelog = "$MULTILANGRESCATALOG$", resourceid = "$MULTILANGRESID$")    $IFFORMATTEDDATETIME BEGIN$
   @JsonDeserialize(using = DateTimeDeserializers.class)
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9") $IFFORMATTEDDATE END$  $BIGINT BEGIN$
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+9")  $IFFORMATTEDDATETIME END$  $IFFORMATTEDDATE BEGIN$
+  @JsonDeserialize(using = DateTimeDeserializers.class)
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+9") $IFFORMATTEDDATE END$  $BIGINT BEGIN$
   @JsonSerialize(using = ToStringSerializer.class) $BIGINT END$
   private $PROPERTYJAVATYPE$ $PROPERTYNAME$;
 $FOREACH PROPERTY END$
