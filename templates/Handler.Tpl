@@ -1,7 +1,6 @@
 package $CLASSROOT$.impl.handler.$ENTITYNAME_LOWER$;
 
 import $CLASSROOT$.impl.handler.AbstractHandler;
-import $CLASSROOT$.impl.handler.IRule;
 $IF HASAGGVO$import $CLASSROOT$.vo.aggvo.$ENTITYNAME$AggVO;$ELSE$import $CLASSROOT$.vo.$ENTITYNAME$VO;$END IF$
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
