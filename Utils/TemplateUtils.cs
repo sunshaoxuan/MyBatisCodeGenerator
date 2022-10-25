@@ -573,7 +573,7 @@ namespace MyBatisCodeGenerator.Utils
             }
             else if (dataType.ToUpper().StartsWith("DOUBLE") || dataType.ToUpper().Equals("DECIMAL"))
             {
-                return "Double";
+                return "BigDecimal";
             }
             else { return ""; }
         }
