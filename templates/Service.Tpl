@@ -68,20 +68,20 @@ $ELSE$
      * @return 成功标记，0不成功，1成功
      */
     public Integer delete($ENTITYNAME$VO vo) throws Exception;$END IF$
-$HASBIZKEY BEGIN$ $IF BIZKEYCONTAINVARCHAR$
+$HASBIZKEY BEGIN$ 
     /**
     * 按业务主键取$ENTITYDESC$集合
     *
     * @param bizKey 业务主键
     * @return
     */
-    public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(String bizKey);
-$ELSE$
-    /**
-    * 按业务主键取$ENTITYDESC$集合
-    *
-    * @param bizKey 业务主键
-    * @return
-    */
-    public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey(Long bizKey);$END IF$ $HASBIZKEY END$
+    public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey($IF BIZKEYCONTAINVARCHAR$String $ELSE$ Long $END IF$ bizKey);
+$IF HASAGGVO$
+  /**
+   * 按业务主键取$ENTITYDESC$实体集合
+   *
+   * @param bizKey 业务主键
+   * @return
+   */
+  $ENTITYNAME$AggVO[] get$ENTITYNAME$AggVOsByBizKey($IF BIZKEYCONTAINVARCHAR$String $ELSE$ Long $END IF$ bizKey); $END IF$ $HASBIZKEY END$
 }

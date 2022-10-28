@@ -101,11 +101,23 @@ namespace MyBatisCodeGenerator.Transformer
             string condElse = "$ELSE$";
             string condEndTag = "$END IF$";
 
+            //处理IF嵌套，外层先入，内层后入
+            Stack<int> beginTagStack = new Stack<int>();
+            int startIndex = 0;
+            while (OriginalContent.ToString().Length >= startIndex && OriginalContent.ToString().Substring(startIndex).Contains(condBeginTag))
+            {
+                int blockStartIndex = OriginalContent.ToString().IndexOf(condBeginTag, startIndex);
+                beginTagStack.Push(blockStartIndex);
+                startIndex = blockStartIndex + 1;
+            }
+
             while (OriginalContent.ToString().Contains(condBeginTag))
             {
-                int blockStartIndex = OriginalContent.ToString().IndexOf(condBeginTag);
-                int elseIndex = OriginalContent.ToString().IndexOf(condElse);
-                int blockEndIndex = OriginalContent.ToString().IndexOf(condEndTag) + condEndTag.Length;
+                //处理IF嵌套，内层先出，外层后出
+                int blockStartIndex = beginTagStack.Pop();
+
+                int elseIndex = OriginalContent.ToString().IndexOf(condElse, blockStartIndex + 1);
+                int blockEndIndex = OriginalContent.ToString().IndexOf(condEndTag, blockStartIndex) + condEndTag.Length;
                 string condition = OriginalContent.ToString().Substring(blockStartIndex + condBeginTag.Length, OriginalContent.ToString().IndexOf("$", blockStartIndex + 1) - blockStartIndex - condBeginTag.Length).Trim();
 
                 if (blockEndIndex < blockStartIndex)
@@ -116,11 +128,11 @@ namespace MyBatisCodeGenerator.Transformer
                 string block = OriginalContent.ToString().Substring(blockStartIndex, blockEndIndex - blockStartIndex);
 
                 int truePartSeedStartIndex = blockStartIndex + condBeginTag.Length + condition.Length + 1;
-                int truePartSeedEndIndex = elseIndex - 1;
-                int falsePartSeedStartIndex = elseIndex + condElse.Length;
-                int falsePartSeedEndIndex = blockEndIndex - condEndTag.Length;
-                string truePartSeed = OriginalContent.ToString().Substring(truePartSeedStartIndex, truePartSeedEndIndex - truePartSeedStartIndex + 1);
-                string falsePartSeed = OriginalContent.ToString().Substring(falsePartSeedStartIndex, falsePartSeedEndIndex - falsePartSeedStartIndex);
+                int truePartSeedEndIndex = elseIndex < 0 || elseIndex > blockEndIndex ? blockEndIndex - condEndTag.Length : elseIndex - 1;
+                int falsePartSeedStartIndex = elseIndex < 0 || elseIndex > blockEndIndex ? -1 : elseIndex + condElse.Length;
+                int falsePartSeedEndIndex = elseIndex < 0 || elseIndex > blockEndIndex ? -1 : blockEndIndex - condEndTag.Length;
+                string truePartSeed = OriginalContent.ToString().Substring(truePartSeedStartIndex, truePartSeedEndIndex - truePartSeedStartIndex );
+                string falsePartSeed = elseIndex < 0 || elseIndex > blockEndIndex ? "" : OriginalContent.ToString().Substring(falsePartSeedStartIndex, falsePartSeedEndIndex - falsePartSeedStartIndex);
 
                 bool conditionValue = false;
                 if (condition.StartsWith("HASMULTILANGPROPERTY"))
@@ -146,11 +158,11 @@ namespace MyBatisCodeGenerator.Transformer
 
                 if (conditionValue)
                 {
-                    OriginalContent = OriginalContent.Replace(block, truePartSeed);
+                    OriginalContent = OriginalContent.Replace(block, truePartSeed, blockStartIndex, block.Length);
                 }
                 else
                 {
-                    OriginalContent = OriginalContent.Replace(block, falsePartSeed);
+                    OriginalContent = OriginalContent.Replace(block, falsePartSeed, blockStartIndex, block.Length);
                 }
             }
         }

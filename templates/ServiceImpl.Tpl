@@ -74,5 +74,22 @@ $ELSE$
     public $ENTITYNAME$VO[] get$ENTITYNAME$ByBizKey($IF BIZKEYCONTAINVARCHAR$String $ELSE$ Long $END IF$ bizKey) {
         return $ENTITYNAME$VO.findByBizKey(bizKey).toArray(new $ENTITYNAME$VO[0]);
     }
-$HASBIZKEY END$
+$IF HASAGGVO$
+  @Override
+  public $ENTITYNAME$AggVO[] get$ENTITYNAME$AggVOsByBizKey($IF BIZKEYCONTAINVARCHAR$String $ELSE$ Long $END IF$ bizKey) {
+    List<$ENTITYNAME$AggVO> aggvos = null;
+    $ENTITYNAME$VO[] vos = get$ENTITYNAME$ByBizKey(bizKey);
+    if (vos != null && vos.length > 0) {
+      aggvos =
+          Arrays.stream(vos)
+              .map(
+                  vo -> {
+                    $ENTITYNAME$AggVO newAggVO = new $ENTITYNAME$AggVO();
+                    newAggVO.loadAggVOByParent(vo);
+                    return newAggVO;
+                  })
+              .collect(Collectors.toList());
+    }
+    return aggvos.toArray(new $ENTITYNAME$AggVO[0]);
+  }$END IF$ $HASBIZKEY END$
 }
