@@ -100,7 +100,7 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
 
   @Override
   public Object pickRefEntity() {
-    return $IF HASMULTILANGPROPERTY$get$ENTITYNAME$ResEntity();$ELSE$null;$END IF$
+    return $IF HASMULTILANGPROPERTY$get$ENTITYNAME$ResEntity(); $ELSE$ null; $END IF$
   }
   
   @Override
@@ -136,8 +136,8 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
    * @return
    */
   public static List<$ENTITYNAME$VO> findByBizKey($IF BIZKEYCONTAINVARCHAR$String bizKey) {
-      return findByBizKey($ENTITYNAME$VO.class, String.valueOf(bizKey));$ELSE$Long bizKey) {
-      return findByBizKey($ENTITYNAME$VO.class, bizKey);$END IF$
+      return findByBizKey($ENTITYNAME$VO.class, String.valueOf(bizKey)); $ELSE$ Long bizKey) {
+      return findByBizKey($ENTITYNAME$VO.class, bizKey); $END IF$
   }
 
   /**
@@ -157,5 +157,15 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
    */
   public static $ENTITYNAME$VO[] findAll(String lang){
     return ($ENTITYNAME$VO[]) findAll($ENTITYNAME$VO.class, $ENTITYNAME$Entity.class, lang);
+  }
+
+  @Override
+  public Class<$ENTITYNAME$Entity> pickEntityClass() {
+    return $ENTITYNAME$Entity.class;
+  }
+
+  @Override
+  public Class pickResEntityClass() {
+      return $IF HASMULTILANGPROPERTY$ $ENTITYNAME$ResEntity.class; $ELSE$ null; $END IF$
   }
 }
