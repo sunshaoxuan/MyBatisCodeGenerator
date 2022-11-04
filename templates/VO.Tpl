@@ -4,7 +4,10 @@ import $CLASSROOT$.entity.$ENTITYNAME$Entity;$HASMULTILANGPROPERTY BEGIN$
 import $CLASSROOT$.entity.$ENTITYNAME$ResEntity;$HASMULTILANGPROPERTY END$
 import $CLASSROOT$.common.CommonUtils;
 import lombok.NoArgsConstructor;
-
+$IF HASMULTILANGPROPERTY$
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors; $END IF$
 import java.util.List;
 
 @NoArgsConstructor
@@ -167,5 +170,17 @@ public class $ENTITYNAME$VO extends ValueObject<$ENTITYNAME$Entity>{
   @Override
   public Class pickResEntityClass() {
       return $IF HASMULTILANGPROPERTY$ $ENTITYNAME$ResEntity.class; $ELSE$ null; $END IF$
+  }
+
+  @Override
+  public void appendResEntity(Object resEntity) {$IF HASMULTILANGPROPERTY$
+    if (resEntity != null){
+        List<$ENTITYNAME$ResEntity> resEntityList = new ArrayList<>();
+        if(get$ENTITYNAME$ResEntity() != null){
+          resEntityList = Arrays.stream(get$ENTITYNAME$ResEntity()).collect(Collectors.toList());
+        }
+
+        resEntityList.add(($ENTITYNAME$ResEntity) resEntity);
+    } $END IF$
   }
 }
