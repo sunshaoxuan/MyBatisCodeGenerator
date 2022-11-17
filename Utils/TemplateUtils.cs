@@ -479,7 +479,7 @@ namespace MyBatisCodeGenerator.Utils
                             }
                         }
 
-                        if (!string.IsNullOrEmpty(valueInfo["ID"]))
+                        if ((valueInfo.ContainsKey("ID") && !string.IsNullOrEmpty(valueInfo["ID"])) || !valueInfo.ContainsKey("ID"))
                         {
                             detail.Add(valueInfo);
                         }
@@ -785,11 +785,11 @@ namespace MyBatisCodeGenerator.Utils
         {
             if (seed.Trim().StartsWith("$UPPER_"))
             {
-                tagValue = $"{tagValue.Substring(0, 1).ToUpper()}{tagValue.Substring(1)}";
+                tagValue = string.IsNullOrEmpty(tagValue) ? "" : $"{tagValue.Substring(0, 1).ToUpper()}{tagValue.Substring(1)}";
             }
             else if (seed.Trim().StartsWith("$LOWER_"))
             {
-                tagValue = $"{tagValue.Substring(0, 1).ToLower()}{tagValue.Substring(1)}";
+                tagValue = string.IsNullOrEmpty(tagValue) ? "" : $"{tagValue.Substring(0, 1).ToLower()}{tagValue.Substring(1)}";
             }
 
             if (seed.Trim().EndsWith("_LOWER$"))
