@@ -6,8 +6,6 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.ArrayList;
-import java.util.List;
-
 $HASBIZKEY BEGIN$import java.util.List;$HASBIZKEY END$
 
 /**
