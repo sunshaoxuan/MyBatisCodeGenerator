@@ -1,4 +1,5 @@
-﻿using MyBatisCodeGenerator.Transformer;
+﻿using Google.Protobuf.WellKnownTypes;
+using MyBatisCodeGenerator.Transformer;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -502,7 +503,14 @@ namespace MyBatisCodeGenerator.Utils
             }
             else if (item.Key.ToUpper().EndsWith("TIME"))
             {
-                return $"'{ExcelUtils.transferDateValue(item.Value)}'";
+                if (!string.IsNullOrEmpty(item.Value) && (item.Value.ToUpper().Contains("NOW()") || item.Value.ToUpper().Contains("SYSDATE()")))
+                {
+                    return "now()";
+                }
+                else
+                {
+                    return $"'{ExcelUtils.transferDateValue(item.Value)}'";
+                }
             }
             else
             {
@@ -536,7 +544,14 @@ namespace MyBatisCodeGenerator.Utils
                 }
                 else if (fieldTypes[key].ToUpper().Equals("DATETIME"))
                 {
-                    return $"'{ExcelUtils.transferDateValue(value)}'";
+                    if (!string.IsNullOrEmpty(value) && (value.ToUpper().Contains("NOW()") || value.ToUpper().Contains("SYSDATE()")))
+                    {
+                        return "now()";
+                    }
+                    else
+                    {
+                        return $"'{ExcelUtils.transferDateValue(value)}'";
+                    }
                 }
                 else
                 {
