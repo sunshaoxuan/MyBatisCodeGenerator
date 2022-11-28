@@ -777,8 +777,7 @@ namespace MyBatisCodeGenerator
             {
                 Dictionary<string, string> defRefs = new Dictionary<string, string>();
                 defRefs.Add("CLASSROOT", txtClassRoot.Text);
-                MySql.Data.MySqlClient.MySqlConnection conn = TemplateUtils.getNewConntection(txtDBConnStr.Text);
-                defRefs.Add("DATABASENAME", conn.Database);
+                defRefs.Add("DATABASENAME", TemplateUtils.getNewConntection(txtDBConnStr.Text).Database);
 
                 generator.Author = chkGenerateAuthor.Checked ? txtAuthor.Text : "";
                 generator.IsCreatePath = chkCreatePath.Checked;

@@ -181,14 +181,20 @@ namespace MyBatisCodeGenerator.Utils
                     {
                         for (int i = 1; i < designData.Columns.Count; i++)
                         {
-                            headers[i - 1] = row[i].ToString().ToUpper();
+                            if (!string.IsNullOrEmpty(row[i].ToString()))
+                            {
+                                headers[i - 1] = row[i].ToString().ToUpper();
+                            }
                         }
                     }
                     else
                     {
                         for (int i = 1; i < designData.Columns.Count; i++)
                         {
-                            valueInfo.Add(headers[i - 1], row[i].ToString());
+                            if (!string.IsNullOrEmpty(headers[i - 1]))
+                            {
+                                valueInfo.Add(headers[i - 1], row[i].ToString());
+                            }
                         }
 
                         if (!string.IsNullOrEmpty(valueInfo["PROPERTY NAME"]))
@@ -266,14 +272,20 @@ namespace MyBatisCodeGenerator.Utils
                     {
                         for (int i = 1; i < designData.Columns.Count; i++)
                         {
-                            headers[i - 1] = row[i].ToString().ToUpper();
+                            if (!string.IsNullOrEmpty(row[i].ToString()))
+                            {
+                                headers[i - 1] = row[i].ToString().ToUpper();
+                            }
                         }
                     }
                     else
                     {
                         for (int i = 1; i < designData.Columns.Count; i++)
                         {
-                            valueInfo.Add(headers[i - 1], row[i].ToString());
+                            if (!string.IsNullOrEmpty(headers[i - 1]))
+                            {
+                                valueInfo.Add(headers[i - 1], row[i].ToString());
+                            }
                         }
 
                         if (!string.IsNullOrEmpty(valueInfo["PROPERTY NAME"]))
@@ -340,7 +352,10 @@ namespace MyBatisCodeGenerator.Utils
                     {
                         for (int i = 1; i < designData.Columns.Count; i++)
                         {
-                            headers[i - 1] = row[i].ToString().ToUpper();
+                            if (!string.IsNullOrEmpty(row[i].ToString()))
+                            {
+                                headers[i - 1] = row[i].ToString().ToUpper();
+                            }
                         }
                     }
                     else
@@ -467,7 +482,10 @@ namespace MyBatisCodeGenerator.Utils
                     {
                         for (int i = 1; i < designData.Columns.Count; i++)
                         {
-                            headers[i - 1] = row[i].ToString().ToUpper();
+                            if (!string.IsNullOrEmpty(row[i].ToString()))
+                            {
+                                headers[i - 1] = row[i].ToString().ToUpper();
+                            }
                         }
                     }
                     else
@@ -514,7 +532,7 @@ namespace MyBatisCodeGenerator.Utils
             }
             else
             {
-                return $"'{item.Value}'";
+                return $"'{(string.IsNullOrEmpty(item.Value) ? "" : item.Value.Replace("'", "''"))}'";
             }
         }
 
@@ -540,7 +558,7 @@ namespace MyBatisCodeGenerator.Utils
                 }
                 else if (fieldTypes[key].ToUpper().StartsWith("VARCHAR") || fieldTypes[key].ToUpper().Equals("JSON") || fieldTypes[key].ToUpper().StartsWith("TEXT"))
                 {
-                    return $"'{value}'";
+                    return $"'{(string.IsNullOrEmpty(value) ? "" : value.Replace("'", "''"))}'";
                 }
                 else if (fieldTypes[key].ToUpper().Equals("DATETIME"))
                 {
